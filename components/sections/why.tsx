@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { Reveal } from "@/components/ui/reveal";
 
 const statement = "Student life shouldn’t run on memory. It should run on a system.";
@@ -13,10 +13,17 @@ const principles = [
 ];
 
 function Word({ children, progress, range }: { children: string; progress: MotionValue<number>; range: [number, number] }) {
+  // Decide after mount: hydration keeps server-rendered styles, so the switch must happen client-side.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const prefersReduced = useReducedMotion();
+  const reduce = mounted && !!prefersReduced;
   const opacity = useTransform(progress, range, [0.14, 1]);
   const blur = useTransform(progress, range, ["blur(3px)", "blur(0px)"]);
   return (
-    <motion.span style={{ opacity, filter: blur }} className="inline-block">
+    // With reduced motion, words are simply shown at full contrast.
+    // Keyed so the element remounts cleanly once the preference is known after hydration.
+    <motion.span key={reduce ? "static" : "animated"} style={reduce ? undefined : { opacity, filter: blur }} className="inline-block">
       {children}&nbsp;
     </motion.span>
   );

@@ -2,66 +2,91 @@
 
 **Prepare yourself.** (Pronounced *moo-rah*.)
 
-MÚRÀ is the operating system for preparing students before university: curated essentials, intelligent recommendations, planning tools, university-specific guidance and personal preparation journeys.
+MÚRÀ is a global digital-product store for students: planners, trackers, templates, kits and bundles that bring clarity to academic life, university life and the opportunities ahead. The website is the storefront — browse, understand, buy (or claim free), and receive files by email. No accounts, no subscriptions.
 
 ## Stack
 
-Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · Framer Motion · shadcn/ui conventions (Radix) · Lucide · next-themes · React Hook Form + Zod · TanStack Query · Geist
+Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · Framer Motion · Radix / shadcn conventions · Lucide · next-themes · React Hook Form + Zod · TanStack Query · Nodemailer · Vitest · Geist
 
-## Getting started
+## Run it
 
 ```bash
 npm install
-npm run dev        # http://localhost:3000
-npm run build      # production build
+cp .env.example .env.local   # then fill in
+npm run dev                  # http://localhost:3000
+npm test                     # unit + delivery tests
 npm run typecheck
+npm run build && npm start   # production
 ```
 
-## The homepage story
+## Hosting requirement
 
-The page unfolds as a narrative, not a storefront:
+This store needs a **Node.js server** (it runs server code for free downloads, secure file delivery, email, and — in Phase 5 — payment verification), plus a persistent disk for the file-based order store and private product files.
 
-| Chapter | Sections |
-| --- | --- |
-| Arrival | Hero with a cursor-parallax walnut desk and floating Preparation panel |
-| — | Living Preparation: a scroll-driven desk that assembles itself (20% → 45% → 73% → 100%) |
-| Understanding | Why MÚRÀ Exists · Preparation Timeline |
-| Planning | AI Preparation Builder · University Explorer |
-| Preparation | Curated Collections · Planning Tools |
-| Confidence | Student Dashboard preview · Editorial Resources |
-| University | Closing statement |
+Static-only or PHP-only shared hosting (for example InfinityFree) **cannot run it**. Suitable options include a Node-capable host or VPS (Render, Railway, Fly.io, DigitalOcean, a cPanel host with Node.js support). If you choose a serverless platform, swap the file order store for a database (see *Orders* below).
+
+## Everyday tasks
+
+### Set a price or launch a product
+Everything lives in `lib/catalog/products.ts`.
+
+- **Price:** set `pricing: { model: "paid", amount: 1200 }` — amounts are **US cents** (1200 = $12). `amount: null` shows "Price coming soon" and can't be bought.
+- **Status:** `draft` (hidden) → `upcoming` (visible, "Coming soon") → `published` (live) → `archived` (hidden, past orders still work).
+- **Featured:** `featured: true` puts it on the homepage.
+- **Photography:** add `image.src` (a file in `/public`) to replace the composed artwork. Until then, a clearly marked placeholder shows the art direction.
+
+### Upload a product file
+Files are private and never live in `/public` or in git. Put each file at `PRODUCT_FILES_DIR/<fileKey>` — e.g. `private/products/student-reset/mura-student-reset.pdf`. A product without its file can't be claimed or delivered; the site says so honestly instead of sending a broken link.
+
+### Email (Gmail)
+1. Turn on 2-Step Verification for the Gmail account.
+2. Create an **App Password** (Google Account → Security → App passwords).
+3. Set `SMTP_USER` to the address, `SMTP_PASS` to the app password, `EMAIL_FROM` to e.g. `MÚRÀ <address@gmail.com>`, and `MURA_INBOX_EMAIL` to the company inbox.
+
+Without SMTP, development writes emails to `.data/outbox/` so you can test; production refuses to pretend an email was sent. Gmail has daily sending limits — move to a dedicated provider (any SMTP service) as volume grows; only the `SMTP_*` values change.
+
+### Seasons and campaigns
+- **Season:** `NEXT_PUBLIC_SEASON=default | valentines | easter | back-to-school | christmas` (rebuild/redeploy to apply). Seasons recolour the accent and add a quiet mark and hero line — defined in `lib/season/seasons.ts`.
+- **Campaign discounts:** defined in `lib/season/campaigns.ts` with honest start and end dates. Switch one on with `enabled: true` or `NEXT_PUBLIC_ACTIVE_CAMPAIGN=<id>`. Prices everywhere update; pages refresh hourly so campaigns start and stop on their dates. No countdown timers. The banner only appears when the discount applies to something purchasable.
 
 ## Architecture
 
 ```
 app/
-  page.tsx                     Homepage composition
-  resources/[slug]/page.tsx    Statically generated editorial guides
-  api/recommendations          POST — validates answers (Zod) and builds a pack
-  api/universities/[id]        GET — university guide data (TanStack Query)
-  api/sign-in                  POST — magic-link sign-in (validation only; delivery is stubbed)
+  page.tsx                    Storefront homepage (story order)
+  systems/                    Store: search + filters in the URL
+  collections/, [slug]        Curated category pages
+  products/[slug]             Product pages (+ JSON-LD, OG image)
+  resources/, [slug]          Editorial guides (+ Article JSON-LD, OG image)
+  pin/[kind]/[slug]           2:3 Pinterest images
+  access/                     "Sign in" without accounts — emails fresh download links
+  about/                      Brand + contact form
+  downloads/[token]           Branded download page
+  api/claim                   Free-product claim → order → email
+  api/download/[token]        Verified, private file streaming
+  api/access, api/contact     Link resend, contact form
+  sitemap.ts, robots.ts, opengraph-image.tsx, error.tsx, global-error.tsx, not-found.tsx
 components/
-  scene/                       Hand-drawn SVG desk objects + the parallax / assembly scene
-  sections/                    One component per homepage chapter
-  site/                        Nav, ⌘K search, sign-in, theme toggle, footer
-  ui/                          Primitives: Button, Dialog, Input, ProgressRing, Reveal…
+  store/                      ProductCard/Grid, BundleCard, PriceDisplay, CheckoutButton, ProductArt, badges
+  product/                    PurchasePanel, ClaimForm, FAQ, mobile buy bar
+  previews/                   Product interface previews (sample data)
+  resources/                  ResourceCard, browser, Pinterest share row
+  sections/                   Homepage chapters
+  scene/                      Hand-drawn SVG desk (parallax + scroll assembly)
+  site/                       Nav, search (⌘K), footer, forms, seasonal theme, campaign banner
 lib/
-  builder.ts                   Shared Zod schema + recommendation engine
-  data/                        Universities, essentials, timeline, collections, articles
+  catalog/                    Product/category model, catalogue data, queries
+  commerce/                   Pricing (campaigns), money, order model, payment switch
+  season/                     Seasons and campaigns
+  server/                     server-only: env, orders, tokens, files, email, fulfilment, rate limits
+  data/resources.ts           Guides
 ```
 
-### Design system
+### Orders
+`lib/server/order-store.ts` defines an `OrderStore` interface with a file-backed implementation (`.data/orders.json`, atomic writes). It suits one Node server with a persistent disk. For multiple instances or serverless hosting, implement the same interface on a database — nothing else changes. No card details are ever stored.
 
-Tokens live in `app/globals.css` (light: early morning; dark: the hour before dawn). Glass is reserved for floating layers. All motion uses a single calm easing curve and respects `prefers-reduced-motion` through `MotionConfig reducedMotion="user"` plus CSS fallbacks.
+### Delivery security
+Download links carry an HMAC-signed token (order, product, expiry) — never a file path. Each download re-checks the signature, expiry, that the order is free or verified-paid, that the product belongs to it, that the file exists, and a per-order download allowance. Files stream from a private directory with `no-store` and `noindex` headers.
 
-### Imagery
-
-There is no stock photography. Every desk object — laptop with a real 3D hinge, planner that unfolds, backpack, ID card, headphones — is drawn in SVG with light entering from the left, so the scene stays crisp, themable and light.
-
-## Accessibility
-
-Semantic landmarks, skip link, keyboard-operable timeline (arrow keys), combobox search (⌘K or `/`), labelled forms with inline errors, visible focus rings, reduced-motion support, and responsive layouts from 360px upward.
-
-## Notes
-
-University guidance is general and should be confirmed with each institution. Sign-in validates input but does not yet send email.
+## Payments (Phase 5 — pending)
+Flutterwave is not yet connected. `NEXT_PUBLIC_PAYMENTS_ENABLED=false` keeps every paid product browsable but never chargeable. Phase 5 will reuse the existing Flutterwave test integration, create a `pending` order, verify the transaction server-side (status, amount, currency, reference), mark it `paid`, and call `fulfilOrder()` — the same delivery path free products use today.

@@ -35,10 +35,12 @@ export default function ResourcesPage() {
         </section>
 
         <div className="page pb-section">
+          <h2 className="sr-only">Featured guide</h2>
           <Reveal>
             <ResourceCard article={feature} featured />
           </Reveal>
           <div className="mt-24 border-t pt-12">
+            <h2 className="sr-only">All guides</h2>
             <ResourceBrowser articles={rest} topics={topics} />
           </div>
         </div>

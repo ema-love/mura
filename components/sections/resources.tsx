@@ -30,10 +30,8 @@ export function Resources() {
 
         <ul className="mt-20 grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
           {rest.slice(0, 3).map((a, i) => (
-            <Reveal key={a.slug} delay={i * 0.08}>
-              <li>
-                <ResourceCard article={a} />
-              </li>
+            <Reveal as="li" key={a.slug} delay={i * 0.08}>
+              <ResourceCard article={a} />
             </Reveal>
           ))}
         </ul>

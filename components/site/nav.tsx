@@ -111,7 +111,7 @@ export function Nav() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35 }}
-            className="fixed inset-0 z-30 bg-background/85 backdrop-blur-2xl lg:hidden"
+            className="fixed inset-0 z-30 bg-background/95 backdrop-blur-2xl lg:hidden"
           >
             <motion.ul
               className="flex h-full flex-col justify-center gap-2 px-8"

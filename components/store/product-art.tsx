@@ -36,7 +36,7 @@ export function ProductArt({
 
   return (
     <div
-      className={cn("relative isolate overflow-hidden rounded-[28px] hairline dark:brightness-[0.92]", className)}
+      className={cn("relative isolate overflow-hidden rounded-[28px] hairline dark:brightness-[0.8]", className)}
       style={{ background: `linear-gradient(150deg, ${from}, ${to})` }}
       aria-hidden
     >
@@ -52,7 +52,7 @@ export function ProductArt({
           </>
         )}
         <div className="relative aspect-[3/4] rounded-md bg-[#fdfcf8] p-[9%] text-[#1f1f1f] shadow-[0_24px_40px_-20px_rgb(40_30_20/0.45),0_2px_4px_rgb(40_30_20/0.08)]">
-          <p className="font-mono text-[clamp(6px,0.9vw,9px)] tracking-[0.24em] text-black/45">MÚRÀ</p>
+          <p className="font-mono text-[clamp(6px,0.9vw,9px)] tracking-[0.24em] text-black/60">MÚRÀ</p>
           <p className="mt-[18%] text-[clamp(12px,1.7vw,19px)] leading-[1.08] font-semibold tracking-[-0.03em] text-balance">
             {product.name.replace(/^(Mura|MURA) /, "")}
           </p>
@@ -61,7 +61,7 @@ export function ProductArt({
               <div key={i} className="h-[3px] rounded-full bg-black/[0.08]" style={{ width: `${w}%` }} />
             ))}
           </div>
-          <p className="absolute right-[9%] bottom-[7%] left-[9%] font-mono text-[clamp(5px,0.75vw,8px)] tracking-[0.16em] text-black/40 uppercase">
+          <p className="absolute right-[9%] bottom-[7%] left-[9%] font-mono text-[clamp(5px,0.75vw,8px)] tracking-[0.16em] text-black/60 uppercase">
             {product.formats.join(" · ")}
           </p>
         </div>

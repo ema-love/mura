@@ -54,6 +54,7 @@ export default async function CollectionPage(props: PageProps<"/collections/[slu
         </section>
 
         <div className="page pb-section">
+          <h2 className="sr-only">In this collection</h2>
           {c.id === "bundles" ? (
             <div className="grid gap-6">
               {items.map((b, i) => (

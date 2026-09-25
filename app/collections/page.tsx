@@ -38,8 +38,8 @@ export default function CollectionsIndex() {
               const items = productsInCategory(c.id);
               const live = items.filter((p) => p.status === "published").length;
               return (
-                <Reveal key={c.id} delay={(i % 2) * 0.06} className={i === 0 ? "md:col-span-2" : ""}>
-                  <li className="group relative overflow-hidden rounded-[32px] hairline transition-shadow duration-700 hover:shadow-float">
+                <Reveal as="li" key={c.id} delay={(i % 2) * 0.06} className={i === 0 ? "md:col-span-2" : ""}>
+                  <div className="group relative h-full overflow-hidden rounded-[32px] hairline transition-shadow duration-700 hover:shadow-float">
                     <div
                       className={i === 0 ? "relative min-h-[360px] p-8 md:p-12" : "relative min-h-[300px] p-8 md:p-10"}
                       style={{ background: `linear-gradient(140deg, ${c.tone[0]}, ${c.tone[1]})` }}
@@ -73,7 +73,7 @@ export default function CollectionsIndex() {
                       </div>
                     </div>
                     <span aria-hidden className="pointer-events-none absolute inset-0 rounded-[32px] ring-2 ring-transparent transition group-has-[:focus-visible]:ring-ring" />
-                  </li>
+                  </div>
                 </Reveal>
               );
             })}

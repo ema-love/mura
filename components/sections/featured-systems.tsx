@@ -33,10 +33,10 @@ export function FeaturedSystems() {
           {systems.map((p, i) => {
             const lead = i === 0;
             return (
-              <Reveal key={p.id} delay={lead ? 0 : (i % 2) * 0.08} className={lead ? "md:col-span-2" : ""}>
-                <li
+              <Reveal as="li" key={p.id} delay={lead ? 0 : (i % 2) * 0.08} className={cn(lead && "md:col-span-2", "flex")}>
+                <div
                   className={cn(
-                    "group relative grid h-full overflow-hidden rounded-[32px] bg-card hairline shadow-soft transition-shadow duration-700 hover:shadow-float",
+                    "group relative grid h-full w-full overflow-hidden rounded-[32px] bg-card hairline shadow-soft transition-shadow duration-700 hover:shadow-float",
                     lead ? "lg:grid-cols-[1.25fr_1fr]" : "grid-rows-[auto_1fr]",
                   )}
                 >
@@ -69,7 +69,7 @@ export function FeaturedSystems() {
                     </div>
                   </div>
                   <span aria-hidden className="pointer-events-none absolute inset-0 rounded-[32px] ring-2 ring-transparent transition group-has-[:focus-visible]:ring-ring" />
-                </li>
+                </div>
               </Reveal>
             );
           })}
