@@ -26,7 +26,7 @@ export async function productFileExists(fileKey: string, baseDir?: string) {
   const full = resolveFileKey(fileKey, baseDir);
   if (!full) return false;
   try {
-    return (await fs.stat(full)).isFile();
+    return (await fs.stat(/*turbopackIgnore: true*/ full)).isFile();
   } catch {
     return false;
   }
@@ -35,10 +35,10 @@ export async function productFileExists(fileKey: string, baseDir?: string) {
 export async function openProductFile(fileKey: string, baseDir?: string) {
   const full = resolveFileKey(fileKey, baseDir);
   if (!full) return null;
-  const stat = await fs.stat(full).catch(() => null);
+  const stat = await fs.stat(/*turbopackIgnore: true*/ full).catch(() => null);
   if (!stat?.isFile()) return null;
   return {
-    stream: Readable.toWeb(createReadStream(full)) as ReadableStream<Uint8Array>,
+    stream: Readable.toWeb(createReadStream(/*turbopackIgnore: true*/ full)) as ReadableStream<Uint8Array>,
     size: stat.size,
     contentType: types[path.extname(full).toLowerCase()] ?? "application/octet-stream",
     fileName: path.basename(full),
