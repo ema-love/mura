@@ -2,7 +2,9 @@ import "server-only";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import type { Order } from "@/lib/commerce/orders";
+import { getStore } from "@netlify/blobs";
 import { serverEnv } from "./env";
+import { BlobOrderStore, type BlobStoreLike } from "./blob-order-store";
 
 /**
  * Order storage behind a small interface so the backing store can change
@@ -84,7 +86,11 @@ export class FileOrderStore implements OrderStore {
 }
 
 let store: OrderStore | undefined;
-export const orderStore = (): OrderStore => (store ??= new FileOrderStore(path.join(serverEnv.dataDir, "orders.json")));
+export const orderStore = (): OrderStore =>
+  (store ??=
+    serverEnv.storage === "netlify-blobs"
+      ? new BlobOrderStore(getStore({ name: "orders", consistency: "strong" }) as unknown as BlobStoreLike)
+      : new FileOrderStore(path.join(serverEnv.dataDir, "orders.json")));
 
 /** Test hook. */
 export const setOrderStore = (s: OrderStore) => {

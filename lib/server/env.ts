@@ -1,4 +1,5 @@
 import "server-only";
+import { brand } from "@/lib/brand";
 
 /**
  * Server-side configuration. Secrets are read here and nowhere else, and never
@@ -13,8 +14,21 @@ function required(name: string, devFallback?: string) {
   throw new Error(`Missing required environment variable ${name}`);
 }
 
+/**
+ * Where orders and product files live:
+ * - "netlify-blobs" on Netlify (serverless, no persistent disk) — detected automatically
+ * - "file" for local development or a Node server with a persistent disk
+ */
+const storage: "netlify-blobs" | "file" =
+  process.env.MURA_STORAGE === "netlify-blobs" || process.env.MURA_STORAGE === "file"
+    ? process.env.MURA_STORAGE
+    : process.env.NETLIFY || process.env.NETLIFY_BLOBS_CONTEXT
+      ? "netlify-blobs"
+      : "file";
+
 export const serverEnv = {
   isProd,
+  storage,
   /** Where orders are stored by the file-based store. */
   dataDir: process.env.MURA_DATA_DIR ?? ".data",
   /** Private directory holding product files. Must not be inside /public. */
@@ -35,7 +49,7 @@ export const serverEnv = {
   /** Sender shown to customers, e.g. "MÚRÀ <hello@example.com>". */
   emailFrom: process.env.EMAIL_FROM,
   /** Company inbox for contact messages and order notifications. */
-  inboxEmail: process.env.MURA_INBOX_EMAIL,
+  inboxEmail: process.env.MURA_INBOX_EMAIL || brand.contactEmail,
 };
 
 export const smtpConfigured = () => !!(serverEnv.smtp.host && serverEnv.smtp.user && serverEnv.smtp.pass && serverEnv.emailFrom);

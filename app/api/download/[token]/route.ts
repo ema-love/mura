@@ -20,7 +20,7 @@ export async function GET(_request: Request, ctx: RouteContext<"/api/download/[t
     headers: {
       ...noStore,
       "Content-Type": file.contentType,
-      "Content-Length": String(file.size),
+      ...(file.size ? { "Content-Length": String(file.size) } : {}),
       "Content-Disposition": `attachment; filename="${file.fileName.replace(/"/g, "")}"`,
       "X-Content-Type-Options": "nosniff",
     },

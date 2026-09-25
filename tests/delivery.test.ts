@@ -40,9 +40,12 @@ beforeEach(() => {
   rmSync(dataDir, { recursive: true, force: true });
 });
 
+/** Customer-facing emails only (company-inbox notifications are sent too, best effort). */
 const outbox = () => {
   try {
-    return readdirSync(path.join(dataDir, "outbox")).filter((f) => f.endsWith(".json"));
+    return readdirSync(path.join(dataDir, "outbox"))
+      .filter((f) => f.endsWith(".json"))
+      .filter((f) => !f.includes("mura.create@gmail.com"));
   } catch {
     return [];
   }

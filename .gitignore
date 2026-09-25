@@ -13,3 +13,4 @@ npm-debug.log*
 # Private runtime data — never commit
 .data
 private
+.netlify

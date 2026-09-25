@@ -6,6 +6,7 @@ import { Footer } from "@/components/site/footer";
 import { Reveal } from "@/components/ui/reveal";
 import { Ambient } from "@/components/sections/ambient";
 import { ContactForm } from "@/components/site/contact-form";
+import { brand } from "@/lib/brand";
 
 export const metadata: Metadata = {
   title: "About",
@@ -68,7 +69,11 @@ export default function AboutPage() {
                 Say hello.
               </h2>
               <p className="mt-5 leading-relaxed text-muted-foreground">
-                Questions about a system, a download or an order? Send us a message and we&rsquo;ll reply by email.
+                Questions about a system, a download or an order? Send us a message and we&rsquo;ll reply by email — or write to{" "}
+                <a href={`mailto:${brand.contactEmail}`} className="font-medium text-foreground underline-offset-4 hover:underline">
+                  {brand.contactEmail}
+                </a>
+                .
               </p>
               <Link href="/access" className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium underline-offset-4 hover:underline">
                 Looking for your downloads? <ArrowUpRight className="size-4" aria-hidden />

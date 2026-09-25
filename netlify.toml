@@ -1,0 +1,9 @@
+# Netlify builds this Next.js app with its official Next.js runtime (detected automatically).
+# Secrets are set in the Netlify UI: Site configuration → Environment variables. Never here.
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
