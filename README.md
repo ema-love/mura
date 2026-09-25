@@ -19,11 +19,17 @@ npm run typecheck
 npm run build && npm start   # production
 ```
 
-## Hosting requirement
+## Hosting: Netlify
 
-This store needs a **Node.js server** (it runs server code for free downloads, secure file delivery, email, and — in Phase 5 — payment verification), plus a persistent disk for the file-based order store and private product files.
+MÚRÀ is deployed on **Netlify** with its official Next.js runtime (`netlify.toml`). Server code runs as Netlify Functions, and because functions have no permanent disk, **orders and private product files live in Netlify Blobs** (detected automatically; `MURA_STORAGE=netlify-blobs` forces it). Locally, the same code uses the `.data/` and `private/` folders.
 
-Static-only or PHP-only shared hosting (for example InfinityFree) **cannot run it**. Suitable options include a Node-capable host or VPS (Render, Railway, Fly.io, DigitalOcean, a cPanel host with Node.js support). If you choose a serverless platform, swap the file order store for a database (see *Orders* below).
+**Deploy**
+1. Netlify → Add new site → Import from GitHub → `ema-love/mura` (branch of your choice). Build settings come from `netlify.toml`.
+2. Site configuration → Environment variables: add everything marked in `.env.example` — at minimum `DOWNLOAD_TOKEN_SECRET`, `SMTP_USER`, `SMTP_PASS`, `EMAIL_FROM`, `MURA_INBOX_EMAIL`.
+3. Upload product files (private): `NETLIFY_SITE_ID=… NETLIFY_AUTH_TOKEN=… npm run upload-file -- student-reset/mura-student-reset.pdf ./mura-student-reset.pdf`
+4. See orders any time: `NETLIFY_SITE_ID=… NETLIFY_AUTH_TOKEN=… npm run orders`
+
+Static-only or PHP-only hosting (such as InfinityFree) cannot run this site.
 
 ## Everyday tasks
 
@@ -36,7 +42,7 @@ Everything lives in `lib/catalog/products.ts`.
 - **Photography:** add `image.src` (a file in `/public`) to replace the composed artwork. Until then, a clearly marked placeholder shows the art direction.
 
 ### Upload a product file
-Files are private and never live in `/public` or in git. Put each file at `PRODUCT_FILES_DIR/<fileKey>` — e.g. `private/products/student-reset/mura-student-reset.pdf`. A product without its file can't be claimed or delivered; the site says so honestly instead of sending a broken link.
+Files are private and never live in `/public` or in git. On Netlify, upload with `npm run upload-file -- <fileKey> <path>` (see Deploy). Locally, put each file at `PRODUCT_FILES_DIR/<fileKey>` — e.g. `private/products/student-reset/mura-student-reset.pdf`. A product without its file can't be claimed or delivered; the site says so honestly instead of sending a broken link.
 
 ### Email (Gmail)
 1. Turn on 2-Step Verification for the Gmail account.
@@ -83,7 +89,9 @@ lib/
 ```
 
 ### Orders
-`lib/server/order-store.ts` defines an `OrderStore` interface with a file-backed implementation (`.data/orders.json`, atomic writes). It suits one Node server with a persistent disk. For multiple instances or serverless hosting, implement the same interface on a database — nothing else changes. No card details are ever stored.
+`lib/server/order-store.ts` defines an `OrderStore` interface with two implementations: Netlify Blobs (`blob-order-store.ts` — ETag-safe updates, unique references, hashed email index) in production, and a file store (`.data/orders.json`) locally. No card details are ever stored.
+
+Form rate limits are kept in memory per function instance — enough to stop casual abuse; move them to a shared store if traffic grows.
 
 ### Delivery security
 Download links carry an HMAC-signed token (order, product, expiry) — never a file path. Each download re-checks the signature, expiry, that the order is free or verified-paid, that the product belongs to it, that the file exists, and a per-order download allowance. Files stream from a private directory with `no-store` and `noindex` headers.
