@@ -9,3 +9,7 @@ next-env.d.ts
 npm-debug.log*
 .vercel
 !.env.example
+
+# Private runtime data — never commit
+.data
+private

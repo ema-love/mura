@@ -2,7 +2,7 @@
   "name": "mura",
   "version": "0.1.0",
   "private": true,
-  "description": "M\u00daR\u00c0 \u2014 the operating system for preparing students before university.",
+  "description": "MÚRÀ — the operating system for preparing students before university.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -22,15 +22,18 @@
     "lucide-react": "^1.48.0",
     "next": "^16.3.6",
     "next-themes": "^0.4.6",
+    "nodemailer": "^10.0.10",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "react-hook-form": "^7.88.0",
+    "server-only": "^0.0.1",
     "tailwind-merge": "^3.7.0",
     "zod": "^4.6.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^26.6.2",
+    "@types/nodemailer": "^8.0.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "tailwindcss": "^4.3.3",
