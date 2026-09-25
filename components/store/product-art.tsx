@@ -44,7 +44,7 @@ export function ProductArt({
       <div className="absolute -top-1/3 -left-1/4 h-full w-3/4 -skew-x-12 bg-[linear-gradient(90deg,rgb(255_250_240/0.7),transparent)] blur-2xl" />
 
       {/* The printed cover: MÚRÀ mark, product name, formats. */}
-      <div className={cn("absolute top-[11%] left-[10%] w-[52%]", preview ? "" : "left-1/2 w-[58%] -translate-x-1/2")}>
+      <div className={cn("absolute", preview ? "top-[11%] left-[10%] w-[52%]" : "top-1/2 left-1/2 w-[58%] max-w-[240px] -translate-x-1/2 -translate-y-1/2")}>
         {stacked && (
           <>
             <div className="absolute inset-0 translate-x-[9%] translate-y-[6%] rotate-[4deg] rounded-md bg-[#f6f4ee] shadow-[0_18px_30px_-18px_rgb(40_30_20/0.45)]" />
