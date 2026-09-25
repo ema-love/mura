@@ -42,6 +42,12 @@ export function BundleCard({ bundle, layout = "row", className }: { bundle: Prod
             </li>
           ))}
           {items.length > 10 && <li className="text-muted-foreground">+ {items.length - 10} more</li>}
+          {bundle.includes.map((extra) => (
+            <li key={extra} className="flex items-start gap-2.5 text-muted-foreground">
+              <Check className="mt-1 size-3.5 shrink-0 text-accent-ink" aria-hidden />
+              Plus: {extra}
+            </li>
+          ))}
         </ul>
 
         <div className="mt-auto flex flex-wrap items-end justify-between gap-4 pt-10">

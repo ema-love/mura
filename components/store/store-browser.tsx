@@ -76,6 +76,9 @@ export function StoreBrowser() {
   );
 
   const cats = categoriesWithProducts();
+  const all = searchProducts("");
+  const typeOptions = types.filter((t) => t.id === "all" || all.some((p) => matchesType(p, t.id)));
+  const categoryOptions = cats.filter((c) => c.id !== "bundles");
 
   return (
     <div>
@@ -99,7 +102,7 @@ export function StoreBrowser() {
             )}
           </label>
           <div role="group" aria-label="Filter by type" className="no-scrollbar -mx-1 flex shrink-0 gap-1.5 overflow-x-auto px-1">
-            {types.map((t) => (
+            {typeOptions.map((t) => (
               <Chip key={t.id} active={type === t.id} onClick={() => set("type", t.id)}>
                 {t.label}
               </Chip>
@@ -110,9 +113,8 @@ export function StoreBrowser() {
             <Chip active={category === "all"} onClick={() => set("category", "all")}>
               All collections
             </Chip>
-            {cats
-              .filter((c) => c.id !== "bundles")
-              .map((c) => (
+            {categoryOptions.length > 1 &&
+              categoryOptions.map((c) => (
                 <Chip key={c.id} active={category === c.id} onClick={() => set("category", c.id)}>
                   {c.name}
                 </Chip>

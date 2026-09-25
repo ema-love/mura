@@ -36,8 +36,8 @@ Static-only or PHP-only hosting (such as InfinityFree) cannot run this site.
 ### Set a price or launch a product
 Everything lives in `lib/catalog/products.ts`.
 
-- **Price:** set `pricing: { model: "paid", amount: 1200 }` — amounts are **US cents** (1200 = $12). `amount: null` shows "Price coming soon" and can't be bought.
-- **Status:** `draft` (hidden) → `upcoming` (visible, "Coming soon") → `published` (live) → `archived` (hidden, past orders still work).
+- **Price:** `pricing: { model: "paid", amount: 900 }` — amounts are **US cents** (900 = $9), exactly as in the approved master catalogue. Never include payment-provider charges.
+- **Status:** `draft` (hidden) → `published` (live) → `archived` (hidden, past orders still work). Only the owner decides when a product is published.
 - **Featured:** `featured: true` puts it on the homepage.
 - **Photography:** add `image.src` (a file in `/public`) to replace the composed artwork. Until then, a clearly marked placeholder shows the art direction.
 

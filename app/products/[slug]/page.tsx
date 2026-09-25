@@ -25,6 +25,7 @@ import {
   visibleProducts,
 } from "@/lib/catalog";
 import { resolvePrice } from "@/lib/commerce/pricing";
+import { paymentsEnabled } from "@/lib/commerce/config";
 import { brand, absoluteUrl } from "@/lib/brand";
 import { ShareRow } from "@/components/resources/share-row";
 import { pinImageUrl, pinterestSaveUrl } from "@/lib/share";
@@ -57,7 +58,7 @@ function productJsonLd(slug: string) {
       ? undefined
       : price.model === "free"
         ? { "@type": "Offer", price: "0", priceCurrency: brand.currency, availability: "https://schema.org/InStock", url }
-        : price.model === "paid"
+        : price.model === "paid" && paymentsEnabled
           ? { "@type": "Offer", price: (price.final / 100).toFixed(2), priceCurrency: brand.currency, availability: "https://schema.org/InStock", url }
           : undefined;
   return {
@@ -164,7 +165,7 @@ export default async function ProductPage(props: PageProps<"/products/[slug]">) 
             <Reveal className="rounded-[28px] bg-card p-7 hairline md:col-span-2 lg:row-span-2">
               <h2 className="eyebrow">{bundle ? "What's included" : "What's inside"}</h2>
               <ul className="mt-6 space-y-3">
-                {(bundle ? items.map((i) => i.name) : p.includes).map((item) => (
+                {(bundle ? [...items.map((i) => i.name), ...p.includes.map((x) => `Plus: ${x}`)] : p.includes).map((item) => (
                   <li key={item} className="flex items-start gap-3 text-lg tracking-[-0.01em]">
                     <Check className="mt-1.5 size-4 shrink-0 text-accent-ink" aria-hidden />
                     {item}

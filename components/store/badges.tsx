@@ -17,13 +17,12 @@ function Badge({ children, tone = "neutral", className }: { children: React.Reac
   );
 }
 
-/** Status badges only state facts: free, featured, coming soon, bundle. */
+/** Status badges only state facts: free, featured, bundle. */
 export function ProductBadges({ product, className }: { product: Product; className?: string }) {
   const free = product.pricing.model === "free";
   return (
     <span className={cn("flex flex-wrap gap-1.5", className)}>
       {free && <Badge tone="accent">Free</Badge>}
-      {product.status === "upcoming" && <Badge>Coming soon</Badge>}
       {product.type === "bundle" && <Badge>Bundle</Badge>}
       {product.featured && product.status === "published" && !free && <Badge>Featured</Badge>}
     </span>

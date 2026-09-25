@@ -15,7 +15,7 @@ const index: Entry[] = [
   ...visibleProducts().map((p) => ({
     group: isBundle(p) ? "Bundles" : "Systems",
     title: p.name,
-    hint: isFree(p) ? `Free · ${p.summary}` : p.status === "upcoming" ? `Coming soon · ${p.summary}` : p.summary,
+    hint: isFree(p) ? `Free · ${p.summary}` : p.summary,
     href: `/products/${p.slug}`,
     keywords: [...p.includes, ...p.formats].join(" "),
     icon: isFree(p) ? Gift : Package,

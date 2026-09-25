@@ -11,7 +11,7 @@ export function productCard(p: Product): ShareCard {
     subtitle: p.tagline,
     meta: p.formats.join(" · "),
     tone: getCategory(p.category).tone,
-    badge: p.pricing.model === "free" ? "FREE" : p.status === "upcoming" ? "COMING SOON" : undefined,
+    badge: p.pricing.model === "free" ? "FREE" : undefined,
   };
 }
 

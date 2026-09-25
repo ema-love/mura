@@ -5,8 +5,8 @@ import type { CategoryId, Product } from "./types";
 export * from "./types";
 export { categories, getCategory, getCategoryBySlug } from "./categories";
 
-/** Products a visitor can see: published and upcoming. */
-export const isVisible = (p: Product) => p.status === "published" || p.status === "upcoming";
+/** Only published products ever appear on the storefront. */
+export const isVisible = (p: Product) => p.status === "published";
 export const isFree = (p: Product) => p.pricing.model === "free";
 export const isBundle = (p: Product) => p.type === "bundle";
 /** Purchasable (or claimable) right now: published and, when paid, priced. */
@@ -14,8 +14,8 @@ export const isAvailable = (p: Product) =>
   p.status === "published" && (p.pricing.model === "free" || p.pricing.amount !== null);
 
 const byOrder = (a: Product, b: Product) => {
-  // Published before upcoming, featured first, then catalogue order.
-  const rank = (p: Product) => (p.status === "published" ? 0 : 2) + (p.featured ? 0 : 1);
+  // Featured first, then catalogue order.
+  const rank = (p: Product) => (p.featured ? 0 : 1);
   return rank(a) - rank(b) || products.indexOf(a) - products.indexOf(b);
 };
 

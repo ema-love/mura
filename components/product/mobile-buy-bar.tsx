@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Product } from "@/lib/catalog/types";
 import { PriceDisplay } from "@/components/store/price-display";
 import { isAvailable, isFree } from "@/lib/catalog";
+import { paymentsEnabled } from "@/lib/commerce/config";
 
 /** A quiet bar on small screens so the price and action stay within reach. */
 export function MobileBuyBar({ product }: { product: Product }) {
@@ -13,7 +14,7 @@ export function MobileBuyBar({ product }: { product: Product }) {
           <PriceDisplay product={product} className="!text-[13px]" />
         </div>
         <Link href="#get" className="shrink-0 rounded-full bg-foreground px-4 py-2.5 text-[13px] font-medium text-background">
-          {isFree(product) ? "Get it free" : isAvailable(product) ? "Buy" : "Details"}
+          {isFree(product) ? "Get it free" : isAvailable(product) && paymentsEnabled ? "Buy" : "Details"}
         </Link>
       </div>
     </div>

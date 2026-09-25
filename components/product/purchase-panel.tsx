@@ -11,9 +11,7 @@ export function PurchasePanel({ product }: { product: Product }) {
   const free = isFree(product);
   const canClaim = free && product.status === "published";
   const note =
-    product.status === "upcoming"
-      ? "This system is still being prepared. It will be available here as soon as it's ready."
-      : !isAvailable(product)
+    !isAvailable(product)
         ? "Pricing for this system will be announced shortly."
         : !free && !paymentsEnabled
           ? "Checkout will open shortly. The price shown is final."

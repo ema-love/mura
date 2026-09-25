@@ -37,7 +37,7 @@ export default function Home() {
         {/* Product systems */}
         <FeaturedSystems />
         <InsideSystems />
-        <Collections rows={collectionRows} />
+        {collectionRows.length > 1 && <Collections rows={collectionRows} />}
         <BundlesSection />
         {/* Confidence */}
         <Resources />

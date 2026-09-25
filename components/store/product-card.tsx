@@ -8,7 +8,6 @@ import { ProductBadges } from "./badges";
 import { cn } from "@/lib/utils";
 
 export function actionLabel(product: Product) {
-  if (product.status === "upcoming") return "Preview";
   if (product.pricing.model === "free") return "Get it free";
   return product.type === "bundle" ? "View bundle" : "View system";
 }

@@ -28,13 +28,12 @@ export type Category = {
 };
 
 /**
- * Lifecycle:
- * - draft     hidden everywhere
- * - upcoming  visible in the store, clearly marked, not purchasable
- * - published live and purchasable (when priced)
- * - archived  hidden from the store, still resolvable for past orders
+ * Lifecycle (set by the owner):
+ * - draft     hidden from the storefront
+ * - published live on the storefront
+ * - archived  hidden from the storefront; still resolvable so past orders keep working
  */
-export type ProductStatus = "draft" | "upcoming" | "published" | "archived";
+export type ProductStatus = "draft" | "published" | "archived";
 
 export type ProductKind = "digital" | "physical";
 
@@ -45,7 +44,7 @@ export type ProductFormat = "PDF" | "Google Sheets" | "Excel";
 /** Amounts are integer minor units (cents) in the store currency. */
 export type Pricing =
   | { model: "free" }
-  /** `amount: null` means the price has not been set yet: shown as pending, not purchasable. */
+  /** `amount: null` means no price is set: shown as pending and never purchasable. */
   | { model: "paid"; amount: number | null };
 
 /** Interface previews drawn in code, reused from MÚRÀ 1.0. */

@@ -106,7 +106,6 @@ function StillLife({ items, tone }: { items: Row["products"]; tone: [string, str
             className="rounded-full bg-white/80 px-4 py-2 text-sm font-medium text-[#1f1f1f] shadow-[0_8px_20px_-10px_rgb(32_28_20/0.35)] backdrop-blur"
           >
             {item.name.replace(/^(Mura|MURA) /, "")}
-            {item.status === "upcoming" && <span className="ml-1.5 text-xs font-normal text-black/45">· soon</span>}
           </motion.li>
         ))}
         {items.length > 12 && <li className="px-2 py-2 text-sm text-[#1f1f1f]/60">+ {items.length - 12} more</li>}

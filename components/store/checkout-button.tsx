@@ -10,13 +10,6 @@ import { Button } from "@/components/ui/button";
  * product is priced, published and payments are switched on — never a dead end.
  */
 export function CheckoutButton({ product, className }: { product: Product; className?: string }) {
-  if (product.status === "upcoming") {
-    return (
-      <Button size="lg" disabled className={className}>
-        Coming soon
-      </Button>
-    );
-  }
   if (!isAvailable(product)) {
     return (
       <Button size="lg" disabled className={className}>
