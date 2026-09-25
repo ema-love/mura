@@ -1,5 +1,5 @@
 # MÚRÀ Refund Policy
-Last Updated: October 2026
+Last Updated: September 2026
 
 MÚRÀ sells digital products.
 

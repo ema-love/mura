@@ -45,7 +45,7 @@ const outbox = () => {
   try {
     return readdirSync(path.join(dataDir, "outbox"))
       .filter((f) => f.endsWith(".json"))
-      .filter((f) => !f.includes("mura.create@gmail.com"));
+      .filter((f) => !f.includes("mura.creates@gmail.com"));
   } catch {
     return [];
   }

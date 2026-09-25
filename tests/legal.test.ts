@@ -10,7 +10,7 @@ describe("legal documents", () => {
     expect(terms.sections).toHaveLength(21);
     expect(privacy.sections).toHaveLength(18);
     expect(refunds.sections).toHaveLength(13);
-    for (const doc of [terms, privacy, refunds]) expect(doc.lastUpdated).toBe("October 2026");
+    for (const doc of [terms, privacy, refunds]) expect(doc.lastUpdated).toBe("September 2026");
   });
 
   it("keeps lists and subheadings intact", () => {

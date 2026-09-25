@@ -1,5 +1,5 @@
 # MÚRÀ Terms & Conditions
-Last Updated: October 2026
+Last Updated: September 2026
 
 Welcome to MÚRÀ.
 
