@@ -11,7 +11,8 @@ import type { Product, ProductFormat, PreviewId } from "./types";
  * Semester System, Grade & TGPA Tracker. Everything else is "draft" — hidden from the
  * storefront until the owner activates it by changing its status to "published".
  *
- * Still to confirm with the owner: each product's `formats`.
+ * Formats and descriptive copy for the launch products are approved by the owner.
+ * Formats for draft products are proposed defaults; confirm each before publishing it.
  */
 
 const SHEETS: ProductFormat[] = ["Google Sheets", "Excel"];
