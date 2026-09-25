@@ -3,24 +3,25 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { ArrowUpRight, BookOpen, Building2, CornerDownLeft, LayoutGrid, ListChecks, Search as SearchIcon, Sparkles } from "lucide-react";
+import { ArrowUpRight, BookOpen, CornerDownLeft, Gift, LayoutGrid, Package, Search as SearchIcon } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { universities } from "@/lib/data/universities";
+import { categoriesWithProducts, isBundle, isFree, visibleProducts } from "@/lib/catalog";
 import { articles } from "@/lib/data/resources";
-import { collections } from "@/lib/data/collections";
-import { stages } from "@/lib/data/timeline";
 import { cn } from "@/lib/utils";
 
-type Entry = { group: string; title: string; hint: string; href: string; icon: React.ComponentType<{ className?: string }> };
+type Entry = { group: string; title: string; hint: string; href: string; keywords?: string; icon: React.ComponentType<{ className?: string }> };
 
 const index: Entry[] = [
-  { group: "Start", title: "Build my preparation pack", hint: "Six questions, one personal plan", href: "/#builder", icon: Sparkles },
-  { group: "Start", title: "Preparation timeline", hint: "From acceptance to thriving", href: "/#timeline", icon: ListChecks },
-  { group: "Start", title: "Planning tools", hint: "Planner, budget, checklist", href: "/#planning", icon: LayoutGrid },
-  ...universities.map((u) => ({ group: "Universities", title: u.name, hint: u.city, href: `/#universities?u=${u.id}`, icon: Building2 })),
-  ...articles.map((a) => ({ group: "Guides", title: a.title, hint: a.dek, href: `/resources/${a.slug}`, icon: BookOpen })),
-  ...collections.map((c) => ({ group: "Collections", title: c.title, hint: c.for, href: "/#collections", icon: LayoutGrid })),
-  ...stages.map((s) => ({ group: "Timeline", title: s.label, hint: s.headline, href: "/#timeline", icon: ListChecks })),
+  ...visibleProducts().map((p) => ({
+    group: isBundle(p) ? "Bundles" : "Systems",
+    title: p.name,
+    hint: isFree(p) ? `Free · ${p.summary}` : p.status === "upcoming" ? `Coming soon · ${p.summary}` : p.summary,
+    href: `/products/${p.slug}`,
+    keywords: [...p.includes, ...p.formats].join(" "),
+    icon: isFree(p) ? Gift : Package,
+  })),
+  ...categoriesWithProducts().map((c) => ({ group: "Collections", title: c.name, hint: c.summary, href: `/collections/${c.slug}`, icon: LayoutGrid })),
+  ...articles.map((a) => ({ group: "Resources", title: a.title, hint: a.dek, href: `/resources/${a.slug}`, icon: BookOpen })),
 ];
 
 export function SearchDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
@@ -31,7 +32,7 @@ export function SearchDialog({ open, onOpenChange }: { open: boolean; onOpenChan
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
-    const found = q ? index.filter((e) => `${e.title} ${e.hint} ${e.group}`.toLowerCase().includes(q)) : index.slice(0, 9);
+    const found = q ? index.filter((e) => `${e.title} ${e.hint} ${e.group} ${e.keywords ?? ""}`.toLowerCase().includes(q)) : index.slice(0, 9);
     return found.slice(0, 12);
   }, [query]);
 
@@ -47,12 +48,6 @@ export function SearchDialog({ open, onOpenChange }: { open: boolean; onOpenChan
   const go = (entry?: Entry) => {
     if (!entry) return;
     onOpenChange(false);
-    if (entry.href.includes("?u=")) {
-      const id = entry.href.split("?u=")[1];
-      window.dispatchEvent(new CustomEvent("mura:university", { detail: id }));
-      router.push("/#universities");
-      return;
-    }
     router.push(entry.href);
   };
 
@@ -78,7 +73,7 @@ export function SearchDialog({ open, onOpenChange }: { open: boolean; onOpenChan
                 go(results[active]);
               }
             }}
-            placeholder="Search universities, guides, tools…"
+            placeholder="Search systems, templates, guides…"
             className="h-14 flex-1 bg-transparent text-[15px] outline-none placeholder:text-subtle-foreground"
             role="combobox"
             aria-expanded
@@ -90,7 +85,7 @@ export function SearchDialog({ open, onOpenChange }: { open: boolean; onOpenChan
         </div>
         <ul ref={listRef} id="search-results" role="listbox" className="no-scrollbar max-h-[min(60vh,420px)] overflow-y-auto p-2">
           {results.length === 0 && (
-            <li className="px-4 py-10 text-center text-sm text-muted-foreground">Nothing yet — try “hostel”, “laptop” or “ALU”.</li>
+            <li className="px-4 py-10 text-center text-sm text-muted-foreground">Nothing found — try “semester”, “budget” or “exam”.</li>
           )}
           {results.map((r, i) => {
             const Icon = r.icon;

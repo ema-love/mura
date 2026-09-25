@@ -37,9 +37,9 @@ export function AdmissionLetter({ className }: SvgProps) {
       <line x1="0" x2="250" y1="116.5" y2="116.5" stroke="#000" strokeOpacity="0.07" />
       <line x1="0" x2="250" y1="233.5" y2="233.5" stroke="#000" strokeOpacity="0.07" />
       {/* crest */}
-      <circle cx="125" cy="38" r="15" fill="none" stroke="#36597D" strokeOpacity="0.55" strokeWidth="1.2" />
-      <circle cx="125" cy="38" r="10" fill="#DCEEFF" />
-      <path d="M119 40 l6-8 6 8z" fill="#36597D" fillOpacity="0.6" />
+      <circle cx="125" cy="38" r="15" fill="none" stroke="#3D5C47" strokeOpacity="0.55" strokeWidth="1.2" />
+      <circle cx="125" cy="38" r="10" fill="#E2EBE2" />
+      <path d="M119 40 l6-8 6 8z" fill="#3D5C47" fillOpacity="0.6" />
       <rect x="85" y="62" width="80" height="3" rx="1.5" fill="#1F1F1F" fillOpacity="0.55" />
       <rect x="100" y="70" width="50" height="2" rx="1" fill="#1F1F1F" fillOpacity="0.25" />
       <text x="28" y="98" fontFamily="var(--font-geist-mono), monospace" fontSize="7" letterSpacing="1.6" fill="#1F1F1F" fillOpacity="0.7">
@@ -48,10 +48,10 @@ export function AdmissionLetter({ className }: SvgProps) {
       {Array.from({ length: 12 }).map((_, i) => (
         <rect key={i} x="28" y={140 + i * 10} width={i % 4 === 3 ? 120 : 194} height="2.4" rx="1.2" fill="#1F1F1F" fillOpacity="0.16" />
       ))}
-      <path d="M30 290 c10 -14 18 6 26 -4 s12 -12 18 0 s10 4 22 -6" fill="none" stroke="#2A3B55" strokeWidth="1.4" strokeLinecap="round" opacity="0.75" />
+      <path d="M30 290 c10 -14 18 6 26 -4 s12 -12 18 0 s10 4 22 -6" fill="none" stroke="#2B3A30" strokeWidth="1.4" strokeLinecap="round" opacity="0.75" />
       <rect x="28" y="304" width="70" height="2" rx="1" fill="#1F1F1F" fillOpacity="0.2" />
-      <circle cx="196" cy="296" r="20" fill="#36597D" fillOpacity="0.08" />
-      <circle cx="196" cy="296" r="20" fill="none" stroke="#36597D" strokeOpacity="0.35" strokeDasharray="2 3" />
+      <circle cx="196" cy="296" r="20" fill="#3D5C47" fillOpacity="0.08" />
+      <circle cx="196" cy="296" r="20" fill="none" stroke="#3D5C47" strokeOpacity="0.35" strokeDasharray="2 3" />
     </svg>
   );
 }
@@ -64,12 +64,12 @@ export function StickyNotes({ className }: SvgProps) {
     <svg viewBox="0 0 120 120" className={className} aria-hidden>
       <rect x="10" y="10" width="106" height="106" rx="2" fill="#E9E3D2" />
       <rect x="6" y="6" width="106" height="106" rx="2" fill="#F3EEDF" />
-      <rect x="0" y="0" width="108" height="108" rx="2" fill="#DCEEFF" />
+      <rect x="0" y="0" width="108" height="108" rx="2" fill="#E2EBE2" />
       <rect x="0" y="0" width="108" height="16" fill="#000" fillOpacity="0.03" />
-      <path d="M14 38 c6 -4 10 3 16 0 s8 -4 14 0 s10 2 18 -2" fill="none" stroke="#2A3B55" strokeWidth="1.6" strokeLinecap="round" opacity="0.7" />
-      <path d="M14 56 c8 -3 12 2 20 -1 s8 -2 14 1" fill="none" stroke="#2A3B55" strokeWidth="1.6" strokeLinecap="round" opacity="0.7" />
-      <path d="M14 74 l5 5 9 -11" fill="none" stroke="#2A3B55" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" opacity="0.8" />
-      <path d="M34 75 c6 -2 10 2 16 0 s8 -2 12 0" fill="none" stroke="#2A3B55" strokeWidth="1.6" strokeLinecap="round" opacity="0.5" />
+      <path d="M14 38 c6 -4 10 3 16 0 s8 -4 14 0 s10 2 18 -2" fill="none" stroke="#2B3A30" strokeWidth="1.6" strokeLinecap="round" opacity="0.7" />
+      <path d="M14 56 c8 -3 12 2 20 -1 s8 -2 14 1" fill="none" stroke="#2B3A30" strokeWidth="1.6" strokeLinecap="round" opacity="0.7" />
+      <path d="M14 74 l5 5 9 -11" fill="none" stroke="#2B3A30" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" opacity="0.8" />
+      <path d="M34 75 c6 -2 10 2 16 0 s8 -2 12 0" fill="none" stroke="#2B3A30" strokeWidth="1.6" strokeLinecap="round" opacity="0.5" />
     </svg>
   );
 }
@@ -209,7 +209,7 @@ export function Calculator({ className }: SvgProps) {
               width="26"
               height="22"
               rx="6"
-              fill={accent ? "#36597D" : dark ? "#6D737A" : "#FFFFFF"}
+              fill={accent ? "#3D5C47" : dark ? "#6D737A" : "#FFFFFF"}
               stroke="#000"
               strokeOpacity="0.07"
             />
@@ -245,7 +245,7 @@ export function WaterBottle({ className }: SvgProps) {
       <rect x="290" y="22" width="50" height="52" rx="10" fill={`url(#${id}c)`} />
       <rect x="318" y="30" width="14" height="36" rx="7" fill="none" stroke="#fff" strokeOpacity="0.25" strokeWidth="2" />
       <rect x="16" y="24" width="230" height="4" rx="2" fill="#fff" fillOpacity="0.55" />
-      <text x="130" y="62" textAnchor="middle" fontFamily="var(--font-geist-sans), sans-serif" fontWeight="600" fontSize="11" letterSpacing="4" fill="#1F2A36" fillOpacity="0.35">
+      <text x="130" y="62" textAnchor="middle" fontFamily="var(--font-geist-sans), sans-serif" fontWeight="600" fontSize="11" letterSpacing="4" fill="#1F2622" fillOpacity="0.35">
         MÚRÀ
       </text>
     </svg>
@@ -271,10 +271,10 @@ export function StudentId({ className }: SvgProps) {
       <rect x="110" y="36" width="20" height="16" rx="4" fill="#A6ACB3" />
       {/* card */}
       <rect x="0" y="44" width="240" height="146" rx="12" fill="#FFFFFF" />
-      <rect x="0" y="44" width="240" height="30" rx="12" fill="#1F2A36" />
-      <rect x="0" y="62" width="240" height="12" fill="#1F2A36" />
+      <rect x="0" y="44" width="240" height="30" rx="12" fill="#1F2622" />
+      <rect x="0" y="62" width="240" height="12" fill="#1F2622" />
       <rect x="106" y="52" width="28" height="6" rx="3" fill="#FFFFFF" fillOpacity="0.9" />
-      <text x="16" y="64" fontFamily="var(--font-geist-mono), monospace" fontSize="8" letterSpacing="2" fill="#DCEEFF">
+      <text x="16" y="64" fontFamily="var(--font-geist-mono), monospace" fontSize="8" letterSpacing="2" fill="#E2EBE2">
         STUDENT
       </text>
       <rect x="16" y="88" width="62" height="78" rx="6" fill={`url(#${id}p)`} />
@@ -304,7 +304,7 @@ export function Notebook({ className }: SvgProps) {
         </linearGradient>
       </defs>
       {/* ribbon */}
-      <path d="M150 300 L150 310 L156 304 L162 310 L162 300 Z" fill="#9DB8D6" />
+      <path d="M150 300 L150 310 L156 304 L162 310 L162 300 Z" fill="#9DBBA4" />
       <rect x="4" y="3" width="226" height="300" rx="10" fill="#EFEBE2" />
       <rect x="0" y="0" width="224" height="300" rx="10" fill={`url(#${id}c)`} />
       <rect x="0" y="0" width="16" height="300" rx="8" fill="#000" fillOpacity="0.18" />
@@ -340,7 +340,7 @@ export function PlannerPage({ side, className }: SvgProps & { side: "left" | "ri
             <g key={d}>
               <text x="18" y={56 + i * 40}>{d}</text>
               <line x1="18" x2="172" y1={64 + i * 40} y2={64 + i * 40} stroke="#1F1F1F" strokeOpacity="0.08" />
-              <rect x="52" y={50 + i * 40} width={[80, 60, 96, 44, 70][i]} height="4" rx="2" fill="#36597D" fillOpacity={i === 1 ? 0.5 : 0.18} />
+              <rect x="52" y={50 + i * 40} width={[80, 60, 96, 44, 70][i]} height="4" rx="2" fill="#3D5C47" fillOpacity={i === 1 ? 0.5 : 0.18} />
             </g>
           ))}
         </g>
@@ -351,7 +351,7 @@ export function PlannerPage({ side, className }: SvgProps & { side: "left" | "ri
           </text>
           {Array.from({ length: 8 }).map((_, i) => (
             <g key={i}>
-              <rect x="18" y={46 + i * 24} width="10" height="10" rx="2.5" fill={i < 5 ? "#36597D" : "none"} fillOpacity={0.8} stroke="#36597D" strokeOpacity="0.5" />
+              <rect x="18" y={46 + i * 24} width="10" height="10" rx="2.5" fill={i < 5 ? "#3D5C47" : "none"} fillOpacity={0.8} stroke="#3D5C47" strokeOpacity="0.5" />
               {i < 5 && <path d={`M20.5 ${51 + i * 24} l2.2 2.2 4 -4.4`} stroke="#fff" strokeWidth="1.4" fill="none" strokeLinecap="round" />}
               <rect x="38" y={49 + i * 24} width={[110, 84, 120, 70, 96, 104, 60, 90][i]} height="4" rx="2" fill="#1F1F1F" fillOpacity={i < 5 ? 0.14 : 0.3} />
             </g>
@@ -378,10 +378,10 @@ export function PlannerCover({ className }: SvgProps) {
       </defs>
       <rect width="190" height="250" rx="6" fill={`url(#${id}c)`} />
       <rect width="190" height="250" rx="6" fill={`url(#${id}l)`} />
-      <text x="24" y="214" fontFamily="var(--font-geist-sans), sans-serif" fontWeight="600" fontSize="14" letterSpacing="-0.3" fill="#1F2A36" fillOpacity="0.75">
+      <text x="24" y="214" fontFamily="var(--font-geist-sans), sans-serif" fontWeight="600" fontSize="14" letterSpacing="-0.3" fill="#1F2622" fillOpacity="0.75">
         Semester
       </text>
-      <text x="24" y="230" fontFamily="var(--font-geist-mono), monospace" fontSize="7" letterSpacing="1.6" fill="#1F2A36" fillOpacity="0.5">
+      <text x="24" y="230" fontFamily="var(--font-geist-mono), monospace" fontSize="7" letterSpacing="1.6" fill="#1F2622" fillOpacity="0.5">
         PLANNER · 2026
       </text>
     </svg>
@@ -443,7 +443,7 @@ export function LaptopScreen({ className }: SvgProps) {
       <defs>
         <linearGradient id={`${id}s`} x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor="#F3F9FF" />
-          <stop offset="1" stopColor="#DCEEFF" />
+          <stop offset="1" stopColor="#E2EBE2" />
         </linearGradient>
       </defs>
       <rect width="420" height="290" rx="16" fill="#1A1C20" />
@@ -452,10 +452,10 @@ export function LaptopScreen({ className }: SvgProps) {
       <rect x="30" y="30" width="80" height="6" rx="3" fill="#1F1F1F" fillOpacity="0.7" />
       <rect x="30" y="44" width="50" height="4" rx="2" fill="#1F1F1F" fillOpacity="0.25" />
       <circle cx="80" cy="130" r="40" fill="none" stroke="#fff" strokeWidth="10" />
-      <circle cx="80" cy="130" r="40" fill="none" stroke="#36597D" strokeWidth="10" strokeLinecap="round" strokeDasharray="251" strokeDashoffset="43" transform="rotate(-90 80 130)" />
+      <circle cx="80" cy="130" r="40" fill="none" stroke="#3D5C47" strokeWidth="10" strokeLinecap="round" strokeDasharray="251" strokeDashoffset="43" transform="rotate(-90 80 130)" />
       {Array.from({ length: 5 }).map((_, i) => (
         <g key={i}>
-          <rect x="150" y={92 + i * 18} width="10" height="10" rx="3" fill={i < 3 ? "#36597D" : "#fff"} stroke="#36597D" strokeOpacity="0.3" />
+          <rect x="150" y={92 + i * 18} width="10" height="10" rx="3" fill={i < 3 ? "#3D5C47" : "#fff"} stroke="#3D5C47" strokeOpacity="0.3" />
           <rect x="168" y={95 + i * 18} width={[140, 100, 160, 120, 90][i]} height="4" rx="2" fill="#1F1F1F" fillOpacity={i < 3 ? 0.2 : 0.45} />
         </g>
       ))}

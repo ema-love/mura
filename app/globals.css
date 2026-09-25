@@ -4,8 +4,9 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ------------------------------------------------------------------
-   MÚRÀ design tokens
+   MÚRÀ 2.0 design tokens
    Light: early morning. Dark: the hour before dawn.
+   Accent: a quiet botanical green, used as accent only.
 ------------------------------------------------------------------- */
 :root {
   --background: #fafaf8;
@@ -17,13 +18,13 @@
   --subtle-foreground: #9a9a95;
   --border: #ececec;
   --border-strong: #dededb;
-  --accent: #dceeff;
-  --accent-soft: #f3f9ff;
-  --accent-ink: #36597d;
+  --accent: #e2ebe2;
+  --accent-soft: #f2f6f1;
+  --accent-ink: #3d5c47;
   --accent-foreground: #1f1f1f;
   --primary: #1f1f1f;
   --primary-foreground: #fafaf8;
-  --ring: #9cc3ea;
+  --ring: #8fb39a;
   --glass: rgb(255 255 255 / 0.62);
   --glass-border: rgb(255 255 255 / 0.9);
   --glass-edge: rgb(31 31 31 / 0.06);
@@ -32,6 +33,11 @@
   --desk-light: rgb(255 244 222 / 0.55);
 
   --radius: 1.25rem;
+
+  /* Layout rhythm */
+  --page-max: 1240px;
+  --page-gutter: clamp(1.25rem, 4vw, 2rem);
+  --section-y: clamp(6rem, 12vw, 10rem);
 }
 
 .dark {
@@ -44,19 +50,19 @@
   --subtle-foreground: #6c717a;
   --border: #23272e;
   --border-strong: #2e333b;
-  --accent: #1e2a38;
-  --accent-soft: #151c25;
-  --accent-ink: #a9c9ec;
+  --accent: #1c2921;
+  --accent-soft: #141c17;
+  --accent-ink: #a6c9b0;
   --accent-foreground: #f6f6f4;
   --primary: #f6f6f4;
   --primary-foreground: #0e1013;
-  --ring: #6d95bf;
+  --ring: #6f9a7c;
   --glass: rgb(23 26 31 / 0.66);
   --glass-border: rgb(255 255 255 / 0.07);
   --glass-edge: rgb(255 255 255 / 0.04);
   --shadow-color: 0 0 0;
   --success: #7fc3a0;
-  --desk-light: rgb(169 201 236 / 0.16);
+  --desk-light: rgb(166 201 176 / 0.16);
 }
 
 @theme inline {
@@ -81,6 +87,18 @@
   --color-success: var(--success);
 
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+
+  /* Type scale — display sizes are fluid so layouts recompose, not shrink. */
+  --text-display: clamp(3.5rem, 11vw, 10.5rem);
+  --text-display--line-height: 0.95;
+  --text-title: clamp(2.5rem, 6vw, 4.5rem);
+  --text-title--line-height: 1.02;
+  --text-heading: clamp(1.75rem, 3.2vw, 2.5rem);
+  --text-heading--line-height: 1.1;
+
+  --spacing-section: var(--section-y);
+  --spacing-gutter: var(--page-gutter);
+  --container-page: var(--page-max);
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
   --radius-sm: calc(var(--radius) - 0.75rem);
@@ -155,6 +173,13 @@
 }
 
 @layer components {
+  /* The page container used by every section. */
+  .page {
+    margin-inline: auto;
+    width: 100%;
+    max-width: var(--page-max);
+    padding-inline: var(--page-gutter);
+  }
   /* Glass is used sparingly: floating panels, never full sections. */
   .glass {
     background: var(--glass);

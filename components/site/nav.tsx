@@ -8,15 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Logo } from "./logo";
 import { ThemeToggle } from "./theme-toggle";
 import { SearchDialog } from "./search";
-import { SignInDialog } from "./sign-in";
-import { navLinks } from "@/lib/nav";
+import { navLinks, shopHref, signInHref } from "@/lib/nav";
 import { cn, ease } from "@/lib/utils";
 
 export function Nav() {
   const { scrollY } = useScroll();
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [signInOpen, setSignInOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useMotionValueEvent(scrollY, "change", (y) => setScrolled(y > 16));
@@ -84,11 +82,11 @@ export function Nav() {
               <Search />
             </Button>
             <ThemeToggle />
-            <Button variant="ghost" size="sm" className="hidden sm:inline-flex" onClick={() => setSignInOpen(true)}>
-              Sign In
+            <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
+              <Link href={signInHref}>Sign In</Link>
             </Button>
             <Button asChild size="sm" className="hidden sm:inline-flex">
-              <Link href="/#builder">Prepare Yourself</Link>
+              <Link href={shopHref}>Shop MÚRÀ</Link>
             </Button>
             <Button
               variant="ghost"
@@ -130,19 +128,14 @@ export function Nav() {
               ))}
               <motion.li variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } }} className="mt-8 flex gap-3">
                 <Button asChild size="lg">
-                  <Link href="/#builder" onClick={() => setMenuOpen(false)}>
-                    Prepare Yourself
+                  <Link href={shopHref} onClick={() => setMenuOpen(false)}>
+                    Shop MÚRÀ
                   </Link>
                 </Button>
-                <Button
-                  size="lg"
-                  variant="secondary"
-                  onClick={() => {
-                    setMenuOpen(false);
-                    setSignInOpen(true);
-                  }}
-                >
-                  Sign In
+                <Button asChild size="lg" variant="secondary">
+                  <Link href={signInHref} onClick={() => setMenuOpen(false)}>
+                    Sign In
+                  </Link>
                 </Button>
               </motion.li>
             </motion.ul>
@@ -151,7 +144,6 @@ export function Nav() {
       </AnimatePresence>
 
       <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
-      <SignInDialog open={signInOpen} onOpenChange={setSignInOpen} />
     </>
   );
 }
