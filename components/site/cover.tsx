@@ -7,7 +7,7 @@ const surfaces: Record<Article["cover"], string> = {
   linen: "bg-[linear-gradient(160deg,#e9e4d8,#d6cfbf)]",
   stone: "bg-[linear-gradient(160deg,#e3e3df,#c7c6c0)]",
   walnut: "bg-[linear-gradient(120deg,#5b3b27,#7a5236_60%,#5a3a26)]",
-  glass: "bg-[linear-gradient(160deg,#eef5fc,#cfe0f1)]",
+  glass: "bg-[linear-gradient(160deg,#eef3ee,#d3e1d5)]",
   morning: "bg-[linear-gradient(160deg,#fdf4e7,#e2ebe2)]",
 };
 

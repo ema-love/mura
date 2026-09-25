@@ -26,6 +26,8 @@ import {
 } from "@/lib/catalog";
 import { resolvePrice } from "@/lib/commerce/pricing";
 import { brand, absoluteUrl } from "@/lib/brand";
+import { ShareRow } from "@/components/resources/share-row";
+import { pinImageUrl, pinterestSaveUrl } from "@/lib/share";
 
 export function generateStaticParams() {
   return visibleProducts().map((p) => ({ slug: p.slug }));
@@ -121,6 +123,16 @@ export default async function ProductPage(props: PageProps<"/products/[slug]">) 
                 <p className="mt-4 max-w-xl leading-relaxed text-muted-foreground">{p.summary}</p>
                 <div className="mt-10">
                   <PurchasePanel product={p} />
+                </div>
+                <div className="mt-8">
+                  <ShareRow
+                    url={absoluteUrl(`/products/${p.slug}`)}
+                    pinUrl={pinterestSaveUrl({
+                      url: absoluteUrl(`/products/${p.slug}`),
+                      media: pinImageUrl("products", p.slug),
+                      description: `${p.name} — ${p.tagline}`,
+                    })}
+                  />
                 </div>
               </Reveal>
 

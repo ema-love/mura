@@ -2,20 +2,22 @@ import type { Metadata, Viewport } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import { Providers } from "@/components/providers/providers";
+import { brand } from "@/lib/brand";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(brand.url),
   title: {
     default: "MÚRÀ — Prepare yourself.",
     template: "%s · MÚRÀ",
   },
-  description:
-    "Everything you need before your first day at university. Curated essentials, intelligent recommendations, planning tools and university-specific guidance.",
+  description: brand.description,
   applicationName: "MÚRÀ",
-  keywords: ["university preparation", "freshers", "packing checklist", "student planner", "Nigeria", "Africa"],
+  keywords: ["student planner", "semester planner", "assignment tracker", "GPA tracker", "TGPA calculator", "student budget template", "study planner", "digital planner"],
   openGraph: {
     title: "MÚRÀ — Prepare yourself.",
-    description: "Everything you need before your first day at university.",
+    description: brand.shortDescription,
+    siteName: brand.name,
     type: "website",
   },
 };
