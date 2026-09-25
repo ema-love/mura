@@ -12,22 +12,21 @@ import {
 } from "framer-motion";
 import { cn, ease } from "@/lib/utils";
 import {
-  AdmissionLetter,
-  Backpack,
+  BudgetSheet,
   Calculator,
-  FoldedHoodie,
   Headphones,
   LaptopBase,
   LaptopLid,
   LaptopScreen,
   MechanicalPencil,
   Notebook,
+  Phone,
   PlannerCover,
   PlannerPage,
+  PrintedSchedule,
   StickyNotes,
   StudentId,
-  UsbDrive,
-  WaterBottle,
+  Tablet,
 } from "./objects";
 
 /** The desk is laid out on a fixed 1600 × 1000 plan, then scaled fluidly. */
@@ -50,35 +49,33 @@ export type Placement = {
 };
 
 export type SceneObjectId =
-  | "letter"
+  | "schedule"
   | "sticky"
-  | "usb"
+  | "phone"
   | "pencil"
   | "id"
   | "notebook"
   | "calculator"
   | "headphones"
-  | "bottle"
   | "laptop"
   | "planner"
-  | "backpack"
-  | "hoodie";
+  | "tablet"
+  | "budget";
 
 // Knolled: everything parallel, everything with room to breathe.
 export const layout: Placement[] = [
-  { id: "letter", x: 80, y: 70, w: 250, h: 350, depth: 0.5, entrance: "drop", at: 0 },
+  { id: "schedule", x: 80, y: 70, w: 250, h: 350, depth: 0.5, entrance: "drop", at: 0 },
   { id: "sticky", x: 380, y: 78, w: 120, h: 120, depth: 0.6, entrance: "fade", at: 0 },
   { id: "notebook", x: 80, y: 470, w: 230, h: 310, depth: 0.7, entrance: "rise", at: 0.1 },
-  { id: "usb", x: 418, y: 250, w: 44, h: 110, depth: 0.8, entrance: "fade", at: 0.18 },
+  { id: "phone", x: 392, y: 238, w: 96, h: 196, depth: 0.9, entrance: "drop", at: 0.16 },
   { id: "pencil", x: 380, y: 906, w: 380, h: 20, depth: 0.9, entrance: "slide-left", at: 0.2 },
   { id: "laptop", x: 800, y: 500, w: 420, h: 290, depth: 1, entrance: "rise", at: 0.28 },
-  { id: "backpack", x: 1270, y: 70, w: 280, h: 376, depth: 1.1, entrance: "slide-right", at: 0.48 },
+  { id: "tablet", x: 1270, y: 70, w: 270, h: 363, depth: 1.1, entrance: "slide-right", at: 0.48 },
   { id: "planner", x: 380, y: 616, w: 190, h: 250, depth: 0.6, entrance: "rise", at: 0.52 },
   { id: "id", x: 80, y: 816, w: 220, h: 174, depth: 0.9, entrance: "drop", at: 0.72 },
-  { id: "headphones", x: 700, y: 64, w: 264, h: 220, depth: 0.9, entrance: "drop", at: 0.8 },
+  { id: "headphones", x: 700, y: 64, w: 264, h: 220, depth: 0.9, entrance: "drop", at: 0.78 },
   { id: "calculator", x: 600, y: 344, w: 130, h: 199, depth: 0.7, entrance: "rise", at: 0.84 },
-  { id: "bottle", x: 840, y: 852, w: 330, h: 93, depth: 0.8, entrance: "slide-right", at: 0.88 },
-  { id: "hoodie", x: 1280, y: 520, w: 260, h: 297, depth: 0.8, entrance: "slide-right", at: 0.92 },
+  { id: "budget", x: 1276, y: 506, w: 258, h: 337, depth: 0.8, entrance: "slide-right", at: 0.9 },
 ];
 
 const pct = (v: number, of: number) => `${(v / of) * 100}%`;
@@ -96,12 +93,12 @@ const entranceFrom: Record<Entrance, { x?: number; y?: number; scale?: number; r
 
 function ObjectArt({ id, lid, fold }: { id: SceneObjectId; lid: MotionValue<number>; fold: MotionValue<number> }) {
   switch (id) {
-    case "letter":
-      return <AdmissionLetter className="size-full" />;
+    case "schedule":
+      return <PrintedSchedule className="size-full" />;
     case "sticky":
       return <StickyNotes className="size-full" />;
-    case "usb":
-      return <UsbDrive className="size-full" />;
+    case "phone":
+      return <Phone className="size-full" />;
     case "pencil":
       return <MechanicalPencil className="size-full" />;
     case "id":
@@ -112,12 +109,10 @@ function ObjectArt({ id, lid, fold }: { id: SceneObjectId; lid: MotionValue<numb
       return <Calculator className="size-full" />;
     case "headphones":
       return <Headphones className="size-full" />;
-    case "bottle":
-      return <WaterBottle className="size-full" />;
-    case "backpack":
-      return <Backpack className="size-full" />;
-    case "hoodie":
-      return <FoldedHoodie className="size-full" />;
+    case "tablet":
+      return <Tablet className="size-full" />;
+    case "budget":
+      return <BudgetSheet className="size-full" />;
     case "laptop":
       return <Laptop lid={lid} />;
     case "planner":
@@ -270,7 +265,7 @@ export function DeskScene({ mode, progress, className }: DeskSceneProps) {
       className={cn("relative w-full", className)}
       style={{ perspective: "2200px" }}
       role="img"
-      aria-label="A walnut desk in morning light, neatly laid out with an admission letter, laptop, backpack, planner, notebook, student ID and other university essentials."
+      aria-label="A walnut desk in morning light, neatly laid out with a printed timetable, a laptop and tablet showing MÚRÀ systems, a planner, a notebook, a budget sheet and other study essentials."
     >
       <motion.div
         className="relative w-full"

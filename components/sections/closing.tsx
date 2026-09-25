@@ -20,7 +20,7 @@ export function Closing() {
           transition={{ duration: 1.6, ease }}
           className="display text-[clamp(2.75rem,8vw,8rem)]"
         >
-          The first day shouldn&rsquo;t feel uncertain.
+          The semester shouldn&rsquo;t feel uncertain.
           <span className="mt-4 block text-muted-foreground">It should feel prepared.</span>
         </motion.h2>
         <motion.div
@@ -31,8 +31,8 @@ export function Closing() {
           className="mt-14"
         >
           <Button asChild size="xl">
-            <Link href="/#builder">
-              Prepare Yourself
+            <Link href="/systems">
+              Shop MÚRÀ
               <ArrowRight className="transition-transform duration-300 group-hover/button:translate-x-0.5" />
             </Link>
           </Button>

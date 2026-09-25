@@ -3,11 +3,10 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Pause, Play, RotateCcw } from "lucide-react";
-import { SectionHeading } from "@/components/ui/section-heading";
-import { Reveal } from "@/components/ui/reveal";
+import type { PreviewId } from "@/lib/catalog/types";
 import { cn, ease } from "@/lib/utils";
 
-function Window({ title, meta, className, children }: { title: string; meta?: string; className?: string; children: React.ReactNode }) {
+export function Window({ title, meta, className, children }: { title: string; meta?: string; className?: string; children: React.ReactNode }) {
   return (
     <motion.article
       whileHover={{ y: -4 }}
@@ -16,7 +15,7 @@ function Window({ title, meta, className, children }: { title: string; meta?: st
     >
       <span aria-hidden className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-white/25 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100 motion-safe:group-hover:animate-shimmer dark:via-white/5" />
       <header className="flex items-center justify-between px-5 pt-4 pb-3">
-        <h3 className="text-[13px] font-medium">{title}</h3>
+        <p className="text-[13px] font-medium">{title}</p>
         {meta && <span className="font-mono text-[10px] tracking-wider text-muted-foreground uppercase">{meta}</span>}
       </header>
       <div className="flex-1 px-5 pb-5">{children}</div>
@@ -95,7 +94,7 @@ function PackingChecklist() {
 
 function BudgetPlanner() {
   const rows = [
-    { l: "Accommodation", v: 42 },
+    { l: "Rent", v: 42 },
     { l: "Food", v: 28 },
     { l: "Transport", v: 12 },
     { l: "Books & printing", v: 10 },
@@ -103,7 +102,7 @@ function BudgetPlanner() {
   ];
   return (
     <div>
-      <p className="text-3xl font-semibold tracking-[-0.04em] tabular-nums">₦285,000</p>
+      <p className="text-3xl font-semibold tracking-[-0.04em] tabular-nums">$1,850</p>
       <p className="text-xs text-muted-foreground">First semester · planned</p>
       <div className="mt-4 flex h-2 overflow-hidden rounded-full">
         {rows.map((r, i) => (
@@ -254,7 +253,7 @@ function Calendar() {
           );
         })}
       </div>
-      <p className="mt-3 text-[11px] text-muted-foreground">Oct 14 · Resumption &amp; registration</p>
+      <p className="mt-3 text-[11px] text-muted-foreground">Oct 14 · Midterm exams begin</p>
     </div>
   );
 }
@@ -295,7 +294,7 @@ function ExpenseTracker() {
   return (
     <div>
       <div className="flex items-baseline justify-between">
-        <p className="text-2xl font-semibold tracking-[-0.04em] tabular-nums">₦18,400</p>
+        <p className="text-2xl font-semibold tracking-[-0.04em] tabular-nums">$64.20</p>
         <span className="text-[11px] text-success">−12% vs last week</span>
       </div>
       <svg viewBox="0 0 200 60" className="mt-3 h-16 w-full overflow-visible" aria-hidden>
@@ -316,56 +315,129 @@ function ExpenseTracker() {
       <ul className="mt-3 space-y-1.5 text-[12px]">
         <li className="flex justify-between">
           <span className="text-muted-foreground">Printing</span>
-          <span className="tabular-nums">₦1,200</span>
+          <span className="tabular-nums">$3.50</span>
         </li>
         <li className="flex justify-between">
           <span className="text-muted-foreground">Lunch</span>
-          <span className="tabular-nums">₦2,500</span>
+          <span className="tabular-nums">$8.00</span>
         </li>
       </ul>
     </div>
   );
 }
 
-export function Tools() {
+function WeeklyReset() {
+  const priorities = [
+    { t: "Finish lab report draft", d: true },
+    { t: "Read chapter 4 before Thursday", d: true },
+    { t: "Email tutor about project", d: false },
+  ];
+  const deadlines = [
+    { t: "Essay outline", when: "Wed" },
+    { t: "Problem set 3", when: "Fri" },
+  ];
   return (
-    <section id="planning" aria-labelledby="planning-title" className="relative overflow-hidden py-28 md:py-40">
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-1/3 mx-auto h-[60%] max-w-5xl rounded-full bg-[radial-gradient(closest-side,var(--accent),transparent)] opacity-70 blur-2xl" />
-      <div className="relative mx-auto max-w-[1240px] px-5">
-        <SectionHeading
-          id="planning-title"
-          eyebrow="Planning tools"
-          title="Quiet software for a loud season."
-          description="Eight small, focused tools that work together — so your plans, money and deadlines live in one calm place."
-        />
-
-        <Reveal className="mt-16 grid auto-rows-auto gap-4 sm:grid-cols-2 md:mt-24 lg:grid-cols-4">
-          <Window title="Semester Planner" meta="Week 1" className="sm:col-span-2">
-            <SemesterPlanner />
-          </Window>
-          <Window title="Packing Checklist" meta="Interactive">
-            <PackingChecklist />
-          </Window>
-          <Window title="Budget Planner">
-            <BudgetPlanner />
-          </Window>
-          <Window title="Assignment Tracker" meta="3 due" className="sm:col-span-2">
-            <AssignmentTracker />
-          </Window>
-          <Window title="Study Planner" meta="Focus">
-            <StudyPlanner />
-          </Window>
-          <Window title="Calendar" meta="Oct 2026">
-            <Calendar />
-          </Window>
-          <Window title="Goal Tracker" className="sm:col-span-2">
-            <GoalTracker />
-          </Window>
-          <Window title="Expense Tracker" meta="This week" className="sm:col-span-2">
-            <ExpenseTracker />
-          </Window>
-        </Reveal>
+    <div className="space-y-4">
+      <div className="flex items-end justify-between rounded-2xl bg-background/70 p-3 hairline">
+        <div>
+          <p className="text-[10px] tracking-wider text-muted-foreground uppercase">Exam countdown</p>
+          <p className="text-[13px] font-medium">Statistics midterm</p>
+        </div>
+        <p className="text-2xl font-semibold tracking-[-0.04em] tabular-nums">
+          12<span className="ml-1 text-xs font-medium tracking-normal text-muted-foreground">days</span>
+        </p>
       </div>
-    </section>
+      <div>
+        <p className="mb-2 text-[10px] tracking-wider text-muted-foreground uppercase">This week&rsquo;s priorities</p>
+        <ul className="space-y-1.5 text-[13px]">
+          {priorities.map((p) => (
+            <li key={p.t} className="flex items-center gap-2.5">
+              <span className={cn("grid size-4 shrink-0 place-items-center rounded-full", p.d ? "bg-foreground" : "border border-border-strong")} aria-hidden>
+                {p.d && (
+                  <svg viewBox="0 0 16 16" className="size-2.5">
+                    <path d="M4.5 8.2l2.2 2.2 4.8-4.8" stroke="var(--background)" strokeWidth="2.2" fill="none" strokeLinecap="round" />
+                  </svg>
+                )}
+              </span>
+              <span className={cn(p.d && "text-muted-foreground line-through")}>{p.t}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <p className="mb-2 text-[10px] tracking-wider text-muted-foreground uppercase">Upcoming deadlines</p>
+        <ul className="space-y-1.5 text-[12px]">
+          {deadlines.map((d) => (
+            <li key={d.t} className="flex justify-between">
+              <span>{d.t}</span>
+              <span className="font-mono text-[10px] text-muted-foreground">{d.when}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function GradeTracker() {
+  const rows = [
+    { c: "Calculus I", u: 3, g: "A", p: 5 },
+    { c: "Intro to Economics", u: 3, g: "B", p: 4 },
+    { c: "Academic Writing", u: 2, g: "A", p: 5 },
+    { c: "Statistics", u: 3, g: "B", p: 4 },
+  ];
+  const units = rows.reduce((s, r) => s + r.u, 0);
+  const gpa = rows.reduce((s, r) => s + r.u * r.p, 0) / units;
+  return (
+    <div>
+      <div className="flex items-baseline justify-between">
+        <div>
+          <p className="text-[10px] tracking-wider text-muted-foreground uppercase">Semester GPA</p>
+          <p className="text-3xl font-semibold tracking-[-0.04em] tabular-nums">{gpa.toFixed(2)}</p>
+        </div>
+        <p className="text-[11px] text-muted-foreground">5-point scale · editable</p>
+      </div>
+      <table className="mt-4 w-full text-[12px]">
+        <thead>
+          <tr className="text-left text-[10px] tracking-wider text-muted-foreground uppercase">
+            <th className="pb-2 font-medium">Course</th>
+            <th className="pb-2 text-right font-medium">Units</th>
+            <th className="pb-2 text-right font-medium">Grade</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-[var(--glass-edge)]">
+          {rows.map((r) => (
+            <tr key={r.c}>
+              <td className="py-1.5">{r.c}</td>
+              <td className="py-1.5 text-right tabular-nums">{r.u}</td>
+              <td className="py-1.5 text-right font-medium">{r.g}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+/** Every product preview, keyed by the id used in the catalogue. */
+export const previews: Record<PreviewId, { title: string; meta?: string; wide?: boolean; Component: () => React.JSX.Element }> = {
+  "weekly-reset": { title: "Weekly Reset", meta: "Week 6", Component: WeeklyReset },
+  "semester-planner": { title: "Semester Planner", meta: "Week 1", wide: true, Component: SemesterPlanner },
+  "assignment-tracker": { title: "Assignment Tracker", meta: "3 due", wide: true, Component: AssignmentTracker },
+  "study-planner": { title: "Study Planner", meta: "Focus", Component: StudyPlanner },
+  "budget-planner": { title: "Budget Planner", Component: BudgetPlanner },
+  calendar: { title: "Calendar", meta: "Oct 2026", Component: Calendar },
+  "goal-tracker": { title: "Goal Tracker", Component: GoalTracker },
+  "expense-tracker": { title: "Expense Tracker", meta: "This week", Component: ExpenseTracker },
+  "grade-tracker": { title: "Grade & GPA", meta: "Semester 1", Component: GradeTracker },
+  "packing-checklist": { title: "Checklist", meta: "Interactive", Component: PackingChecklist },
+};
+
+export function Preview({ id, className }: { id: PreviewId; className?: string }) {
+  const { title, meta, Component } = previews[id];
+  return (
+    <Window title={title} meta={meta} className={className}>
+      <Component />
+    </Window>
   );
 }

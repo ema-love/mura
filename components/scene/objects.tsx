@@ -14,49 +14,6 @@ function useSvgId(prefix: string) {
 type SvgProps = { className?: string };
 
 /* ------------------------------------------------------------------ */
-/* Admission letter                                                    */
-/* ------------------------------------------------------------------ */
-export function AdmissionLetter({ className }: SvgProps) {
-  const id = useSvgId("letter");
-  return (
-    <svg viewBox="0 0 250 350" className={className} aria-hidden>
-      <defs>
-        <linearGradient id={`${id}p`} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#FFFEFB" />
-          <stop offset="1" stopColor="#F1EEE7" />
-        </linearGradient>
-        <linearGradient id={`${id}f`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#000" stopOpacity="0.06" />
-          <stop offset="1" stopColor="#000" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <rect width="250" height="350" rx="3" fill={`url(#${id}p)`} />
-      {/* fold creases — the letter was folded in thirds and opened again */}
-      <rect y="116" width="250" height="16" fill={`url(#${id}f)`} />
-      <rect y="233" width="250" height="16" fill={`url(#${id}f)`} />
-      <line x1="0" x2="250" y1="116.5" y2="116.5" stroke="#000" strokeOpacity="0.07" />
-      <line x1="0" x2="250" y1="233.5" y2="233.5" stroke="#000" strokeOpacity="0.07" />
-      {/* crest */}
-      <circle cx="125" cy="38" r="15" fill="none" stroke="#3D5C47" strokeOpacity="0.55" strokeWidth="1.2" />
-      <circle cx="125" cy="38" r="10" fill="#E2EBE2" />
-      <path d="M119 40 l6-8 6 8z" fill="#3D5C47" fillOpacity="0.6" />
-      <rect x="85" y="62" width="80" height="3" rx="1.5" fill="#1F1F1F" fillOpacity="0.55" />
-      <rect x="100" y="70" width="50" height="2" rx="1" fill="#1F1F1F" fillOpacity="0.25" />
-      <text x="28" y="98" fontFamily="var(--font-geist-mono), monospace" fontSize="7" letterSpacing="1.6" fill="#1F1F1F" fillOpacity="0.7">
-        OFFER OF ADMISSION
-      </text>
-      {Array.from({ length: 12 }).map((_, i) => (
-        <rect key={i} x="28" y={140 + i * 10} width={i % 4 === 3 ? 120 : 194} height="2.4" rx="1.2" fill="#1F1F1F" fillOpacity="0.16" />
-      ))}
-      <path d="M30 290 c10 -14 18 6 26 -4 s12 -12 18 0 s10 4 22 -6" fill="none" stroke="#2B3A30" strokeWidth="1.4" strokeLinecap="round" opacity="0.75" />
-      <rect x="28" y="304" width="70" height="2" rx="1" fill="#1F1F1F" fillOpacity="0.2" />
-      <circle cx="196" cy="296" r="20" fill="#3D5C47" fillOpacity="0.08" />
-      <circle cx="196" cy="296" r="20" fill="none" stroke="#3D5C47" strokeOpacity="0.35" strokeDasharray="2 3" />
-    </svg>
-  );
-}
-
-/* ------------------------------------------------------------------ */
 /* Sticky notes                                                        */
 /* ------------------------------------------------------------------ */
 export function StickyNotes({ className }: SvgProps) {
@@ -70,34 +27,6 @@ export function StickyNotes({ className }: SvgProps) {
       <path d="M14 56 c8 -3 12 2 20 -1 s8 -2 14 1" fill="none" stroke="#2B3A30" strokeWidth="1.6" strokeLinecap="round" opacity="0.7" />
       <path d="M14 74 l5 5 9 -11" fill="none" stroke="#2B3A30" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" opacity="0.8" />
       <path d="M34 75 c6 -2 10 2 16 0 s8 -2 12 0" fill="none" stroke="#2B3A30" strokeWidth="1.6" strokeLinecap="round" opacity="0.5" />
-    </svg>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* USB drive                                                           */
-/* ------------------------------------------------------------------ */
-export function UsbDrive({ className }: SvgProps) {
-  const id = useSvgId("usb");
-  return (
-    <svg viewBox="0 0 44 110" className={className} aria-hidden>
-      <defs>
-        <linearGradient id={`${id}m`} x1="0" x2="1">
-          <stop offset="0" stopColor="#E8EAEC" />
-          <stop offset="0.5" stopColor="#B9BDC2" />
-          <stop offset="1" stopColor="#8E9399" />
-        </linearGradient>
-        <linearGradient id={`${id}b`} x1="0" x2="1">
-          <stop offset="0" stopColor="#4A5058" />
-          <stop offset="1" stopColor="#2C3036" />
-        </linearGradient>
-      </defs>
-      <rect x="10" y="0" width="24" height="30" rx="2" fill={`url(#${id}m)`} />
-      <rect x="15" y="7" width="5" height="5" rx="1" fill="#6B7076" />
-      <rect x="24" y="7" width="5" height="5" rx="1" fill="#6B7076" />
-      <rect x="4" y="26" width="36" height="84" rx="8" fill={`url(#${id}b)`} />
-      <circle cx="22" cy="96" r="4" fill="none" stroke="#fff" strokeOpacity="0.25" strokeWidth="2" />
-      <rect x="8" y="32" width="3" height="60" rx="1.5" fill="#fff" fillOpacity="0.08" />
     </svg>
   );
 }
@@ -221,38 +150,6 @@ export function Calculator({ className }: SvgProps) {
 }
 
 /* ------------------------------------------------------------------ */
-/* Water bottle (lying horizontally)                                   */
-/* ------------------------------------------------------------------ */
-export function WaterBottle({ className }: SvgProps) {
-  const id = useSvgId("bottle");
-  return (
-    <svg viewBox="0 0 340 96" className={className} aria-hidden>
-      <defs>
-        <linearGradient id={`${id}b`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#C3D2DF" />
-          <stop offset="0.3" stopColor="#E3ECF4" />
-          <stop offset="0.55" stopColor="#A9BCCD" />
-          <stop offset="1" stopColor="#7D93A7" />
-        </linearGradient>
-        <linearGradient id={`${id}c`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#5B6068" />
-          <stop offset="0.35" stopColor="#8A9098" />
-          <stop offset="1" stopColor="#2F3338" />
-        </linearGradient>
-      </defs>
-      <rect x="0" y="6" width="270" height="84" rx="30" fill={`url(#${id}b)`} />
-      <path d="M268 14 C284 18 290 26 292 30 L292 66 C290 70 284 78 268 82 Z" fill={`url(#${id}b)`} />
-      <rect x="290" y="22" width="50" height="52" rx="10" fill={`url(#${id}c)`} />
-      <rect x="318" y="30" width="14" height="36" rx="7" fill="none" stroke="#fff" strokeOpacity="0.25" strokeWidth="2" />
-      <rect x="16" y="24" width="230" height="4" rx="2" fill="#fff" fillOpacity="0.55" />
-      <text x="130" y="62" textAnchor="middle" fontFamily="var(--font-geist-sans), sans-serif" fontWeight="600" fontSize="11" letterSpacing="4" fill="#1F2622" fillOpacity="0.35">
-        MÚRÀ
-      </text>
-    </svg>
-  );
-}
-
-/* ------------------------------------------------------------------ */
 /* Student ID card on a lanyard                                        */
 /* ------------------------------------------------------------------ */
 export function StudentId({ className }: SvgProps) {
@@ -347,7 +244,7 @@ export function PlannerPage({ side, className }: SvgProps & { side: "left" | "ri
       ) : (
         <g>
           <text x="18" y="26" fontFamily="var(--font-geist-mono), monospace" fontSize="8" letterSpacing="1.2" fill="#1F1F1F" fillOpacity="0.7">
-            BEFORE RESUMPTION
+            THIS WEEK
           </text>
           {Array.from({ length: 8 }).map((_, i) => (
             <g key={i}>
@@ -448,105 +345,213 @@ export function LaptopScreen({ className }: SvgProps) {
       </defs>
       <rect width="420" height="290" rx="16" fill="#1A1C20" />
       <rect x="14" y="14" width="392" height="262" rx="6" fill={`url(#${id}s)`} />
-      {/* a tiny MÚRÀ dashboard on the screen */}
-      <rect x="30" y="30" width="80" height="6" rx="3" fill="#1F1F1F" fillOpacity="0.7" />
-      <rect x="30" y="44" width="50" height="4" rx="2" fill="#1F1F1F" fillOpacity="0.25" />
-      <circle cx="80" cy="130" r="40" fill="none" stroke="#fff" strokeWidth="10" />
-      <circle cx="80" cy="130" r="40" fill="none" stroke="#3D5C47" strokeWidth="10" strokeLinecap="round" strokeDasharray="251" strokeDashoffset="43" transform="rotate(-90 80 130)" />
-      {Array.from({ length: 5 }).map((_, i) => (
-        <g key={i}>
-          <rect x="150" y={92 + i * 18} width="10" height="10" rx="3" fill={i < 3 ? "#3D5C47" : "#fff"} stroke="#3D5C47" strokeOpacity="0.3" />
-          <rect x="168" y={95 + i * 18} width={[140, 100, 160, 120, 90][i]} height="4" rx="2" fill="#1F1F1F" fillOpacity={i < 3 ? 0.2 : 0.45} />
+      {/* the Semester System, open on screen */}
+      <text x="30" y="38" fontFamily="var(--font-geist-mono), monospace" fontSize="7" letterSpacing="1.6" fill="#1F1F1F" fillOpacity="0.45">
+        MÚRÀ SEMESTER SYSTEM
+      </text>
+      <text x="30" y="60" fontFamily="var(--font-geist-sans), sans-serif" fontWeight="600" fontSize="16" letterSpacing="-0.4" fill="#1F1F1F" fillOpacity="0.85">
+        Week 6 of 14
+      </text>
+      <rect x="30" y="70" width="360" height="4" rx="2" fill="#1F1F1F" fillOpacity="0.07" />
+      <rect x="30" y="70" width="154" height="4" rx="2" fill="#3D5C47" />
+      {["MON", "TUE", "WED", "THU", "FRI"].map((d, c) => (
+        <g key={d}>
+          <text x={34 + c * 72} y="94" fontFamily="var(--font-geist-mono), monospace" fontSize="6" letterSpacing="1" fill="#1F1F1F" fillOpacity="0.45">{d}</text>
+          {[0, 1, 2].map((r) =>
+            (c + r) % 3 !== 2 ? (
+              <rect key={r} x={30 + c * 72} y={102 + r * 34} width="64" height="28" rx="6" fill={(c + r) % 2 ? "#FFFFFF" : "#DCE7DC"} fillOpacity="0.95" />
+            ) : null,
+          )}
         </g>
       ))}
-      <rect x="30" y="206" width="360" height="52" rx="10" fill="#fff" fillOpacity="0.8" />
-      <rect x="44" y="224" width="140" height="5" rx="2.5" fill="#1F1F1F" fillOpacity="0.5" />
-      <rect x="44" y="236" width="90" height="4" rx="2" fill="#1F1F1F" fillOpacity="0.2" />
+      <rect x="30" y="212" width="360" height="48" rx="10" fill="#fff" fillOpacity="0.85" />
+      <text x="44" y="232" fontFamily="var(--font-geist-sans), sans-serif" fontWeight="500" fontSize="9" fill="#1F1F1F" fillOpacity="0.8">Next deadline · Essay outline</text>
+      <text x="44" y="246" fontFamily="var(--font-geist-sans), sans-serif" fontSize="7.5" fill="#1F1F1F" fillOpacity="0.45">Wednesday · Academic Writing</text>
     </svg>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* Backpack                                                            */
+/* Printed weekly timetable                                            */
 /* ------------------------------------------------------------------ */
-export function Backpack({ className }: SvgProps) {
-  const id = useSvgId("bp");
+export function PrintedSchedule({ className }: SvgProps) {
+  const id = useSvgId("sched");
+  const days = ["MON", "TUE", "WED", "THU", "FRI"];
+  const blocks: [number, number, number, boolean][] = [
+    [0, 0, 2, true], [0, 3, 1, false], [1, 1, 2, true], [2, 0, 1, false],
+    [2, 2, 2, true], [3, 1, 1, false], [4, 0, 2, true], [4, 3, 1, false],
+  ];
   return (
-    <svg viewBox="0 0 320 430" className={className} aria-hidden>
+    <svg viewBox="0 0 250 350" className={className} aria-hidden>
       <defs>
-        <linearGradient id={`${id}f`} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#6E7680" />
-          <stop offset="0.5" stopColor="#555C65" />
-          <stop offset="1" stopColor="#3F454D" />
-        </linearGradient>
         <linearGradient id={`${id}p`} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#7A838D" />
-          <stop offset="1" stopColor="#4B525A" />
+          <stop offset="0" stopColor="#FFFEFB" />
+          <stop offset="1" stopColor="#F0EDE5" />
         </linearGradient>
-        <linearGradient id={`${id}l`} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#B88A62" />
-          <stop offset="1" stopColor="#8A5E3C" />
-        </linearGradient>
-        <pattern id={`${id}w`} width="4" height="4" patternUnits="userSpaceOnUse">
-          <rect width="4" height="2" fill="#fff" fillOpacity="0.03" />
-          <rect width="2" height="4" fill="#000" fillOpacity="0.035" />
-        </pattern>
       </defs>
-      {/* top handle */}
-      <path d="M130 40 C130 6 190 6 190 40" fill="none" stroke="#353A41" strokeWidth="12" strokeLinecap="round" />
-      {/* body */}
-      <path d="M40 60 C40 36 70 24 160 24 C250 24 280 36 280 60 L292 390 C292 414 272 426 250 426 L70 426 C48 426 28 414 28 390 Z" fill={`url(#${id}f)`} />
-      <path d="M40 60 C40 36 70 24 160 24 C250 24 280 36 280 60 L292 390 C292 414 272 426 250 426 L70 426 C48 426 28 414 28 390 Z" fill={`url(#${id}w)`} />
-      {/* top zip arc */}
-      <path d="M58 92 C80 56 240 56 262 92" fill="none" stroke="#2B2F35" strokeWidth="5" strokeLinecap="round" />
-      <path d="M58 92 C80 56 240 56 262 92" fill="none" stroke="#fff" strokeOpacity="0.14" strokeWidth="1" strokeDasharray="2 2" />
-      <rect x="244" y="80" width="12" height="26" rx="5" fill={`url(#${id}l)`} transform="rotate(30 250 93)" />
-      {/* front pocket */}
-      <path d="M62 220 C62 206 72 200 90 200 L230 200 C248 200 258 206 258 220 L262 380 C262 396 250 404 234 404 L86 404 C70 404 58 396 58 380 Z" fill={`url(#${id}p)`} />
-      <path d="M62 220 C62 206 72 200 90 200 L230 200 C248 200 258 206 258 220 L262 380 C262 396 250 404 234 404 L86 404 C70 404 58 396 58 380 Z" fill="none" stroke="#fff" strokeOpacity="0.14" strokeDasharray="3 4" transform="translate(0 0)" />
-      <line x1="78" x2="242" y1="224" y2="224" stroke="#2B2F35" strokeWidth="4" strokeLinecap="round" />
-      <rect x="226" y="218" width="26" height="12" rx="5" fill={`url(#${id}l)`} />
-      {/* leather tab */}
-      <rect x="140" y="130" width="40" height="46" rx="8" fill={`url(#${id}l)`} />
-      <rect x="146" y="136" width="28" height="34" rx="5" fill="none" stroke="#fff" strokeOpacity="0.25" strokeDasharray="2 2" />
-      {/* light from the left */}
-      <path d="M40 60 L28 390 C28 400 30 410 36 416 L60 60 Z" fill="#fff" fillOpacity="0.08" />
+      <rect width="250" height="350" rx="3" fill={`url(#${id}p)`} />
+      <text x="24" y="36" fontFamily="var(--font-geist-mono), monospace" fontSize="7" letterSpacing="1.8" fill="#1F1F1F" fillOpacity="0.45">
+        MÚRÀ · SEMESTER SYSTEM
+      </text>
+      <text x="24" y="58" fontFamily="var(--font-geist-sans), sans-serif" fontWeight="600" fontSize="15" letterSpacing="-0.3" fill="#1F1F1F" fillOpacity="0.85">
+        Weekly timetable
+      </text>
+      {days.map((d, i) => (
+        <text key={d} x={30 + i * 42} y="86" fontFamily="var(--font-geist-mono), monospace" fontSize="6" letterSpacing="1" fill="#1F1F1F" fillOpacity="0.45">
+          {d}
+        </text>
+      ))}
+      {Array.from({ length: 6 }).map((_, r) => (
+        <line key={r} x1="24" x2="226" y1={96 + r * 38} y2={96 + r * 38} stroke="#1F1F1F" strokeOpacity="0.06" />
+      ))}
+      {blocks.map(([d, s0, len, accent], i) => (
+        <rect
+          key={i}
+          x={26 + d * 40}
+          y={100 + s0 * 38}
+          width="36"
+          height={len * 38 - 6}
+          rx="5"
+          fill={accent ? "#E2EBE2" : "#EFECE5"}
+          stroke={accent ? "#3D5C47" : "#1F1F1F"}
+          strokeOpacity={accent ? 0.25 : 0.06}
+        />
+      ))}
+      {/* a pencilled note */}
+      <path d="M150 318 c8 -10 14 4 22 -2 s10 -8 16 0" fill="none" stroke="#2B3A30" strokeWidth="1.3" strokeLinecap="round" opacity="0.55" />
+      <circle cx="136" cy="316" r="3" fill="none" stroke="#2B3A30" strokeOpacity="0.5" />
     </svg>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* Folded hoodie                                                       */
+/* Printed budget sheet                                                */
 /* ------------------------------------------------------------------ */
-export function FoldedHoodie({ className }: SvgProps) {
-  const id = useSvgId("hd");
+export function BudgetSheet({ className }: SvgProps) {
+  const id = useSvgId("budget");
+  const rows = [
+    ["Rent", "42%"], ["Food", "28%"], ["Transport", "12%"], ["Books", "10%"], ["Savings", "8%"],
+  ];
   return (
-    <svg viewBox="0 0 280 320" className={className} aria-hidden>
+    <svg viewBox="0 0 260 340" className={className} aria-hidden>
       <defs>
-        <linearGradient id={`${id}f`} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#E6E1D7" />
-          <stop offset="1" stopColor="#C9C1B2" />
+        <linearGradient id={`${id}p`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#FEFDF9" />
+          <stop offset="1" stopColor="#EEEBE3" />
         </linearGradient>
-        <pattern id={`${id}k`} width="3" height="5" patternUnits="userSpaceOnUse">
-          <rect width="1.2" height="5" fill="#000" fillOpacity="0.07" />
-        </pattern>
       </defs>
-      <rect width="280" height="320" rx="18" fill={`url(#${id}f)`} />
-      {/* hood fold */}
-      <path d="M40 0 L240 0 L240 60 C200 96 80 96 40 60 Z" fill="#000" fillOpacity="0.05" />
-      <path d="M40 60 C80 96 200 96 240 60" fill="none" stroke="#000" strokeOpacity="0.1" strokeWidth="2" />
-      {/* drawstrings */}
-      <path d="M118 78 C114 120 112 150 116 186" fill="none" stroke="#F7F4EE" strokeWidth="5" strokeLinecap="round" />
-      <path d="M162 78 C166 124 170 150 164 196" fill="none" stroke="#F7F4EE" strokeWidth="5" strokeLinecap="round" />
-      <rect x="112" y="184" width="8" height="16" rx="3" fill="#9BA3AC" />
-      <rect x="160" y="194" width="8" height="16" rx="3" fill="#9BA3AC" />
-      {/* sleeve folds */}
-      <path d="M18 120 L18 300" stroke="#000" strokeOpacity="0.07" strokeWidth="3" />
-      <path d="M262 120 L262 300" stroke="#000" strokeOpacity="0.07" strokeWidth="3" />
-      {/* ribbed hem */}
-      <rect x="0" y="276" width="280" height="44" rx="0" fill={`url(#${id}k)`} />
-      <path d="M0 276 L280 276" stroke="#000" strokeOpacity="0.08" strokeWidth="2" />
-      <rect width="280" height="320" rx="18" fill="none" stroke="#fff" strokeOpacity="0.35" />
+      <rect width="260" height="340" rx="3" fill={`url(#${id}p)`} />
+      <text x="24" y="36" fontFamily="var(--font-geist-mono), monospace" fontSize="7" letterSpacing="1.8" fill="#1F1F1F" fillOpacity="0.45">
+        MÚRÀ · STUDENT BUDGET
+      </text>
+      <text x="24" y="70" fontFamily="var(--font-geist-sans), sans-serif" fontWeight="600" fontSize="26" letterSpacing="-1" fill="#1F1F1F" fillOpacity="0.85">
+        $1,850
+      </text>
+      <text x="24" y="86" fontFamily="var(--font-geist-sans), sans-serif" fontSize="8" fill="#1F1F1F" fillOpacity="0.45">
+        Semester plan
+      </text>
+      {[0.42, 0.28, 0.12, 0.1, 0.08].reduce<[number, number][]>((acc, v) => {
+        const x = acc.length ? acc[acc.length - 1][0] + acc[acc.length - 1][1] : 0;
+        return [...acc, [x, v]];
+      }, []).map(([x, w], i) => (
+        <rect key={i} x={24 + x * 212} y="102" width={w * 212 - 2} height="8" rx="2" fill="#3D5C47" fillOpacity={0.85 - i * 0.16} />
+      ))}
+      {rows.map(([label, pct], i) => (
+        <g key={label} fontFamily="var(--font-geist-sans), sans-serif" fontSize="9" fill="#1F1F1F">
+          <text x="24" y={142 + i * 26} fillOpacity="0.55">{label}</text>
+          <text x="236" y={142 + i * 26} textAnchor="end" fillOpacity="0.8">{pct}</text>
+          <line x1="24" x2="236" y1={150 + i * 26} y2={150 + i * 26} stroke="#1F1F1F" strokeOpacity="0.06" />
+        </g>
+      ))}
+      <path d="M26 300 L60 288 L92 294 L126 276 L160 282 L196 264 L234 270" fill="none" stroke="#3D5C47" strokeOpacity="0.6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Tablet showing the Assignment Command Center                        */
+/* ------------------------------------------------------------------ */
+export function Tablet({ className }: SvgProps) {
+  const id = useSvgId("tab");
+  const rows: [string, string, number][] = [
+    ["Calculus problem set", "Done", 0],
+    ["Lab report: titration", "In progress", 1],
+    ["Essay outline", "Not started", 2],
+    ["Group presentation", "Not started", 2],
+    ["Reading response", "In progress", 1],
+  ];
+  return (
+    <svg viewBox="0 0 280 376" className={className} aria-hidden>
+      <defs>
+        <linearGradient id={`${id}b`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#3A3E44" />
+          <stop offset="1" stopColor="#1C1E22" />
+        </linearGradient>
+        <linearGradient id={`${id}s`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#FBFBF9" />
+          <stop offset="1" stopColor="#EEF2EC" />
+        </linearGradient>
+      </defs>
+      <rect width="280" height="376" rx="24" fill={`url(#${id}b)`} />
+      <rect x="12" y="12" width="256" height="352" rx="14" fill={`url(#${id}s)`} />
+      <text x="30" y="46" fontFamily="var(--font-geist-mono), monospace" fontSize="6.5" letterSpacing="1.6" fill="#1F1F1F" fillOpacity="0.45">
+        ASSIGNMENT COMMAND CENTER
+      </text>
+      <text x="30" y="70" fontFamily="var(--font-geist-sans), sans-serif" fontWeight="600" fontSize="17" letterSpacing="-0.4" fill="#1F1F1F" fillOpacity="0.85">
+        This week
+      </text>
+      <rect x="30" y="84" width="220" height="4" rx="2" fill="#1F1F1F" fillOpacity="0.07" />
+      <rect x="30" y="84" width="88" height="4" rx="2" fill="#3D5C47" />
+      {rows.map(([t, status, k], i) => (
+        <g key={t} fontFamily="var(--font-geist-sans), sans-serif">
+          <rect x="24" y={104 + i * 46} width="232" height="38" rx="10" fill="#FFFFFF" stroke="#1F1F1F" strokeOpacity="0.05" />
+          <text x="38" y={121 + i * 46} fontSize="9" fontWeight="500" fill="#1F1F1F" fillOpacity={k === 0 ? 0.45 : 0.85}>{t}</text>
+          <text x="38" y={133 + i * 46} fontSize="7" fill="#1F1F1F" fillOpacity="0.4">due {["Mon", "Wed", "Fri", "Fri", "Thu"][i]}</text>
+          <rect x={k === 0 ? 212 : k === 1 ? 196 : 194} y={114 + i * 46} width={k === 0 ? 32 : k === 1 ? 48 : 50} height="16" rx="8" fill={k === 0 ? "#1F1F1F" : k === 1 ? "#E2EBE2" : "#FFFFFF"} stroke="#1F1F1F" strokeOpacity={k === 2 ? 0.12 : 0} />
+          <text x={k === 0 ? 228 : k === 1 ? 220 : 219} y={125 + i * 46} textAnchor="middle" fontSize="6.5" fontWeight="500" fill={k === 0 ? "#FFFFFF" : k === 1 ? "#3D5C47" : "#6E6E6A"}>{status}</text>
+        </g>
+      ))}
+      <rect x="0" y="0" width="280" height="376" rx="24" fill="none" stroke="#fff" strokeOpacity="0.08" />
+    </svg>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Phone showing an exam countdown                                     */
+/* ------------------------------------------------------------------ */
+export function Phone({ className }: SvgProps) {
+  const id = useSvgId("ph");
+  return (
+    <svg viewBox="0 0 100 204" className={className} aria-hidden>
+      <defs>
+        <linearGradient id={`${id}b`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#4A4F57" />
+          <stop offset="1" stopColor="#23262B" />
+        </linearGradient>
+        <linearGradient id={`${id}s`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#F4F7F2" />
+          <stop offset="1" stopColor="#E2EBE2" />
+        </linearGradient>
+      </defs>
+      <rect width="100" height="204" rx="18" fill={`url(#${id}b)`} />
+      <rect x="5" y="5" width="90" height="194" rx="14" fill={`url(#${id}s)`} />
+      <rect x="38" y="10" width="24" height="6" rx="3" fill="#1C1E22" />
+      <text x="50" y="52" textAnchor="middle" fontFamily="var(--font-geist-mono), monospace" fontSize="4.6" letterSpacing="1" fill="#1F1F1F" fillOpacity="0.5">
+        EXAM COUNTDOWN
+      </text>
+      <text x="50" y="98" textAnchor="middle" fontFamily="var(--font-geist-sans), sans-serif" fontWeight="600" fontSize="34" letterSpacing="-2" fill="#1F1F1F" fillOpacity="0.88">
+        12
+      </text>
+      <text x="50" y="110" textAnchor="middle" fontFamily="var(--font-geist-sans), sans-serif" fontSize="6" fill="#1F1F1F" fillOpacity="0.5">
+        days · Statistics
+      </text>
+      {Array.from({ length: 3 }).map((_, i) => (
+        <g key={i}>
+          <rect x="14" y={128 + i * 18} width="72" height="12" rx="4" fill="#FFFFFF" fillOpacity="0.85" />
+          <rect x="19" y={132 + i * 18} width={[40, 30, 46][i]} height="3" rx="1.5" fill="#1F1F1F" fillOpacity="0.3" />
+        </g>
+      ))}
+      <rect x="0" y="0" width="100" height="204" rx="18" fill="none" stroke="#fff" strokeOpacity="0.1" />
     </svg>
   );
 }

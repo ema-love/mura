@@ -1,42 +1,47 @@
 import { Nav } from "@/components/site/nav";
 import { Footer } from "@/components/site/footer";
 import { Hero } from "@/components/sections/hero";
-import { Assembly } from "@/components/sections/assembly";
 import { Why } from "@/components/sections/why";
-import { Timeline } from "@/components/sections/timeline";
-import { Builder } from "@/components/sections/builder";
-import { Universities } from "@/components/sections/universities";
+import { Assembly } from "@/components/sections/assembly";
+import { FreeFeature } from "@/components/sections/free-feature";
+import { FeaturedSystems } from "@/components/sections/featured-systems";
+import { InsideSystems } from "@/components/sections/inside-systems";
 import { Collections } from "@/components/sections/collections";
-import { Tools } from "@/components/sections/tools";
-import { DashboardPreview } from "@/components/sections/dashboard";
+import { BundlesSection } from "@/components/sections/bundles-section";
 import { Resources } from "@/components/sections/resources";
 import { Closing } from "@/components/sections/closing";
+import { categoriesWithProducts, productsInCategory } from "@/lib/catalog";
 
 /**
- * The homepage is a story, not a storefront:
- * Arrival → Understanding → Planning → Preparation → Confidence → University.
+ * The storefront homepage is still a story:
+ * Arrival → Understanding → Discovery → Preparation → Product systems → Confidence → Purchase.
  */
 export default function Home() {
+  const collectionRows = categoriesWithProducts().map((category) => ({
+    category,
+    products: productsInCategory(category.id).map(({ id, name, status }) => ({ id, name, status })),
+  }));
+
   return (
     <>
       <Nav />
       <main id="main">
         {/* Arrival */}
         <Hero />
-        <Assembly />
         {/* Understanding */}
         <Why />
-        <Timeline />
-        {/* Planning */}
-        <Builder />
-        <Universities />
-        {/* Preparation */}
-        <Collections />
-        <Tools />
+        {/* Discovery */}
+        <Assembly />
+        {/* Preparation — start free */}
+        <FreeFeature />
+        {/* Product systems */}
+        <FeaturedSystems />
+        <InsideSystems />
+        <Collections rows={collectionRows} />
+        <BundlesSection />
         {/* Confidence */}
-        <DashboardPreview />
         <Resources />
-        {/* University */}
+        {/* Purchase */}
         <Closing />
       </main>
       <Footer />

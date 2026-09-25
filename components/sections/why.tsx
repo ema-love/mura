@@ -3,11 +3,14 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { Reveal } from "@/components/ui/reveal";
-import { essentials } from "@/lib/data/essentials";
-import { stages } from "@/lib/data/timeline";
 
-const statement =
-  "University shouldn’t begin with uncertainty. It should begin with confidence.";
+const statement = "Student life shouldn’t run on memory. It should run on a system.";
+
+const principles = [
+  { title: "Pay once", body: "No subscriptions. The files are yours to keep and reuse." },
+  { title: "Delivered by email", body: "A secure download link, straight after checkout. No account needed." },
+  { title: "Your format", body: "Printable PDF, Google Sheets or Excel — whichever way you work." },
+];
 
 function Word({ children, progress, range }: { children: string; progress: MotionValue<number>; range: [number, number] }) {
   const opacity = useTransform(progress, range, [0.14, 1]);
@@ -26,7 +29,7 @@ export function Why() {
 
   return (
     <section aria-labelledby="why-title" className="relative py-32 md:py-48">
-      <div className="mx-auto max-w-[1240px] px-5">
+      <div className="page">
         <Reveal>
           <p className="eyebrow">Why MÚRÀ exists</p>
         </Reveal>
@@ -44,23 +47,17 @@ export function Why() {
         <div className="mt-20 grid gap-12 md:mt-28 md:grid-cols-12">
           <Reveal className="md:col-span-5 md:col-start-6">
             <p className="text-xl leading-relaxed text-pretty text-muted-foreground md:text-2xl md:leading-relaxed">
-              MÚRÀ exists to help students prepare thoughtfully so they can spend less time worrying and more time{" "}
-              <span className="text-foreground">becoming.</span>
+              Deadlines in group chats. Exam dates in your head. Money that runs out before the month does. MÚRÀ makes the
+              planners, trackers and templates that turn all of it into something you can see —{" "}
+              <span className="text-foreground">so you always know what to do next.</span>
             </p>
           </Reveal>
           <Reveal delay={0.1} className="md:col-span-3 md:col-start-11">
             <dl className="space-y-8 border-l pl-6">
-              {[
-                ["6", "questions to a personal plan"],
-                [String(essentials.length), "essentials, each with a reason"],
-                [String(stages.length), "stages from letter to thriving"],
-              ].map(([n, label]) => (
-                <div key={label}>
-                  <dt className="sr-only">{label}</dt>
-                  <dd>
-                    <span className="block text-4xl font-semibold tracking-[-0.04em] tabular-nums">{n}</span>
-                    <span className="mt-1 block text-sm text-muted-foreground">{label}</span>
-                  </dd>
+              {principles.map((p) => (
+                <div key={p.title}>
+                  <dt className="text-[15px] font-semibold tracking-[-0.01em]">{p.title}</dt>
+                  <dd className="mt-1 text-sm leading-relaxed text-muted-foreground">{p.body}</dd>
                 </div>
               ))}
             </dl>

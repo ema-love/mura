@@ -23,6 +23,8 @@ export type Category = {
   /** Editorial introduction for the collection page. */
   statement: string;
   order: number;
+  /** Two-stop surface tone for product art in this category. */
+  tone: [string, string];
 };
 
 /**

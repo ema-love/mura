@@ -6,7 +6,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DeskScene } from "@/components/scene/desk-scene";
-import { PrepPanel } from "./prep-panel";
+import { ResetPanel } from "./reset-panel";
 import { Ambient } from "./ambient";
 import { ease } from "@/lib/utils";
 
@@ -54,9 +54,10 @@ export function Hero() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease, delay: 0.7 }}
-          className="lede mx-auto mt-7 max-w-xl"
+          className="lede mx-auto mt-7 max-w-2xl"
         >
-          Everything you need before your first day at university.
+          Systems for student life — planners, trackers and templates that bring clarity to every semester, with less
+          chaos.
         </motion.p>
 
         <motion.div
@@ -66,13 +67,13 @@ export function Hero() {
           className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row"
         >
           <Button asChild size="xl">
-            <Link href="/#builder">
-              Find Your Pack
+            <Link href="/systems">
+              Explore Systems
               <ArrowRight className="transition-transform duration-300 group-hover/button:translate-x-0.5" />
             </Link>
           </Button>
           <Button asChild size="xl" variant="secondary">
-            <Link href="/#resources">Explore Resources</Link>
+            <Link href="/products/student-reset">Start Free</Link>
           </Button>
         </motion.div>
       </motion.div>
@@ -82,9 +83,9 @@ export function Hero() {
           <div className="-mx-[18%] sm:mx-0">
             <DeskScene mode="hero" />
           </div>
-          <PrepPanel className="absolute -right-2 -bottom-16 hidden lg:block xl:-right-8" />
+          <ResetPanel className="absolute -right-2 -bottom-16 hidden lg:block xl:-right-8" />
         </motion.div>
-        <PrepPanel className="mx-auto mt-10 lg:hidden" />
+        <ResetPanel className="mx-auto mt-10 lg:hidden" />
       </div>
     </section>
   );

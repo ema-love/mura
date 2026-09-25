@@ -6,25 +6,28 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
-import { collections } from "@/lib/data/collections";
+import type { Category, Product } from "@/lib/catalog/types";
 import { cn, ease } from "@/lib/utils";
 
-export function Collections() {
-  const [open, setOpen] = useState(collections[0].id);
+type Row = { category: Category; products: Pick<Product, "id" | "name" | "status">[] };
+
+/** Categories as curated collections — an editorial index, not a shelf. */
+export function Collections({ rows }: { rows: Row[] }) {
+  const [open, setOpen] = useState(rows[0]?.category.id);
 
   return (
-    <section id="collections" aria-labelledby="collections-title" className="relative py-28 md:py-40">
-      <div className="mx-auto max-w-[1240px] px-5">
+    <section id="collections" aria-labelledby="collections-title" className="relative py-section">
+      <div className="page">
         <SectionHeading
           id="collections-title"
-          eyebrow="Curated preparation"
-          title="Collections, not catalogues."
-          description="Each collection is edited by discipline — assembled around the first weeks of a real programme, so you arrive with exactly what the work asks for."
+          eyebrow="Collections"
+          title="A system for every part of student life."
+          description="From your first week of term to your first internship application."
         />
 
         <Reveal className="mt-16 border-t md:mt-24">
           <ul>
-            {collections.map((c, i) => {
+            {rows.map(({ category: c, products }, i) => {
               const expanded = open === c.id;
               return (
                 <li key={c.id} className="border-b">
@@ -33,7 +36,7 @@ export function Collections() {
                       onClick={() => setOpen(c.id)}
                       aria-expanded={expanded}
                       aria-controls={`collection-${c.id}`}
-                      className="group grid w-full grid-cols-[2.5rem_1fr_auto] items-baseline gap-4 py-7 text-left md:grid-cols-[4rem_1fr_16rem_auto] md:py-9"
+                      className="group grid w-full grid-cols-[2.5rem_1fr_auto] items-baseline gap-4 py-7 text-left md:grid-cols-[4rem_1fr_18rem_auto] md:py-9"
                     >
                       <span className="font-mono text-xs text-subtle-foreground tabular-nums">{String(i + 1).padStart(2, "0")}</span>
                       <span
@@ -42,10 +45,10 @@ export function Collections() {
                           expanded ? "text-foreground" : "text-subtle-foreground group-hover:text-foreground",
                         )}
                       >
-                        {c.title}
+                        {c.name}
                       </span>
-                      <span className="hidden text-sm text-muted-foreground md:block">{c.for}</span>
-                      <span className="font-mono text-xs text-muted-foreground tabular-nums">{c.pieces} pieces</span>
+                      <span className="hidden text-sm text-muted-foreground md:block">{c.summary}</span>
+                      <span className="font-mono text-xs text-muted-foreground tabular-nums">{products.length}</span>
                     </button>
                   </h3>
                   <AnimatePresence initial={false}>
@@ -63,13 +66,13 @@ export function Collections() {
                           <div>
                             <p className="max-w-md text-xl leading-relaxed text-pretty text-muted-foreground">{c.statement}</p>
                             <Link
-                              href="/#builder"
+                              href={`/collections/${c.slug}`}
                               className="mt-8 inline-flex items-center gap-1.5 text-sm font-medium underline-offset-4 hover:underline"
                             >
-                              Prepare with this collection <ArrowUpRight className="size-4" />
+                              Explore {c.name} <ArrowUpRight className="size-4" aria-hidden />
                             </Link>
                           </div>
-                          <StillLife items={c.items} tone={c.tone} />
+                          <StillLife items={products} tone={c.tone} />
                         </div>
                       </motion.div>
                     )}
@@ -84,27 +87,29 @@ export function Collections() {
   );
 }
 
-/** A composed arrangement of the collection's pieces — presented like an exhibit, not a shelf. */
-function StillLife({ items, tone }: { items: string[]; tone: [string, string] }) {
+/** The collection's pieces, composed like an exhibit. */
+function StillLife({ items, tone }: { items: Row["products"]; tone: [string, string] }) {
   return (
     <div
-      className="relative aspect-[5/3] overflow-hidden rounded-[28px] p-6 dark:opacity-90"
+      className="relative min-h-56 overflow-hidden rounded-[28px] p-6 dark:opacity-90"
       style={{ background: `linear-gradient(135deg, ${tone[0]}, ${tone[1]})` }}
     >
       <div className="grain absolute inset-0 opacity-[0.08] mix-blend-multiply" aria-hidden />
       <div aria-hidden className="absolute -right-10 -bottom-16 size-64 rounded-full bg-white/50 blur-2xl" />
       <ul className="relative flex h-full flex-wrap content-end gap-2">
-        {items.map((item, i) => (
+        {items.slice(0, 12).map((item, i) => (
           <motion.li
-            key={item}
+            key={item.id}
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease, delay: 0.15 + i * 0.06 }}
+            transition={{ duration: 0.6, ease, delay: 0.15 + i * 0.05 }}
             className="rounded-full bg-white/80 px-4 py-2 text-sm font-medium text-[#1f1f1f] shadow-[0_8px_20px_-10px_rgb(32_28_20/0.35)] backdrop-blur"
           >
-            {item}
+            {item.name.replace(/^(Mura|MURA) /, "")}
+            {item.status === "upcoming" && <span className="ml-1.5 text-xs font-normal text-black/45">· soon</span>}
           </motion.li>
         ))}
+        {items.length > 12 && <li className="px-2 py-2 text-sm text-[#1f1f1f]/60">+ {items.length - 12} more</li>}
       </ul>
     </div>
   );

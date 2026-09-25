@@ -8,27 +8,25 @@ import { ProgressRing } from "@/components/ui/progress-ring";
 import { cn, ease } from "@/lib/utils";
 
 const beats = [
-  { at: 0, title: "It begins with a letter.", body: "Your place is confirmed. Everything from here is preparation." },
-  { at: 0.1, title: "Notebook appears.", body: "One for each course. Somewhere for every idea to land." },
-  { at: 0.28, title: "Laptop opens.", body: "Portals, assignments, research — ready before registration." },
-  { at: 0.48, title: "Backpack slides into place.", body: "Everything you carry, organised by what you'll need first." },
-  { at: 0.56, title: "Planner unfolds.", body: "Every deadline, every lecture, every quiet hour — visible." },
-  { at: 0.72, title: "Student ID arrives.", body: "You're not preparing to belong. You already do." },
-  { at: 0.8, title: "Checklist fills.", body: "The last pieces settle. Nothing forgotten." },
-  { at: 0.95, title: "Prepared.", body: "The room is quiet. The morning is yours." },
+  { at: 0, title: "It starts with a timetable.", body: "And a few sticky notes. And a lot to remember." },
+  { at: 0.1, title: "Notes find a home.", body: "One place for every course, so nothing gets lost between lectures." },
+  { at: 0.28, title: "The semester comes into view.", body: "Weeks, courses and deadlines — visible at a glance." },
+  { at: 0.48, title: "Every assignment has a status.", body: "Done, in progress, not started. No more surprises on Friday." },
+  { at: 0.56, title: "The week gets a plan.", body: "Priorities first. Study time protected. Room left for rest." },
+  { at: 0.76, title: "Grades and money, accounted for.", body: "Know where your GPA stands and where your budget goes." },
+  { at: 0.95, title: "You have a system.", body: "This is what prepared feels like." },
 ];
 
 const checklist = [
-  { at: 0, label: "Admission letter" },
-  { at: 0.14, label: "Notebooks" },
-  { at: 0.24, label: "Stationery & USB drive" },
-  { at: 0.44, label: "Laptop" },
-  { at: 0.54, label: "Backpack" },
-  { at: 0.7, label: "Semester planner" },
-  { at: 0.78, label: "Student ID" },
-  { at: 0.86, label: "Headphones & calculator" },
-  { at: 0.92, label: "Water bottle" },
-  { at: 0.97, label: "A warm layer" },
+  { at: 0, label: "Timetable" },
+  { at: 0.14, label: "Course notes" },
+  { at: 0.22, label: "Exam countdown" },
+  { at: 0.44, label: "Semester overview" },
+  { at: 0.54, label: "Assignment tracker" },
+  { at: 0.7, label: "Weekly plan" },
+  { at: 0.8, label: "Study sessions" },
+  { at: 0.88, label: "Grade tracker" },
+  { at: 0.95, label: "Student budget" },
 ];
 
 export function Assembly() {
@@ -63,9 +61,9 @@ export function Assembly() {
           </div>
 
           <div className="order-1 lg:order-2">
-            <p className="eyebrow">Living preparation</p>
+            <p className="eyebrow">From chaos to a system</p>
             <h2 id="assembly-title" className="sr-only">
-              Watch your workspace assemble as you prepare
+              Watch a scattered desk become an organised system
             </h2>
             <div className="relative mt-5 min-h-[7.5rem] sm:min-h-[9rem]" aria-live="polite">
               <AnimatePresence mode="wait">
@@ -86,9 +84,9 @@ export function Assembly() {
               <div className="flex items-center gap-5">
                 <ProgressRing value={score} size={92} stroke={6} />
                 <div>
-                  <p className="eyebrow !text-[10px]">Preparation score</p>
+                  <p className="eyebrow !text-[10px]">Your system</p>
                   <p className="mt-1.5 text-sm text-muted-foreground">
-                    {checklist.filter((c) => p >= c.at).length} of {checklist.length} essentials ready
+                    {checklist.filter((c) => p >= c.at).length} of {checklist.length} pieces in place
                   </p>
                 </div>
               </div>
@@ -117,7 +115,7 @@ export function Assembly() {
 
             <div className="mt-6 flex items-center gap-3 sm:hidden">
               <ProgressRing value={score} size={56} stroke={4} />
-              <p className="text-sm text-muted-foreground">Preparation score</p>
+              <p className="text-sm text-muted-foreground">Your system</p>
             </div>
           </div>
         </div>
