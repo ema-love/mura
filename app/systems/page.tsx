@@ -7,6 +7,7 @@ import { StoreBrowser } from "@/components/store/store-browser";
 import { ProductGrid } from "@/components/store/product-card";
 import { Ambient } from "@/components/sections/ambient";
 import { visibleProducts } from "@/lib/catalog";
+import { CampaignBanner } from "@/components/site/campaign-banner";
 
 export const metadata: Metadata = {
   title: "Systems — planners, trackers and templates for students",
@@ -24,6 +25,7 @@ export default function SystemsPage() {
           <Ambient />
           <div className="page relative">
             <Reveal>
+              <CampaignBanner className="mx-0 mb-8" />
               <p className="eyebrow">Shop MÚRÀ</p>
               <h1 id="systems-title" className="display mt-6 text-[clamp(3rem,9vw,8rem)]">
                 Systems.

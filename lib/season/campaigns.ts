@@ -36,8 +36,17 @@ export const campaigns: Campaign[] = [
   },
 ];
 
-export function activeCampaign(now = new Date()): Campaign | undefined {
+/**
+ * A campaign runs when it's switched on — in this file, or by naming it in
+ * NEXT_PUBLIC_ACTIVE_CAMPAIGN — and today falls between its dates.
+ */
+export function activeCampaign(now = new Date(), envCampaign = process.env.NEXT_PUBLIC_ACTIVE_CAMPAIGN): Campaign | undefined {
   return campaigns.find(
-    (c) => c.enabled && new Date(c.startsAt) <= now && now <= new Date(c.endsAt) && c.percentOff > 0 && c.percentOff < 100,
+    (c) =>
+      (c.enabled || c.id === envCampaign) &&
+      new Date(c.startsAt) <= now &&
+      now <= new Date(c.endsAt) &&
+      c.percentOff > 0 &&
+      c.percentOff < 100,
   );
 }

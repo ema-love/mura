@@ -3,6 +3,11 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import { Providers } from "@/components/providers/providers";
 import { brand } from "@/lib/brand";
+import { SeasonalTheme } from "@/components/site/seasonal-theme";
+import { activeSeasonId } from "@/lib/season/seasons";
+
+/** Re-render hourly so campaigns start and end on their dates without a redeploy. */
+export const revalidate = 3600;
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -34,8 +39,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en"
       suppressHydrationWarning
+      data-season={activeSeasonId}
       className={`${GeistSans.variable} ${GeistMono.variable}`}
     >
+      <head>
+        <SeasonalTheme />
+      </head>
       <body className="min-h-dvh font-sans">
         <Providers>
           <a

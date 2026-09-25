@@ -20,6 +20,14 @@ export type Season = {
   mark?: "heart" | "leaf" | "star" | "pencil";
 };
 
+/** CSS custom-property overrides for a season's accent, or null to keep MÚRÀ green. */
+export function seasonAccentCss(season: Season) {
+  if (!season.accent) return null;
+  const { light, dark } = season.accent;
+  const vars = (c: { accent: string; soft: string; ink: string }) => `--accent:${c.accent};--accent-soft:${c.soft};--accent-ink:${c.ink};`;
+  return `:root{${vars(light)}}.dark{${vars(dark)}}`;
+}
+
 export const seasons: Record<SeasonId, Season> = {
   default: { id: "default", label: "Default" },
   valentines: {

@@ -9,6 +9,9 @@ import { DeskScene } from "@/components/scene/desk-scene";
 import { ResetPanel } from "./reset-panel";
 import { Ambient } from "./ambient";
 import { ease } from "@/lib/utils";
+import { activeSeason } from "@/lib/season/seasons";
+import { CampaignBanner } from "@/components/site/campaign-banner";
+import { SeasonalMark } from "@/components/site/seasonal-mark";
 
 const headline = ["Prepare", "yourself."];
 
@@ -19,19 +22,30 @@ export function Hero() {
   const deskY = useTransform(scrollYProgress, [0, 0.6], [0, -60]);
   const copyOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
   const copyY = useTransform(scrollYProgress, [0, 0.35], [0, -40]);
+  const season = activeSeason();
 
   return (
     <section ref={ref} aria-labelledby="hero-title" className="relative overflow-hidden pt-32 pb-24 sm:pt-40 md:pb-32">
       <Ambient />
       <motion.div style={{ opacity: copyOpacity, y: copyY }} className="relative mx-auto max-w-[1240px] px-5 text-center">
+        <CampaignBanner />
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease, delay: 0.2 }}
           className="mx-auto inline-flex items-center gap-2 rounded-full bg-card/70 py-1.5 pr-3.5 pl-2 text-[12px] font-medium text-muted-foreground hairline backdrop-blur"
         >
-          <span className="rounded-full bg-accent px-2 py-0.5 font-mono text-[10px] tracking-wider text-accent-ink">MÚRÀ</span>
-          Moo-rah · <em className="not-italic text-foreground">prepare yourself</em>
+          <span className="inline-flex items-center gap-1 rounded-full bg-accent px-2 py-0.5 font-mono text-[10px] tracking-wider text-accent-ink">
+            <SeasonalMark mark={season.mark} className="size-3" />
+            MÚRÀ
+          </span>
+          {season.heroNote ? (
+            <em className="not-italic text-foreground">{season.heroNote}</em>
+          ) : (
+            <>
+              Moo-rah · <em className="not-italic text-foreground">prepare yourself</em>
+            </>
+          )}
         </motion.p>
 
         <h1 id="hero-title" className="display mt-8 text-[clamp(3.5rem,11vw,10.5rem)]">
