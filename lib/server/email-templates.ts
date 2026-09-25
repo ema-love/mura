@@ -39,14 +39,14 @@ export function deliveryEmail({ lines, free, orderId }: { lines: DeliveryLine[];
     `<h1 style="margin:0;font-size:26px;line-height:1.15;letter-spacing:-0.02em;">${free ? "Here's your free download." : "Thank you. Your files are ready."}</h1>
 <p style="margin:14px 0 22px;font-size:15px;line-height:1.6;color:#6e6e6a;">Your ${lines.length === 1 ? "link is" : "links are"} private to you and ${lines.length === 1 ? "stays" : "stay"} active for a few days. If a link expires, you can request a fresh one at any time.</p>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${items}</table>
-<p style="margin:24px 0 0;font-size:13px;line-height:1.6;color:#8a8a86;">Need your files again later? Visit <a href="${esc(absoluteUrl("/access"))}" style="color:#3d5c47;">${esc(absoluteUrl("/access"))}</a> and enter this email address.<br>Order reference: ${esc(orderId)}</p>`,
+<p style="margin:24px 0 0;font-size:13px;line-height:1.6;color:#8a8a86;">Need your files again later? Visit <a href="${esc(absoluteUrl("/access"))}" style="color:#3d5c47;">${esc(absoluteUrl("/access"))}</a> and enter this email address.<br>Order number: ${esc(orderId)}</p>`,
   );
   const text = [
     free ? "Here's your free download." : "Thank you. Your files are ready.",
     "",
     ...lines.map((l) => `${l.productName}\n${l.url}\n`),
     `Need your files again later? Visit ${absoluteUrl("/access")} and enter this email address.`,
-    `Order reference: ${orderId}`,
+    `Order number: ${orderId}`,
     "",
     `${brand.name} · ${brand.promise}`,
   ].join("\n");
@@ -85,7 +85,7 @@ export function orderNotification({ orderId, email, items, free }: { orderId: st
     subject,
     `<p style="margin:0 0 6px;font-size:13px;color:#8a8a86;">${free ? "Free product claimed" : "Order paid and delivered"}</p>
 <h1 style="margin:0 0 14px;font-size:22px;letter-spacing:-0.02em;">${esc(items.join(", "))}</h1>
-<p style="margin:0;font-size:14px;line-height:1.7;color:#6e6e6a;">Customer: ${esc(email)}<br>Order: ${esc(orderId)}</p>`,
+<p style="margin:0;font-size:14px;line-height:1.7;color:#6e6e6a;">Customer: ${esc(email)}<br>Order number: ${esc(orderId)}</p>`,
   );
-  return { subject, html, text: `${subject}\nCustomer: ${email}\nOrder: ${orderId}` };
+  return { subject, html, text: `${subject}\nCustomer: ${email}\nOrder number: ${orderId}` };
 }

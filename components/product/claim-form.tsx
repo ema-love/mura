@@ -6,6 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Check, LoaderCircle } from "lucide-react";
 import { z } from "zod";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -81,7 +82,10 @@ export function ClaimForm({ productId, productName, className }: { productId: st
               </p>
             ) : (
               <p id={`claim-${productId}-note`} className="mt-2 text-xs text-muted-foreground">
-                No payment, no account. We only email you your download.
+                No payment, no account. We only email you your download.{" "}
+                <Link href="/privacy" className="underline underline-offset-4 hover:text-foreground">
+                  Privacy Policy
+                </Link>
               </p>
             )}
           </motion.form>

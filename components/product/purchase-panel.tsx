@@ -43,6 +43,20 @@ export function PurchasePanel({ product }: { product: Product }) {
         </p>
       )}
 
+      {!free && isAvailable(product) && paymentsEnabled && (
+        <p className="mt-3 text-xs text-muted-foreground">
+          By purchasing, you agree to the{" "}
+          <Link href="/terms" className="underline underline-offset-4 hover:text-foreground">
+            Terms &amp; Conditions
+          </Link>{" "}
+          and{" "}
+          <Link href="/refunds" className="underline underline-offset-4 hover:text-foreground">
+            Refund Policy
+          </Link>
+          .
+        </p>
+      )}
+
       <ul className="mt-8 grid gap-3 border-t pt-6 text-[13px] text-muted-foreground sm:grid-cols-3">
         <li>
           <span className="block font-medium text-foreground">Instant delivery</span>
@@ -57,6 +71,14 @@ export function PurchasePanel({ product }: { product: Product }) {
           {product.formats.length > 1 ? "Choose your format" : "Print or annotate"}
         </li>
       </ul>
+
+      <p className="mt-6 text-xs text-muted-foreground">
+        <Link href="/terms" className="hover:text-foreground">Terms</Link>
+        {" · "}
+        <Link href="/refunds" className="hover:text-foreground">Refund Policy</Link>
+        {" · "}
+        <Link href="/privacy" className="hover:text-foreground">Privacy</Link>
+      </p>
     </div>
   );
 }

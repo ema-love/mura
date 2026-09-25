@@ -4,7 +4,7 @@ import { categoriesWithProducts, visibleProducts } from "@/lib/catalog";
 import { articles } from "@/lib/data/resources";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticPages = ["/", "/systems", "/collections", "/resources", "/about"].map((path) => ({
+  const staticPages = ["/", "/systems", "/collections", "/resources", "/about", "/terms", "/privacy", "/refunds"].map((path) => ({
     url: absoluteUrl(path),
     changeFrequency: "weekly" as const,
     priority: path === "/" ? 1 : 0.8,
