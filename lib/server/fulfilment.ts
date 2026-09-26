@@ -5,7 +5,7 @@ import { bundleItems, getProduct } from "@/lib/catalog";
 import { absoluteUrl } from "@/lib/brand";
 import { orderStore } from "./order-store";
 import { createDownloadToken } from "./tokens";
-import { productFileExists } from "./files";
+import { isReady } from "./delivery";
 import { sendEmail, inboxConfigured } from "./email";
 import { deliveryEmail, orderNotification, type DeliveryLine } from "./email-templates";
 import { serverEnv } from "./env";
@@ -40,7 +40,7 @@ export const orderIncludes = (order: Order, productId: string) => deliverables(o
 
 export async function missingFiles(products: Product[]) {
   const missing: string[] = [];
-  for (const p of products) if (!p.fileKey || !(await productFileExists(p.fileKey))) missing.push(p.id);
+  for (const p of products) if (!(await isReady(p))) missing.push(p.id);
   return missing;
 }
 

@@ -97,10 +97,10 @@ export const products: Product[] = [
       "Upcoming Deadlines",
       "“This Week” Priority List",
     ],
-    formats: PRINTABLE,
+    formats: ["PDF", "Google Docs", "Google Sheets", "Excel"],
     howItWorks: [
       "Enter your email and we'll send your download link straight away.",
-      "Print the pages or use them in any PDF annotation app.",
+      "Pick your format: print the PDF, or make your own editable copy in Google Docs, Google Sheets or Excel.",
       "Take twenty minutes each Sunday to reset the week ahead.",
     ],
     previews: ["weekly-reset", "assignment-tracker", "study-planner"],

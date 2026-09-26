@@ -41,8 +41,19 @@ Everything lives in `lib/catalog/products.ts`.
 - **Featured:** `featured: true` puts it on the homepage.
 - **Photography:** add `image.src` (a file in `/public`) to replace the composed artwork. Until then, a clearly marked placeholder shows the art direction.
 
-### Upload a product file
-Files are private and never live in `/public` or in git. On Netlify, upload with `npm run upload-file -- <fileKey> <path>` (see Deploy). Locally, put each file at `PRODUCT_FILES_DIR/<fileKey>` — e.g. `private/products/student-reset/mura-student-reset.pdf`. A product without its file can't be claimed or delivered; the site says so honestly instead of sending a broken link.
+### Upload a template (several formats)
+Customers choose on their download page: download a PDF, Excel or Word file, or "Make a copy" in Google Docs / Google Sheets. Set a product up in one command:
+
+```bash
+NETLIFY_SITE_ID=… NETLIFY_AUTH_TOKEN=… npm run set-template -- student-reset \
+  --pdf ./Student-Reset.pdf --excel ./Student-Reset.xlsx \
+  --docs "https://docs.google.com/document/d/…/edit?usp=sharing" \
+  --sheets "https://docs.google.com/spreadsheets/d/…/edit?usp=sharing"
+```
+
+Use any of `--pdf`, `--excel`, `--word`, `--docs`, `--sheets`. Share each Google file as "Anyone with the link → Viewer" first; the script turns the link into a "make a copy" link. The copy links are stored privately with the files and only appear behind a valid download link. Running it again replaces the set. Add `--local` to write to `PRODUCT_FILES_DIR` for local testing.
+
+A product can instead have one file at its `fileKey`, uploaded with `npm run upload-file -- <fileKey> <path>`. Files are private and never live in `/public` or in git. A product with nothing uploaded can't be claimed or bought — the site says so honestly instead of sending a broken link.
 
 ### Email (Gmail)
 1. Turn on 2-Step Verification for the Gmail account.

@@ -4,6 +4,7 @@ import { openProductFile } from "@/lib/server/files";
 
 const noStore = { "Cache-Control": "private, no-store", "X-Robots-Tag": "noindex, nofollow" };
 
+/** `?f=<n>` picks which of the product's files to download (default: the first). */
 export async function GET(_request: Request, ctx: RouteContext<"/api/download/[token]">) {
   const { token } = await ctx.params;
   const check = await checkDownload(token);
@@ -12,7 +13,10 @@ export async function GET(_request: Request, ctx: RouteContext<"/api/download/[t
     return NextResponse.redirect(new URL(`/downloads/${encodeURIComponent(token)}`, _request.url), { status: 303, headers: noStore });
   }
 
-  const file = await openProductFile(check.product.fileKey);
+  const files = check.items.filter((i) => i.kind === "file");
+  const index = Number(new URL(_request.url).searchParams.get("f") ?? 0);
+  const chosen = Number.isInteger(index) ? files[index] : undefined;
+  const file = chosen ? await openProductFile(chosen.key) : null;
   if (!file) return NextResponse.redirect(new URL(`/downloads/${encodeURIComponent(token)}`, _request.url), { status: 303, headers: noStore });
 
   await recordDownload(check.order.id);

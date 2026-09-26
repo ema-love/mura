@@ -5,11 +5,11 @@ import { getProduct } from "@/lib/catalog";
 import { orderStore } from "./order-store";
 import { verifyDownloadToken } from "./tokens";
 import { deliverables, isDeliverable, orderIncludes } from "./fulfilment";
-import { productFileExists } from "./files";
+import { deliveryFor, isReady, type DeliveryItem } from "./delivery";
 import { serverEnv } from "./env";
 
 export type DownloadCheck =
-  | { ok: true; order: Order; product: Product & { fileKey: string } }
+  | { ok: true; order: Order; product: Product; items: DeliveryItem[] }
   | { ok: false; reason: "invalid" | "expired" | "not-paid" | "limit" | "unavailable" };
 
 /**
@@ -26,13 +26,13 @@ export async function checkDownload(token: string): Promise<DownloadCheck> {
   if (!isDeliverable(order)) return { ok: false, reason: "not-paid" };
 
   const product = getProduct(verified.claim.productId);
-  if (!product?.fileKey || !(await productFileExists(product.fileKey))) return { ok: false, reason: "unavailable" };
+  if (!product || !(await isReady(product))) return { ok: false, reason: "unavailable" };
 
   // Downloads are counted per order; the allowance scales with the number of files.
   const allowance = serverEnv.maxDownloadsPerItem * deliverables(order).length;
   if ((order.fulfilment?.downloads ?? 0) >= allowance) return { ok: false, reason: "limit" };
 
-  return { ok: true, order, product: product as Product & { fileKey: string } };
+  return { ok: true, order, product, items: await deliveryFor(product) };
 }
 
 export async function recordDownload(orderId: string) {

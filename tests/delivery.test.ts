@@ -13,6 +13,7 @@ type Mods = {
   store: typeof import("@/lib/server/order-store");
   claim: typeof import("@/lib/server/claim");
   downloads: typeof import("@/lib/server/downloads");
+  delivery: typeof import("@/lib/server/delivery");
 };
 let m: Mods;
 
@@ -31,6 +32,7 @@ beforeAll(async () => {
     store: await import("@/lib/server/order-store"),
     claim: await import("@/lib/server/claim"),
     downloads: await import("@/lib/server/downloads"),
+    delivery: await import("@/lib/server/delivery"),
   };
 });
 
@@ -153,5 +155,59 @@ describe("download checks", () => {
       await m.downloads.recordDownload(r.order.id);
     }
     expect(await m.downloads.checkDownload(token)).toEqual({ ok: false, reason: "limit" });
+  });
+});
+
+describe("format choices", () => {
+  const manifestPath = () => path.join(filesDir, "student-reset/delivery.json");
+  afterAll(() => rmSync(manifestPath(), { force: true }));
+
+  it("validates delivery lists and drops anything unsafe", () => {
+    const items = m.delivery.parseManifest("student-reset", {
+      items: [
+        { kind: "link", label: "Google Docs", url: "https://docs.google.com/document/d/abc/copy" },
+        { kind: "link", label: "Evil", url: "https://evil.example.com/copy" },
+        { kind: "link", label: "Plain", url: "http://docs.google.com/document/d/abc/copy" },
+        { kind: "file", label: "PDF", key: "student-reset/mura-student-reset.pdf" },
+        { kind: "file", label: "Other", key: "semester-system/mura-semester-system.zip" },
+        { kind: "file", label: "Escape", key: "student-reset/../../x" },
+        { kind: "file", label: "Manifest", key: "student-reset/delivery.json" },
+        { kind: "file", key: "student-reset/no-label.pdf" },
+      ],
+    });
+    expect(items.map((i) => i.label)).toEqual(["Google Docs", "PDF"]);
+    expect(m.delivery.parseManifest("student-reset", null)).toEqual([]);
+  });
+
+  it("offers every format and serves the file chosen", async () => {
+    writeFileSync(path.join(filesDir, "student-reset/mura-student-reset.xlsx"), "PK xlsx");
+    writeFileSync(
+      manifestPath(),
+      JSON.stringify({
+        items: [
+          { kind: "link", label: "Google Docs", url: "https://docs.google.com/document/d/abc/copy" },
+          { kind: "file", label: "PDF", key: "student-reset/mura-student-reset.pdf" },
+          { kind: "file", label: "Excel", key: "student-reset/mura-student-reset.xlsx" },
+        ],
+      }),
+    );
+    const r = await m.claim.claimFreeProduct("fmt@y.co", "student-reset");
+    if (!r.ok) throw new Error("claim failed");
+    const check = await m.downloads.checkDownload(m.tokens.createDownloadToken(r.order.id, "student-reset"));
+    expect(check.ok && check.items.map((i) => `${i.kind}:${i.label}`)).toEqual(["link:Google Docs", "file:PDF", "file:Excel"]);
+
+    const { GET } = await import("@/app/api/download/[token]/route");
+    const token = m.tokens.createDownloadToken(r.order.id, "student-reset");
+    const ctx = { params: Promise.resolve({ token }) } as never;
+    const excel = await GET(new Request(`http://x/api/download/${token}?f=1`), ctx);
+    expect(excel.headers.get("content-disposition")).toContain("mura-student-reset.xlsx");
+    expect(await excel.text()).toBe("PK xlsx");
+    const bad = await GET(new Request(`http://x/api/download/${token}?f=7`), ctx);
+    expect(bad.status).toBe(303);
+  });
+
+  it("isn't ready while a listed file is missing", async () => {
+    writeFileSync(manifestPath(), JSON.stringify({ items: [{ kind: "file", label: "Word", key: "student-reset/mura-student-reset.docx" }] }));
+    expect(await m.claim.claimFreeProduct("miss@y.co", "student-reset")).toMatchObject({ ok: false, status: 503 });
   });
 });

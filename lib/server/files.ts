@@ -14,7 +14,9 @@ import { serverEnv } from "./env";
 const types: Record<string, string> = {
   ".pdf": "application/pdf",
   ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
   ".zip": "application/zip",
+  ".json": "application/json",
 };
 const contentTypeFor = (name: string) => types[path.extname(name).toLowerCase()] ?? "application/octet-stream";
 

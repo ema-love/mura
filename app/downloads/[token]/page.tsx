@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowDownToLine, ArrowRight } from "lucide-react";
+import { ArrowDownToLine, ArrowRight, ExternalLink } from "lucide-react";
 import { Nav } from "@/components/site/nav";
 import { Footer } from "@/components/site/footer";
 import { Button } from "@/components/ui/button";
@@ -31,12 +31,38 @@ export default async function DownloadPage(props: PageProps<"/downloads/[token]"
             <div>
               <p className="eyebrow">Your download</p>
               <h1 className="headline mt-5 text-4xl md:text-5xl">{check.product.name}</h1>
-              <p className="mt-4 text-muted-foreground">Ready when you are. This link is private to you — please don&rsquo;t share it.</p>
-              <Button asChild size="xl" className="mt-8">
-                <a href={`/api/download/${encodeURIComponent(token)}`} download>
-                  <ArrowDownToLine /> Download
-                </a>
-              </Button>
+              <p className="mt-4 text-muted-foreground">
+                {check.items.length > 1 ? "Choose the format that suits you — or take them all." : "Ready when you are."} This link is private to
+                you — please don&rsquo;t share it.
+              </p>
+              <ul className="mt-8 space-y-3">
+                {check.items.map((item, i) => {
+                  const fileIndex = check.items.slice(0, i).filter((x) => x.kind === "file").length;
+                  return (
+                    <li key={`${item.kind}-${item.label}`}>
+                      {item.kind === "file" ? (
+                        <Button asChild size="lg" variant={i === 0 ? "primary" : "secondary"} className="w-full justify-between sm:w-auto sm:min-w-72">
+                          <a href={`/api/download/${encodeURIComponent(token)}?f=${fileIndex}`} download>
+                            Download {item.label} <ArrowDownToLine />
+                          </a>
+                        </Button>
+                      ) : (
+                        <Button asChild size="lg" variant={i === 0 ? "primary" : "secondary"} className="w-full justify-between sm:w-auto sm:min-w-72">
+                          <a href={item.url} target="_blank" rel="noopener noreferrer">
+                            Make a copy in {item.label} <ExternalLink />
+                          </a>
+                        </Button>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+              {check.items.some((i) => i.kind === "link") && (
+                <p className="mt-4 text-xs text-muted-foreground">
+                  &ldquo;Make a copy&rdquo; opens Google and saves your own editable copy to your Google Drive. You&rsquo;ll need to be signed in to
+                  Google.
+                </p>
+              )}
               <p className="mt-6 text-sm text-muted-foreground">
                 Formats: {check.product.formats.join(", ")}. Need it again later?{" "}
                 <Link href="/access" className="font-medium text-foreground underline-offset-4 hover:underline">

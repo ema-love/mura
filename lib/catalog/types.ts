@@ -39,7 +39,7 @@ export type ProductKind = "digital" | "physical";
 
 export type ProductType = "system" | "kit" | "mini" | "bundle";
 
-export type ProductFormat = "PDF" | "Google Sheets" | "Excel";
+export type ProductFormat = "PDF" | "Google Docs" | "Google Sheets" | "Excel" | "Word";
 
 /** Amounts are integer minor units (cents) in the store currency. */
 export type Pricing =
@@ -97,6 +97,10 @@ export type Product = {
   /** Bundles only: ids of the products included. */
   bundleItems?: string[];
   image?: ImageAsset;
-  /** Id of the private deliverable in file storage. Never a public path. */
+  /**
+   * Id of the private deliverable in file storage. Never a public path.
+   * A delivery list uploaded with `npm run set-template` (several formats and
+   * "make a copy" links) takes its place when present.
+   */
   fileKey?: string;
 };

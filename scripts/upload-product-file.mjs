@@ -25,7 +25,7 @@ if (fileKey.split("/").some((p) => p === ".." || p === "") || path.isAbsolute(fi
   process.exit(1);
 }
 
-const types = { ".pdf": "application/pdf", ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", ".zip": "application/zip" };
+const types = { ".pdf": "application/pdf", ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document", ".zip": "application/zip" };
 const data = await readFile(filePath);
 const { size } = await stat(filePath);
 const fileName = path.basename(fileKey);

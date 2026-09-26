@@ -10,7 +10,8 @@
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "upload-file": "node scripts/upload-product-file.mjs",
-    "orders": "node scripts/list-orders.mjs"
+    "orders": "node scripts/list-orders.mjs",
+    "set-template": "node scripts/set-template.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",
