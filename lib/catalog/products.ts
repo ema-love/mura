@@ -801,3 +801,6 @@ export const products: Product[] = [
   mini("revision-tracker", "Revision Tracker", 250, "Track topics revised and when to review them again.", ["study-planner"]),
   mini("past-paper-tracker", "Past Paper Tracker", 250, "Log past papers attempted, scores and topics to revisit."),
 ];
+
+// Every product's file lives at <id>/mura-<id>.xlsx unless it names another.
+for (const p of products) p.fileKey ??= `${p.id}/mura-${p.id}.xlsx`;

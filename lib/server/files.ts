@@ -71,3 +71,18 @@ export async function openProductFile(fileKey: string, baseDir?: string): Promis
     fileName: path.basename(full),
   };
 }
+
+/** Stores (or replaces) a product file. Used by the owner's upload page. */
+export async function saveProductFile(fileKey: string, data: Uint8Array, contentType = contentTypeFor(fileKey)) {
+  if (!isSafeFileKey(fileKey)) throw new Error("Unsafe file key");
+  const fileName = path.basename(fileKey);
+  if (serverEnv.storage === "netlify-blobs") {
+    const buf = data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength) as ArrayBuffer;
+    await blobFiles().set(fileKey, buf, { metadata: { size: data.byteLength, fileName, contentType } });
+    return;
+  }
+  const full = resolveFileKey(fileKey);
+  if (!full) throw new Error("Unsafe file key");
+  await fs.mkdir(/*turbopackIgnore: true*/ path.dirname(full), { recursive: true });
+  await fs.writeFile(/*turbopackIgnore: true*/ full, data);
+}

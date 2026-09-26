@@ -48,6 +48,8 @@ export const serverEnv = {
   },
   /** Sender shown to customers, e.g. "MÚRÀ <hello@example.com>". */
   emailFrom: process.env.EMAIL_FROM,
+  /** Password for the owner's upload page (/admin). Unset = page disabled. */
+  adminPassword: process.env.MURA_ADMIN_PASSWORD?.trim() || undefined,
   /** Company inbox for contact messages and order notifications. */
   inboxEmail: process.env.MURA_INBOX_EMAIL || brand.contactEmail,
 };

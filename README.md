@@ -42,7 +42,11 @@ Everything lives in `lib/catalog/products.ts`.
 - **Photography:** add `image.src` (a file in `/public`) to replace the composed artwork. Until then, a clearly marked placeholder shows the art direction.
 
 ### Upload a template
-Every template is one Excel file (.xlsx). Its name is the product id: `<id>/mura-<id>.xlsx`.
+Every template is one Excel file (.xlsx).
+
+**Easiest: the upload page.** Set `MURA_ADMIN_PASSWORD` (12+ characters, secret) in Netlify and redeploy. Then open `/admin` on the site, choose the template, choose the .xlsx, enter the password and press Upload. Uploading again replaces the file. The page is not linked anywhere, isn't indexed, and does nothing without the password.
+
+**From a terminal:** the file's key is `<id>/mura-<id>.xlsx`.
 
 ```bash
 NETLIFY_SITE_ID=… NETLIFY_AUTH_TOKEN=… npm run upload-file -- exam-prep-system/mura-exam-prep-system.xlsx ./Exam-Prep-System.xlsx
@@ -79,6 +83,7 @@ app/
   api/claim                   Free-product claim → order → email
   api/download/[token]        Verified, private file streaming
   api/access, api/contact     Link resend, contact form
+  admin/, api/admin/upload    Owner's password-protected template upload
   checkout/[slug], complete   Checkout and verified payment result
   api/checkout                Starts a Flutterwave payment
   api/payments/flutterwave/webhook   Verified payment webhook
