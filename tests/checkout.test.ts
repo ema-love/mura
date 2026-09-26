@@ -33,7 +33,7 @@ beforeAll(async () => {
   delete process.env.FLW_MODE;
   delete process.env.SMTP_HOST;
   mkdirSync(path.join(filesDir, PRODUCT), { recursive: true });
-  writeFileSync(path.join(filesDir, `${PRODUCT}/mura-${PRODUCT}.zip`), "PK test");
+  writeFileSync(path.join(filesDir, `${PRODUCT}/mura-${PRODUCT}.xlsx`), "PK test");
 
   vi.stubGlobal("fetch", async (url: string, init?: RequestInit) => {
     calls.push({ url, init });

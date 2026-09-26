@@ -26,7 +26,7 @@ MÚRÀ is deployed on **Netlify** with its official Next.js runtime (`netlify.to
 **Deploy**
 1. Netlify → Add new site → Import from GitHub → `ema-love/mura` (branch of your choice). Build settings come from `netlify.toml`.
 2. Site configuration → Environment variables: add everything marked in `.env.example` — at minimum `DOWNLOAD_TOKEN_SECRET`, `SMTP_USER`, `SMTP_PASS`, `EMAIL_FROM`, `MURA_INBOX_EMAIL`.
-3. Upload product files (private): `NETLIFY_SITE_ID=… NETLIFY_AUTH_TOKEN=… npm run upload-file -- student-reset/mura-student-reset.pdf ./mura-student-reset.pdf`
+3. Upload product files (private): `NETLIFY_SITE_ID=… NETLIFY_AUTH_TOKEN=… npm run upload-file -- student-reset/mura-student-reset.xlsx ./mura-student-reset.xlsx`
 4. See orders any time: `NETLIFY_SITE_ID=… NETLIFY_AUTH_TOKEN=… npm run orders`
 
 Static-only or PHP-only hosting (such as InfinityFree) cannot run this site.
@@ -41,19 +41,16 @@ Everything lives in `lib/catalog/products.ts`.
 - **Featured:** `featured: true` puts it on the homepage.
 - **Photography:** add `image.src` (a file in `/public`) to replace the composed artwork. Until then, a clearly marked placeholder shows the art direction.
 
-### Upload a template (several formats)
-Customers choose on their download page: download a PDF, Excel or Word file, or "Make a copy" in Google Docs / Google Sheets. Set a product up in one command:
+### Upload a template
+Every template is one Excel file (.xlsx). Its name is the product id: `<id>/mura-<id>.xlsx`.
 
 ```bash
-NETLIFY_SITE_ID=… NETLIFY_AUTH_TOKEN=… npm run set-template -- student-reset \
-  --pdf ./Student-Reset.pdf --excel ./Student-Reset.xlsx \
-  --docs "https://docs.google.com/document/d/…/edit?usp=sharing" \
-  --sheets "https://docs.google.com/spreadsheets/d/…/edit?usp=sharing"
+NETLIFY_SITE_ID=… NETLIFY_AUTH_TOKEN=… npm run upload-file -- exam-prep-system/mura-exam-prep-system.xlsx ./Exam-Prep-System.xlsx
 ```
 
-Use any of `--pdf`, `--excel`, `--word`, `--docs`, `--sheets`. Share each Google file as "Anyone with the link → Viewer" first; the script turns the link into a "make a copy" link. The copy links are stored privately with the files and only appear behind a valid download link. Running it again replaces the set. Add `--local` to write to `PRODUCT_FILES_DIR` for local testing.
+Uploading again replaces the file; customers always get the latest version. Files are private and never live in `/public` or in git. A product with nothing uploaded can't be claimed or bought — the site says so honestly instead of sending a broken link.
 
-A product can instead have one file at its `fileKey`, uploaded with `npm run upload-file -- <fileKey> <path>`. Files are private and never live in `/public` or in git. A product with nothing uploaded can't be claimed or bought — the site says so honestly instead of sending a broken link.
+Optional, for later: `npm run set-template -- <id> --excel <file> [--pdf <file>] [--word <file>] [--docs <link>] [--sheets <link>]` offers several formats and Google "Make a copy" links, chosen on the customer's download page. Add `--local` to write to `PRODUCT_FILES_DIR` for testing.
 
 ### Email (Gmail)
 1. Turn on 2-Step Verification for the Gmail account.

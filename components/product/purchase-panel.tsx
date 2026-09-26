@@ -68,7 +68,7 @@ export function PurchasePanel({ product }: { product: Product }) {
         </li>
         <li>
           <span className="block font-medium text-foreground">{product.formats.join(" · ")}</span>
-          {product.formats.length > 1 ? "Choose your format" : "Print or annotate"}
+          {product.formats.length > 1 ? "Choose your format" : "Ready to fill in"}
         </li>
       </ul>
 

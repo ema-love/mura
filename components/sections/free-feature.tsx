@@ -37,7 +37,7 @@ export function FreeFeature() {
                     Get it free <ArrowRight />
                   </Link>
                 </Button>
-                <p className="text-sm text-muted-foreground">Printable PDF · Just your email, no payment</p>
+                <p className="text-sm text-muted-foreground">Excel file · Just your email, no payment</p>
               </div>
             </Reveal>
 

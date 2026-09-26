@@ -7,34 +7,21 @@ import type { Product, ProductFormat, PreviewId } from "./types";
  *
  * Prices are USD cents (900 = $9). Payment-provider charges are never included.
  *
- * Launch set (status "published"): Student Reset (free), Assignment Command Center,
- * Semester System, Grade & TGPA Tracker. Everything else is "draft" — hidden from the
- * storefront until the owner activates it by changing its status to "published".
+ * Published: Student Reset (free) and every product of type "system". Everything else
+ * is "draft" — hidden from the storefront until the owner activates it by changing its
+ * status to "published".
  *
  * Formats and descriptive copy for the launch products are approved by the owner.
- * Formats for draft products are proposed defaults; confirm each before publishing it.
+ * Every template is delivered as a single Excel (.xlsx) file.
  */
 
-const SHEETS: ProductFormat[] = ["Google Sheets", "Excel"];
-const ALL_FORMATS: ProductFormat[] = ["PDF", "Google Sheets", "Excel"];
-const PRINTABLE: ProductFormat[] = ["PDF"];
+/** Every MÚRÀ template is delivered as one Excel file (.xlsx). */
+const EXCEL: ProductFormat[] = ["Excel"];
 
-const sheetSteps = [
+const excelSteps = [
   "Complete checkout and receive your download link by email.",
-  "Open the Google Sheets version and make a copy, or download the Excel file.",
+  "Download the Excel file and open it.",
   "Fill in your details once — everything else updates for you.",
-];
-
-const printSteps = [
-  "Complete checkout and receive your download link by email.",
-  "Download the PDF.",
-  "Print it, or write on it with any PDF annotation app.",
-];
-
-const mixedSteps = [
-  "Complete checkout and receive your download link by email.",
-  "Choose your format: printable PDF, Google Sheets or Excel.",
-  "Set it up once at the start of term, then return to it every week.",
 ];
 
 const commonFaqs = [
@@ -48,7 +35,7 @@ const commonFaqs = [
   },
 ];
 
-function mini(slug: string, name: string, amount: number, summary: string, formats: ProductFormat[], previews: PreviewId[] = []): Product {
+function mini(slug: string, name: string, amount: number, summary: string, previews: PreviewId[] = []): Product {
   return {
     id: `mini-${slug}`,
     slug,
@@ -63,8 +50,8 @@ function mini(slug: string, name: string, amount: number, summary: string, forma
     problem: `When you only need a ${name.toLowerCase()}, a full system is more than you need.`,
     audience: ["Students who want one focused tool", "Anyone building their own system piece by piece"],
     includes: [name],
-    formats,
-    howItWorks: formats.includes("PDF") ? printSteps : sheetSteps,
+    formats: EXCEL,
+    howItWorks: excelSteps,
     previews,
   };
 }
@@ -97,10 +84,10 @@ export const products: Product[] = [
       "Upcoming Deadlines",
       "“This Week” Priority List",
     ],
-    formats: ["PDF", "Google Docs", "Google Sheets", "Excel"],
+    formats: EXCEL,
     howItWorks: [
       "Enter your email and we'll send your download link straight away.",
-      "Pick your format: print the PDF, or make your own editable copy in Google Docs, Google Sheets or Excel.",
+      "Open the Excel file and fill it in on your laptop or phone.",
       "Take twenty minutes each Sunday to reset the week ahead.",
     ],
     previews: ["weekly-reset", "assignment-tracker", "study-planner"],
@@ -112,12 +99,12 @@ export const products: Product[] = [
       },
     ],
     image: {
-      alt: "Printed Mura Student Reset pages on a desk in morning light",
+      alt: "The Mura Student Reset open on a laptop on a desk in morning light",
       width: 1600,
       height: 2000,
-      direction: "Top-down, natural morning light from the left. The printed weekly reset page on warm paper beside a pen and a closed laptop.",
+      direction: "Top-down, natural morning light from the left. The weekly reset spreadsheet open on a laptop beside a pen and a coffee.",
     },
-    fileKey: "student-reset/mura-student-reset.pdf",
+    fileKey: "student-reset/mura-student-reset.xlsx",
   },
 
   /* ------------------------------------------------------------------ */
@@ -148,8 +135,8 @@ export const products: Product[] = [
       "Important Contacts",
       "Weekly Planner",
     ],
-    formats: ALL_FORMATS,
-    howItWorks: mixedSteps,
+    formats: EXCEL,
+    howItWorks: excelSteps,
     previews: ["semester-planner", "calendar"],
     faqs: commonFaqs,
   },
@@ -181,8 +168,8 @@ export const products: Product[] = [
       "Weekly Assignment View",
       "Completed Assignments",
     ],
-    formats: SHEETS,
-    howItWorks: sheetSteps,
+    formats: EXCEL,
+    howItWorks: excelSteps,
     previews: ["assignment-tracker", "calendar"],
     faqs: commonFaqs,
     image: {
@@ -191,7 +178,7 @@ export const products: Product[] = [
       height: 2000,
       direction: "Laptop on a walnut desk showing the tracker, soft daylight, a notebook and pen beside it. No people.",
     },
-    fileKey: "assignment-command-center/mura-assignment-command-center.zip",
+    fileKey: "assignment-command-center/mura-assignment-command-center.xlsx",
   },
   {
     id: "semester-system",
@@ -222,17 +209,17 @@ export const products: Product[] = [
       "Important Dates",
       "Semester Review",
     ],
-    formats: ALL_FORMATS,
-    howItWorks: mixedSteps,
+    formats: EXCEL,
+    howItWorks: excelSteps,
     previews: ["semester-planner", "assignment-tracker", "calendar", "goal-tracker"],
     faqs: commonFaqs,
     image: {
-      alt: "The Mura Semester System printed and on screen",
+      alt: "The Mura Semester System open on a laptop",
       width: 1600,
       height: 2000,
-      direction: "Printed weekly pages beside a tablet showing the semester overview. Warm paper, linen texture, natural light.",
+      direction: "The semester overview spreadsheet on a laptop beside a notebook. Linen texture, natural light.",
     },
-    fileKey: "semester-system/mura-semester-system.zip",
+    fileKey: "semester-system/mura-semester-system.xlsx",
   },
   {
     id: "exam-prep-system",
@@ -260,9 +247,9 @@ export const products: Product[] = [
       "Exam-Day Checklist",
       "Exam Reflection",
     ],
-    formats: ALL_FORMATS,
-    fileKey: "exam-prep-system/mura-exam-prep-system.zip",
-    howItWorks: mixedSteps,
+    formats: EXCEL,
+    fileKey: "exam-prep-system/mura-exam-prep-system.xlsx",
+    howItWorks: excelSteps,
     previews: ["study-planner", "calendar"],
     faqs: commonFaqs,
   },
@@ -295,8 +282,8 @@ export const products: Product[] = [
       "What-If Grade Calculator",
       "Semester GPA Summary",
     ],
-    formats: SHEETS,
-    howItWorks: sheetSteps,
+    formats: EXCEL,
+    howItWorks: excelSteps,
     previews: ["grade-tracker", "goal-tracker"],
     faqs: [
       ...commonFaqs,
@@ -311,7 +298,7 @@ export const products: Product[] = [
       height: 2000,
       direction: "Close crop of the tracker on a laptop with a calculator and pencil. Quiet, even light.",
     },
-    fileKey: "grade-tgpa-tracker/mura-grade-tgpa-tracker.zip",
+    fileKey: "grade-tgpa-tracker/mura-grade-tgpa-tracker.xlsx",
   },
 
   /* ------------------------------------------------------------------ */
@@ -342,9 +329,9 @@ export const products: Product[] = [
       "Study Goals",
       "Weekly Study Review",
     ],
-    formats: ALL_FORMATS,
-    fileKey: "study-planner/mura-study-planner.zip",
-    howItWorks: mixedSteps,
+    formats: EXCEL,
+    fileKey: "study-planner/mura-study-planner.xlsx",
+    howItWorks: excelSteps,
     previews: ["study-planner", "semester-planner"],
     faqs: commonFaqs,
   },
@@ -358,7 +345,7 @@ export const products: Product[] = [
     status: "draft",
     pricing: { model: "paid", amount: 800 },
     tagline: "Revise with intent, not just effort.",
-    summary: "Printable revision pages for topic lists, active recall, past papers and review cycles.",
+    summary: "Revision sheets for topic lists, active recall, past papers and review cycles.",
     problem: "Re-reading notes feels productive but rarely sticks. Revision works better with structure.",
     audience: ["Students preparing for tests and exams", "Anyone who wants to revise more effectively"],
     includes: [
@@ -373,8 +360,8 @@ export const products: Product[] = [
       "Exam Countdown",
       "Final Revision Checklist",
     ],
-    formats: PRINTABLE,
-    howItWorks: printSteps,
+    formats: EXCEL,
+    howItWorks: excelSteps,
     previews: ["study-planner"],
     faqs: commonFaqs,
   },
@@ -388,7 +375,7 @@ export const products: Product[] = [
     status: "draft",
     pricing: { model: "paid", amount: 600 },
     tagline: "Notes you can find — and understand — later.",
-    summary: "A collection of note-taking layouts for lectures, reading and revision, designed to print or annotate.",
+    summary: "A collection of note-taking layouts for lectures, reading and revision, ready to fill in.",
     problem: "Notes taken in a rush are hard to use later. A consistent layout makes them easier to review.",
     audience: ["Students who take notes by hand or on a tablet", "Anyone who wants tidier, more useful notes"],
     includes: [
@@ -402,8 +389,8 @@ export const products: Product[] = [
       "Key Concepts Page",
       "Questions & Answers Page",
     ],
-    formats: PRINTABLE,
-    howItWorks: printSteps,
+    formats: EXCEL,
+    howItWorks: excelSteps,
     previews: [],
     faqs: commonFaqs,
   },
@@ -437,8 +424,8 @@ export const products: Product[] = [
       "First-Semester Planner",
       "Personal Goals",
     ],
-    formats: ALL_FORMATS,
-    howItWorks: mixedSteps,
+    formats: EXCEL,
+    howItWorks: excelSteps,
     previews: ["packing-checklist", "calendar"],
     faqs: commonFaqs,
   },
@@ -469,9 +456,9 @@ export const products: Product[] = [
       "Monthly Financial Review",
       "Savings Goals",
     ],
-    formats: SHEETS,
-    fileKey: "student-budget/mura-student-budget.zip",
-    howItWorks: sheetSteps,
+    formats: EXCEL,
+    fileKey: "student-budget/mura-student-budget.xlsx",
+    howItWorks: excelSteps,
     previews: ["budget-planner", "expense-tracker"],
     faqs: commonFaqs,
   },
@@ -501,9 +488,9 @@ export const products: Product[] = [
       "Important Dates",
       "Monthly Reflection",
     ],
-    formats: ALL_FORMATS,
-    fileKey: "student-life-planner/mura-student-life-planner.zip",
-    howItWorks: mixedSteps,
+    formats: EXCEL,
+    fileKey: "student-life-planner/mura-student-life-planner.xlsx",
+    howItWorks: excelSteps,
     previews: ["goal-tracker", "calendar"],
     faqs: commonFaqs,
   },
@@ -537,9 +524,9 @@ export const products: Product[] = [
       "Result",
       "Notes",
     ],
-    formats: SHEETS,
-    fileKey: "internship-tracker/mura-internship-tracker.zip",
-    howItWorks: sheetSteps,
+    formats: EXCEL,
+    fileKey: "internship-tracker/mura-internship-tracker.xlsx",
+    howItWorks: excelSteps,
     previews: ["assignment-tracker"],
     faqs: commonFaqs,
   },
@@ -570,9 +557,9 @@ export const products: Product[] = [
       "Result",
       "Notes",
     ],
-    formats: SHEETS,
-    fileKey: "scholarship-tracker/mura-scholarship-tracker.zip",
-    howItWorks: sheetSteps,
+    formats: EXCEL,
+    fileKey: "scholarship-tracker/mura-scholarship-tracker.xlsx",
+    howItWorks: excelSteps,
     previews: ["calendar"],
     faqs: commonFaqs,
   },
@@ -604,9 +591,9 @@ export const products: Product[] = [
       "Result",
       "Notes",
     ],
-    formats: SHEETS,
-    fileKey: "opportunity-tracker/mura-opportunity-tracker.zip",
-    howItWorks: sheetSteps,
+    formats: EXCEL,
+    fileKey: "opportunity-tracker/mura-opportunity-tracker.xlsx",
+    howItWorks: excelSteps,
     previews: ["calendar"],
     faqs: commonFaqs,
   },
@@ -638,8 +625,8 @@ export const products: Product[] = [
       "References Section",
       "CV Review Checklist",
     ],
-    formats: PRINTABLE,
-    howItWorks: printSteps,
+    formats: EXCEL,
+    howItWorks: excelSteps,
     previews: [],
     faqs: commonFaqs,
   },
@@ -667,8 +654,8 @@ export const products: Product[] = [
       "Contact Section",
       "Portfolio Checklist",
     ],
-    formats: PRINTABLE,
-    howItWorks: printSteps,
+    formats: EXCEL,
+    howItWorks: excelSteps,
     previews: [],
     faqs: commonFaqs,
   },
@@ -696,8 +683,8 @@ export const products: Product[] = [
       "Conclusion Slides",
       "Presentation Checklist",
     ],
-    formats: PRINTABLE,
-    howItWorks: printSteps,
+    formats: EXCEL,
+    howItWorks: excelSteps,
     previews: [],
     faqs: commonFaqs,
   },
@@ -720,8 +707,8 @@ export const products: Product[] = [
     audience: ["Students who want their whole academic life organised", "Anyone who wants everything at once"],
     includes: [],
     bundleItems: ["semester-system", "assignment-command-center", "exam-prep-system", "grade-tgpa-tracker"],
-    formats: ALL_FORMATS,
-    howItWorks: mixedSteps,
+    formats: EXCEL,
+    howItWorks: excelSteps,
     previews: ["semester-planner", "assignment-tracker", "grade-tracker"],
     faqs: commonFaqs,
   },
@@ -740,8 +727,8 @@ export const products: Product[] = [
     audience: ["Students starting or settling into university"],
     includes: [],
     bundleItems: ["university-starter-kit", "semester-system", "student-budget", "student-life-planner"],
-    formats: ALL_FORMATS,
-    howItWorks: mixedSteps,
+    formats: EXCEL,
+    howItWorks: excelSteps,
     previews: ["budget-planner", "goal-tracker"],
     faqs: commonFaqs,
   },
@@ -760,8 +747,8 @@ export const products: Product[] = [
     audience: ["Students applying for internships, scholarships and programmes"],
     includes: [],
     bundleItems: ["cv-kit", "portfolio-kit", "internship-tracker", "opportunity-tracker"],
-    formats: ALL_FORMATS,
-    howItWorks: mixedSteps,
+    formats: EXCEL,
+    howItWorks: excelSteps,
     previews: ["calendar"],
     faqs: commonFaqs,
   },
@@ -784,8 +771,8 @@ export const products: Product[] = [
       "New versions of included products",
     ],
     bundleItems: ["semester-system", "assignment-command-center", "exam-prep-system", "grade-tgpa-tracker", "study-planner", "revision-kit", "notes-collection", "university-starter-kit", "student-budget", "student-life-planner", "cv-kit", "portfolio-kit", "internship-tracker", "scholarship-tracker", "opportunity-tracker", "presentation-kit"],
-    formats: ALL_FORMATS,
-    howItWorks: mixedSteps,
+    formats: EXCEL,
+    howItWorks: excelSteps,
     previews: ["semester-planner", "study-planner", "budget-planner", "goal-tracker"],
     faqs: commonFaqs,
   },
@@ -793,24 +780,24 @@ export const products: Product[] = [
   /* ------------------------------------------------------------------ */
   /* Mini Templates                                                      */
   /* ------------------------------------------------------------------ */
-  mini("assignment-tracker", "Assignment Tracker", 250, "Track assignments, due dates and status in one simple sheet.", SHEETS, ["assignment-tracker"]),
-  mini("exam-countdown", "Exam Countdown", 200, "Count down to every exam and see how much time is left to prepare.", SHEETS, ["calendar"]),
-  mini("study-timetable", "Study Timetable", 250, "A weekly study timetable that fits around your lectures.", PRINTABLE, ["study-planner"]),
-  mini("weekly-planner", "Weekly Planner", 200, "A clean weekly planner for priorities, tasks and appointments.", PRINTABLE, ["weekly-reset"]),
-  mini("monthly-planner", "Monthly Planner", 200, "See the month at a glance: deadlines, events and goals.", PRINTABLE, ["calendar"]),
-  mini("grade-tracker", "Grade Tracker", 250, "Record scores by course and watch your average as you go.", SHEETS, ["grade-tracker"]),
-  mini("tgpa-calculator", "TGPA Calculator", 300, "Enter your grades and credit units to calculate your TGPA automatically.", SHEETS, ["grade-tracker"]),
-  mini("student-budget-template", "Student Budget", 300, "A simple monthly budget for student income and spending.", SHEETS, ["budget-planner"]),
-  mini("savings-tracker", "Savings Tracker", 200, "Set a savings goal and watch your progress towards it.", SHEETS, ["goal-tracker"]),
-  mini("expense-tracker", "Expense Tracker", 200, "Log daily spending and see where your money goes.", SHEETS, ["expense-tracker"]),
-  mini("reading-tracker", "Reading Tracker", 200, "Keep track of set texts, pages read and reading goals.", SHEETS),
-  mini("habit-tracker", "Habit Tracker", 200, "Build routines one day at a time with a simple habit grid.", PRINTABLE, ["goal-tracker"]),
-  mini("internship-tracker-template", "Internship Tracker", 300, "Track internship applications and deadlines in one sheet.", SHEETS),
-  mini("scholarship-tracker-template", "Scholarship Tracker", 300, "Keep scholarship deadlines and requirements in one place.", SHEETS),
-  mini("competition-tracker", "Competition Tracker", 300, "Track competitions, submissions and results.", SHEETS),
-  mini("project-planner", "Project Planner", 250, "Break a project into tasks, owners and deadlines.", ALL_FORMATS),
-  mini("presentation-planner", "Presentation Planner", 250, "Plan the structure, slides and rehearsal of a presentation.", PRINTABLE),
-  mini("course-planner", "Course Planner", 250, "Plan the courses you'll take, with credit units and requirements.", SHEETS),
-  mini("revision-tracker", "Revision Tracker", 250, "Track topics revised and when to review them again.", SHEETS, ["study-planner"]),
-  mini("past-paper-tracker", "Past Paper Tracker", 250, "Log past papers attempted, scores and topics to revisit.", SHEETS),
+  mini("assignment-tracker", "Assignment Tracker", 250, "Track assignments, due dates and status in one simple sheet.", ["assignment-tracker"]),
+  mini("exam-countdown", "Exam Countdown", 200, "Count down to every exam and see how much time is left to prepare.", ["calendar"]),
+  mini("study-timetable", "Study Timetable", 250, "A weekly study timetable that fits around your lectures.", ["study-planner"]),
+  mini("weekly-planner", "Weekly Planner", 200, "A clean weekly planner for priorities, tasks and appointments.", ["weekly-reset"]),
+  mini("monthly-planner", "Monthly Planner", 200, "See the month at a glance: deadlines, events and goals.", ["calendar"]),
+  mini("grade-tracker", "Grade Tracker", 250, "Record scores by course and watch your average as you go.", ["grade-tracker"]),
+  mini("tgpa-calculator", "TGPA Calculator", 300, "Enter your grades and credit units to calculate your TGPA automatically.", ["grade-tracker"]),
+  mini("student-budget-template", "Student Budget", 300, "A simple monthly budget for student income and spending.", ["budget-planner"]),
+  mini("savings-tracker", "Savings Tracker", 200, "Set a savings goal and watch your progress towards it.", ["goal-tracker"]),
+  mini("expense-tracker", "Expense Tracker", 200, "Log daily spending and see where your money goes.", ["expense-tracker"]),
+  mini("reading-tracker", "Reading Tracker", 200, "Keep track of set texts, pages read and reading goals."),
+  mini("habit-tracker", "Habit Tracker", 200, "Build routines one day at a time with a simple habit grid.", ["goal-tracker"]),
+  mini("internship-tracker-template", "Internship Tracker", 300, "Track internship applications and deadlines in one sheet."),
+  mini("scholarship-tracker-template", "Scholarship Tracker", 300, "Keep scholarship deadlines and requirements in one place."),
+  mini("competition-tracker", "Competition Tracker", 300, "Track competitions, submissions and results."),
+  mini("project-planner", "Project Planner", 250, "Break a project into tasks, owners and deadlines."),
+  mini("presentation-planner", "Presentation Planner", 250, "Plan the structure, slides and rehearsal of a presentation."),
+  mini("course-planner", "Course Planner", 250, "Plan the courses you'll take, with credit units and requirements."),
+  mini("revision-tracker", "Revision Tracker", 250, "Track topics revised and when to review them again.", ["study-planner"]),
+  mini("past-paper-tracker", "Past Paper Tracker", 250, "Log past papers attempted, scores and topics to revisit."),
 ];

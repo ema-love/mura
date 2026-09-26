@@ -9,7 +9,7 @@ const statement = "Student life shouldn’t run on memory. It should run on a sy
 const principles = [
   { title: "Pay once", body: "No subscriptions. The files are yours to keep and reuse." },
   { title: "Delivered by email", body: "A secure download link, straight after checkout. No account needed." },
-  { title: "Your format", body: "Printable PDF, Google Sheets or Excel — whichever way you work." },
+  { title: "Ready in Excel", body: "One Excel file, already built. Open it, fill it in, and it works for you." },
 ];
 
 function Word({ children, progress, range }: { children: string; progress: MotionValue<number>; range: [number, number] }) {

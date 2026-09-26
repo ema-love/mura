@@ -49,7 +49,7 @@ export function InsideSystems() {
         </Reveal>
 
         <Reveal>
-          <p className="mt-10 text-sm text-muted-foreground">Shown with sample data. Each system arrives as a PDF, Google Sheet or Excel file.</p>
+          <p className="mt-10 text-sm text-muted-foreground">Shown with sample data. Each system arrives as a ready-to-use Excel file.</p>
         </Reveal>
       </div>
     </section>

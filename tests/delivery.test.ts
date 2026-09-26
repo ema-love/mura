@@ -24,7 +24,7 @@ beforeAll(async () => {
   process.env.MAX_DOWNLOADS_PER_ITEM = "3";
   delete process.env.SMTP_HOST;
   mkdirSync(path.join(filesDir, "student-reset"), { recursive: true });
-  writeFileSync(path.join(filesDir, "student-reset/mura-student-reset.pdf"), "%PDF-1.4 test");
+  writeFileSync(path.join(filesDir, "student-reset/mura-student-reset.xlsx"), "PK xlsx");
   vi.resetModules();
   m = {
     tokens: await import("@/lib/server/tokens"),
@@ -85,7 +85,7 @@ describe("private files", () => {
     expect(m.files.resolveFileKey("student-reset/../../etc/passwd")).toBeNull();
     expect(m.files.resolveFileKey("/etc/passwd")).toBeNull();
     expect(m.files.resolveFileKey("a\0b")).toBeNull();
-    expect(m.files.resolveFileKey("student-reset/mura-student-reset.pdf")).toBe(path.join(filesDir, "student-reset/mura-student-reset.pdf"));
+    expect(m.files.resolveFileKey("student-reset/mura-student-reset.xlsx")).toBe(path.join(filesDir, "student-reset/mura-student-reset.xlsx"));
   });
 });
 
@@ -180,7 +180,7 @@ describe("format choices", () => {
   });
 
   it("offers every format and serves the file chosen", async () => {
-    writeFileSync(path.join(filesDir, "student-reset/mura-student-reset.xlsx"), "PK xlsx");
+    writeFileSync(path.join(filesDir, "student-reset/mura-student-reset.pdf"), "%PDF-1.4 test");
     writeFileSync(
       manifestPath(),
       JSON.stringify({

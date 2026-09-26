@@ -11,7 +11,7 @@ export default function Image() {
       eyebrow: "Systems for student life",
       title: "Prepare yourself.",
       subtitle: "Planners, trackers and templates that bring clarity to every semester.",
-      meta: "PDF · Google Sheets · Excel",
+      meta: "Excel templates for students",
       tone: ["#f6f1e8", "#e2ebe2"],
     },
     "og",
