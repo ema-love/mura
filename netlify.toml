@@ -10,4 +10,4 @@
   # These settings are public by design (the contact address appears on the site and in the
   # policies), so Netlify's secret scanner should not treat their values as leaks.
   # SMTP_PASS and DOWNLOAD_TOKEN_SECRET are still scanned.
-  SECRETS_SCAN_OMIT_KEYS = "SMTP_HOST,SMTP_USER,EMAIL_FROM,MURA_INBOX_EMAIL,SMTP_PORT,SMTP_SECURE"
+  SECRETS_SCAN_OMIT_KEYS = "SMTP_HOST,SMTP_USER,EMAIL_FROM,MURA_INBOX_EMAIL,SMTP_PORT,SMTP_SECURE,FLW_MODE,NEXT_PUBLIC_PAYMENTS_ENABLED"

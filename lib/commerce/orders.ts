@@ -43,6 +43,8 @@ export type Order = {
   providerTransactionId?: string;
   createdAt: string;
   verifiedAt?: string;
+  /** Why a payment was not accepted (for support). Never shown to customers verbatim. */
+  failureReason?: string;
   fulfilment?: {
     emailedAt?: string;
     /** Number of successful downloads, for support and abuse checks. */

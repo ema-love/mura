@@ -71,6 +71,9 @@ app/
   api/claim                   Free-product claim → order → email
   api/download/[token]        Verified, private file streaming
   api/access, api/contact     Link resend, contact form
+  checkout/[slug], complete   Checkout and verified payment result
+  api/checkout                Starts a Flutterwave payment
+  api/payments/flutterwave/webhook   Verified payment webhook
   sitemap.ts, robots.ts, opengraph-image.tsx, error.tsx, global-error.tsx, not-found.tsx
 components/
   store/                      ProductCard/Grid, BundleCard, PriceDisplay, CheckoutButton, ProductArt, badges
@@ -96,5 +99,18 @@ Form rate limits are kept in memory per function instance — enough to stop cas
 ### Delivery security
 Download links carry an HMAC-signed token (order, product, expiry) — never a file path. Each download re-checks the signature, expiry, that the order is free or verified-paid, that the product belongs to it, that the file exists, and a per-order download allowance. Files stream from a private directory with `no-store` and `noindex` headers.
 
-## Payments (Phase 5 — pending)
-Flutterwave is not yet connected. `NEXT_PUBLIC_PAYMENTS_ENABLED=false` keeps every paid product browsable but never chargeable. Phase 5 will reuse the existing Flutterwave test integration, create a `pending` order, verify the transaction server-side (status, amount, currency, reference), mark it `paid`, and call `fulfilOrder()` — the same delivery path free products use today.
+## Payments (Flutterwave)
+Checkout uses Flutterwave v3 hosted payments. Card details never touch MÚRÀ.
+
+1. `/checkout/<slug>` — the customer enters an email. `POST /api/checkout` creates a `pending` order at the catalogue price (after any active campaign) with a unique reference, and returns a Flutterwave payment link. Products whose file isn't uploaded can't be bought.
+2. Flutterwave returns the customer to `/checkout/complete`. The server verifies the transaction with Flutterwave's API — status, reference, currency and amount — and never trusts the redirect's own status. Only then is the order marked `paid` and `fulfilOrder()` emails the download.
+3. `POST /api/payments/flutterwave/webhook` (checked against `FLW_SECRET_HASH`) does the same verification, so a customer who closes the tab still receives their files. Both paths are idempotent: an order is marked paid once and emailed once.
+
+**Payment charges.** Prices are never marked up. Set *Flutterwave dashboard → Settings → Account settings → "Make customers pay the transaction fees"* (wording may vary) and Flutterwave adds its charge on the payment page. The amount actually charged and the charge itself are recorded on the order.
+
+**Set up (test mode)**
+1. Netlify environment variables: `FLW_SECRET_KEY` (FLWSECK_TEST-…, mark as secret), `FLW_SECRET_HASH` (secret), `FLW_MODE=test`, `NEXT_PUBLIC_PAYMENTS_ENABLED=true`. Redeploy.
+2. Flutterwave → Settings → Webhooks: URL `https://mura-digitals.netlify.app/api/payments/flutterwave/webhook`, same secret hash. Tick the charge-completed events.
+3. Buy with a Flutterwave test card. Check the order with `npm run orders`.
+
+**Going live** — only when the owner decides: swap in the live secret key, set `FLW_MODE=live`, add the live webhook, redeploy.
