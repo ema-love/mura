@@ -61,9 +61,12 @@ describe("master catalogue", () => {
     }
   });
 
-  it("launches with only the approved four, everything else draft", () => {
-    expect(visibleProducts().map((p) => p.id).sort()).toEqual(["assignment-command-center", "grade-tgpa-tracker", "semester-system", "student-reset"]);
-    for (const p of products) if (!["assignment-command-center", "grade-tgpa-tracker", "semester-system", "student-reset"].includes(p.id)) expect(p.status, p.id).toBe("draft");
+  it("publishes Student Reset and every system; everything else stays draft", () => {
+    const live = products.filter((p) => p.id === "student-reset" || p.type === "system").map((p) => p.id).sort();
+    expect(live).toHaveLength(11);
+    expect(visibleProducts().map((p) => p.id).sort()).toEqual(live);
+    for (const p of products) if (!live.includes(p.id)) expect(p.status, p.id).toBe("draft");
+    for (const id of live) expect(getProduct(id)!.fileKey, id).toBeTruthy();
   });
 
   it("bundles contain exactly the approved products", () => {
@@ -98,10 +101,11 @@ describe("master catalogue", () => {
     ]);
   });
 
-  it("marks the priced launch products as available and searchable", () => {
-    for (const id of ["assignment-command-center", "semester-system", "grade-tgpa-tracker"]) expect(isAvailable(getProduct(id)!)).toBe(true);
+  it("marks the published systems as available and searchable", () => {
+    for (const p of products.filter((p) => p.type === "system")) expect(isAvailable(p), p.id).toBe(true);
     expect(searchProducts("tgpa").map((p) => p.id)).toContain("grade-tgpa-tracker");
     expect(searchProducts("exam countdown").map((p) => p.id)).toContain("student-reset");
-    expect(searchProducts("pomodoro")).toHaveLength(0); // draft Study Planner stays hidden
+    expect(searchProducts("pomodoro").map((p) => p.id)).toContain("study-planner");
+    expect(searchProducts("cv").map((p) => p.id)).not.toContain("cv-kit"); // draft kits stay hidden
   });
 });
