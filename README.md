@@ -25,7 +25,7 @@ MÚRÀ is deployed on **Netlify** with its official Next.js runtime (`netlify.to
 
 **Deploy**
 1. Netlify → Add new site → Import from GitHub → `ema-love/mura` (branch of your choice). Build settings come from `netlify.toml`.
-2. Site configuration → Environment variables: add everything marked in `.env.example` — at minimum `DOWNLOAD_TOKEN_SECRET`, `SMTP_USER`, `SMTP_PASS`, `EMAIL_FROM`, `MURA_INBOX_EMAIL`.
+2. Site configuration → Environment variables: add everything marked in `.env.example` — at minimum `DOWNLOAD_TOKEN_SECRET`, `SMTP_USER` and `SMTP_PASS` (a Gmail App Password). With a Gmail address, the SMTP host, port and sender default correctly.
 3. Upload product files (private): `NETLIFY_SITE_ID=… NETLIFY_AUTH_TOKEN=… npm run upload-file -- student-reset/mura-student-reset.xlsx ./mura-student-reset.xlsx`
 4. See orders any time: `NETLIFY_SITE_ID=… NETLIFY_AUTH_TOKEN=… npm run orders`
 

@@ -34,12 +34,15 @@ export async function sendEmail(email: Email): Promise<SendResult> {
       await getTransport().sendMail({ from: serverEnv.emailFrom, ...email });
       return { ok: true, via: "smtp" };
     } catch (e) {
-      console.error("[email] SMTP send failed:", (e as Error).message);
+      const err = e as Error & { code?: string; responseCode?: number };
+      console.error(`[email] SMTP send failed (${err.code ?? "error"}${err.responseCode ? ` ${err.responseCode}` : ""}):`, err.message);
+      if (err.code === "EAUTH") console.error("[email] The SMTP login was rejected. For Gmail, SMTP_PASS must be an App Password, not the normal password.");
       return { ok: false, error: "Email could not be sent" };
     }
   }
   if (serverEnv.isProd) {
-    console.error("[email] SMTP is not configured; refusing to pretend an email was sent.");
+    const missing = [!serverEnv.smtp.host && "SMTP_HOST", !serverEnv.smtp.user && "SMTP_USER", !serverEnv.smtp.pass && "SMTP_PASS", !serverEnv.emailFrom && "EMAIL_FROM"].filter(Boolean);
+    console.error(`[email] Email is not set up (missing ${missing.join(", ")}); refusing to pretend an email was sent.`);
     return { ok: false, error: "Email is not configured" };
   }
   const dir = path.join(serverEnv.dataDir, "outbox");

@@ -26,6 +26,9 @@ const storage: "netlify-blobs" | "file" =
       ? "netlify-blobs"
       : "file";
 
+const smtpUser = process.env.SMTP_USER?.trim() || undefined;
+const isGmail = !!smtpUser && /@(gmail|googlemail)\.com$/i.test(smtpUser);
+
 export const serverEnv = {
   isProd,
   storage,
@@ -40,14 +43,16 @@ export const serverEnv = {
   /** Downloads allowed per item per order, to discourage link sharing. */
   maxDownloadsPerItem: Number(process.env.MAX_DOWNLOADS_PER_ITEM ?? 20),
   smtp: {
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT ?? 465),
-    secure: (process.env.SMTP_SECURE ?? "true") === "true",
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
+    // A Gmail address needs no host/port settings: Gmail's are the defaults.
+    host: process.env.SMTP_HOST?.trim() || (isGmail ? "smtp.gmail.com" : undefined),
+    port: Number(process.env.SMTP_PORT || 465),
+    secure: (process.env.SMTP_SECURE?.trim() || "true") === "true",
+    user: smtpUser,
+    // Google shows app passwords in groups ("abcd efgh ijkl mnop"); the spaces aren't part of it.
+    pass: isGmail ? process.env.SMTP_PASS?.replace(/\s+/g, "") : process.env.SMTP_PASS,
   },
-  /** Sender shown to customers, e.g. "MÚRÀ <hello@example.com>". */
-  emailFrom: process.env.EMAIL_FROM,
+  /** Sender shown to customers, e.g. "MÚRÀ <hello@example.com>". Defaults to the SMTP account. */
+  emailFrom: process.env.EMAIL_FROM?.trim() || (smtpUser ? `${brand.name} <${smtpUser}>` : undefined),
   /** Password for the owner's upload page (/admin). Unset = page disabled. */
   adminPassword: process.env.MURA_ADMIN_PASSWORD?.trim() || undefined,
   /** Company inbox for contact messages and order notifications. */
