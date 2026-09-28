@@ -2,15 +2,13 @@ import type { Metadata } from "next";
 import { Nav } from "@/components/site/nav";
 import { Footer } from "@/components/site/footer";
 import { UploadForm } from "@/components/admin/upload-form";
-import { visibleProducts } from "@/lib/catalog";
+import { managedProducts } from "@/lib/server/admin-upload";
 
 export const metadata: Metadata = { title: "Upload templates", robots: { index: false, follow: false } };
 
 /** Owner-only upload page. Uploads need the MURA_ADMIN_PASSWORD; the page itself reveals nothing private. */
 export default function AdminPage() {
-  const options = visibleProducts()
-    .filter((p) => p.type !== "bundle")
-    .map((p) => ({ id: p.id, name: p.name }));
+  const options = managedProducts().map((p) => ({ id: p.id, name: p.name }));
 
   return (
     <>

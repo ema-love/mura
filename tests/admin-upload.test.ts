@@ -44,3 +44,21 @@ describe("owner upload", () => {
     process.env.MURA_ADMIN_PASSWORD = "a-long-owner-password";
   });
 });
+
+describe("owner upload status", () => {
+  it("needs the password, then lists each template's file", async () => {
+    expect(await mod.uploadStatus("wrong")).toMatchObject({ ok: false, status: 401 });
+    const r = await mod.uploadStatus("a-long-owner-password");
+    if (!r.ok) throw new Error("status failed");
+    const reset = r.items.find((i) => i.id === "student-reset");
+    expect(reset).toMatchObject({ uploaded: true, size: 7 });
+    expect(r.items.find((i) => i.id === "semester-system")).toMatchObject({ uploaded: false });
+    expect(r.items.some((i) => i.id === "academic-bundle")).toBe(false);
+  });
+
+  it("returns the stored file only with the password", async () => {
+    expect(await mod.storedFile("wrong", "student-reset")).toBeNull();
+    const file = await mod.storedFile("a-long-owner-password", "student-reset");
+    expect(new Uint8Array(await new Response(file!.stream).arrayBuffer())).toEqual(xlsx);
+  });
+});

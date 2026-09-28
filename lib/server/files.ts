@@ -78,11 +78,26 @@ export async function saveProductFile(fileKey: string, data: Uint8Array, content
   const fileName = path.basename(fileKey);
   if (serverEnv.storage === "netlify-blobs") {
     const buf = data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength) as ArrayBuffer;
-    await blobFiles().set(fileKey, buf, { metadata: { size: data.byteLength, fileName, contentType } });
+    await blobFiles().set(fileKey, buf, { metadata: { size: data.byteLength, fileName, contentType, uploadedAt: new Date().toISOString() } });
     return;
   }
   const full = resolveFileKey(fileKey);
   if (!full) throw new Error("Unsafe file key");
   await fs.mkdir(/*turbopackIgnore: true*/ path.dirname(full), { recursive: true });
   await fs.writeFile(/*turbopackIgnore: true*/ full, data);
+}
+
+/** Size and upload time of a stored file, or null if nothing is uploaded. */
+export async function productFileInfo(fileKey: string): Promise<{ size?: number; uploadedAt?: string } | null> {
+  if (serverEnv.storage === "netlify-blobs") {
+    if (!isSafeFileKey(fileKey)) return null;
+    const found = await blobFiles().getMetadata(fileKey);
+    if (!found) return null;
+    const meta = found.metadata as { size?: number; uploadedAt?: string };
+    return { size: meta.size, uploadedAt: meta.uploadedAt };
+  }
+  const full = resolveFileKey(fileKey);
+  if (!full) return null;
+  const stat = await fs.stat(/*turbopackIgnore: true*/ full).catch(() => null);
+  return stat?.isFile() ? { size: stat.size, uploadedAt: stat.mtime.toISOString() } : null;
 }

@@ -1,8 +1,8 @@
 import "server-only";
 import { createHash, timingSafeEqual } from "node:crypto";
-import { getProduct } from "@/lib/catalog";
+import { getProduct, visibleProducts } from "@/lib/catalog";
 import { serverEnv } from "./env";
-import { saveProductFile } from "./files";
+import { openProductFile, productFileInfo, saveProductFile } from "./files";
 
 export const MAX_UPLOAD_BYTES = 5 * 1024 * 1024;
 const XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -44,4 +44,27 @@ export async function uploadProductFile({
 
   await saveProductFile(product.fileKey, data, XLSX);
   return { ok: true, productName: product.name, size: data.byteLength };
+}
+
+/** Templates the owner manages: everything published that has its own file (bundles deliver their items). */
+export const managedProducts = () => visibleProducts().filter((p) => p.type !== "bundle" && p.fileKey);
+
+export type UploadStatus = { id: string; name: string; uploaded: boolean; size?: number; uploadedAt?: string };
+
+export async function uploadStatus(password: string): Promise<{ ok: true; items: UploadStatus[] } | { ok: false; status: number; error: string }> {
+  if (!checkAdminPassword(password)) return { ok: false, status: 401, error: "That password isn't right." };
+  const items = await Promise.all(
+    managedProducts().map(async (p) => {
+      const info = await productFileInfo(p.fileKey!);
+      return { id: p.id, name: p.name, uploaded: !!info, ...info };
+    }),
+  );
+  return { ok: true, items };
+}
+
+/** The stored file exactly as customers receive it — for the owner to check. */
+export async function storedFile(password: string, productId: string) {
+  if (!checkAdminPassword(password)) return null;
+  const product = getProduct(productId);
+  return product?.fileKey ? openProductFile(product.fileKey) : null;
 }
