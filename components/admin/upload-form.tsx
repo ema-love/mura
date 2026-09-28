@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 type Option = { id: string; name: string };
+type HealthCheck = { name: string; ok: boolean; detail: string };
 type Status = {
   id: string;
   name: string;
@@ -52,6 +53,19 @@ export function UploadForm({ products }: { products: Option[] }) {
       if (!res.ok)
         throw new Error(data.error ?? "Couldn't load the upload status.");
       return data.items as Status[];
+    },
+  });
+
+  const health = useMutation({
+    mutationFn: async (testEmail: boolean) => {
+      const res = await fetch("/api/admin/health", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password, testEmail }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error ?? "Couldn't run the checks.");
+      return data.checks as HealthCheck[];
     },
   });
 
@@ -242,6 +256,45 @@ export function UploadForm({ products }: { products: Option[] }) {
                       <ArrowDownToLine />
                     </Button>
                   )}
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
+        <section aria-labelledby="health-title" className="border-t pt-8">
+          <h2 id="health-title" className="font-medium">
+            Check setup
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Tests the live email and payment settings and says exactly what to fix. Never shows a password or key.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Button type="button" variant="secondary" size="sm" disabled={!password || health.isPending} onClick={() => health.mutate(false)}>
+              {health.isPending ? <LoaderCircle className="animate-spin" aria-label="Checking" /> : <RefreshCw />} Check setup
+            </Button>
+            <Button type="button" variant="secondary" size="sm" disabled={!password || health.isPending} onClick={() => health.mutate(true)}>
+              Send test email
+            </Button>
+          </div>
+          {health.isError && (
+            <p role="alert" className="mt-3 text-sm text-[#b0614f]">
+              {health.error.message}
+            </p>
+          )}
+          {health.data && (
+            <ul className="mt-5 divide-y rounded-3xl bg-card hairline">
+              {health.data.map((c) => (
+                <li key={c.name} className="flex items-start gap-3 px-5 py-4 text-sm">
+                  {c.ok ? (
+                    <Check className="mt-0.5 size-4 shrink-0 text-accent-ink" aria-label="OK" />
+                  ) : (
+                    <span aria-label="Needs fixing" className="mt-1 size-2.5 shrink-0 rounded-full bg-[#c0735f]" />
+                  )}
+                  <div>
+                    <p className="font-medium">{c.name}</p>
+                    <p className={cn("mt-0.5 text-xs", c.ok ? "text-muted-foreground" : "text-foreground")}>{c.detail}</p>
+                  </div>
                 </li>
               ))}
             </ul>
